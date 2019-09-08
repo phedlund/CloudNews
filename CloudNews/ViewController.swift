@@ -295,8 +295,13 @@ class ViewController: NSViewController {
         self.onArticleView(self)
     }
 
-    @IBAction func onWeb(_ sender: Any) {
+    @IBAction func onReadable(_ sender: Any) {
         self.articleSegmentedControl.selectSegment(withTag: 1)
+        self.onArticleView(self)
+    }
+
+    @IBAction func onWeb(_ sender: Any) {
+        self.articleSegmentedControl.selectSegment(withTag: 2)
         self.onArticleView(self)
     }
 
@@ -402,12 +407,27 @@ extension ViewController: NSTableViewDelegate {
                     if let itemUrl = item.url {
                         let url = URL(string: itemUrl)
                         if let url = url {
+                            do {
+                                let content = try String(contentsOf: url)
+                                if let readableData = Readable.parse(content) {
+                                    print(readableData)
+                                }
+                                self.externalWebView.isHidden = true
+                                self.summaryWebView.isHidden = false
+//                                self.externalWebView.load(URLRequest(url: url))
+                            } catch { }
+                        }
+                    }
+                case 2:
+                    if let itemUrl = item.url {
+                        let url = URL(string: itemUrl)
+                        if let url = url {
                             self.externalWebView.isHidden = false
                             self.summaryWebView.isHidden = true
                             self.externalWebView.load(URLRequest(url: url))
                         }
                     }
-                default:
+               default:
                     break
                 }
             }
@@ -484,14 +504,14 @@ extension ViewController: WKNavigationDelegate {
                     } else {
                         self.externalWebView.isHidden = false
                         self.summaryWebView.isHidden = true
-                        self.articleSegmentedControl.setSelected(true, forSegment: 1)
+                        self.articleSegmentedControl.setSelected(true, forSegment: 2)
                         self.externalWebView.load(URLRequest(url: url))
                         decisionHandler(.cancel)
                     }
                 } else {
                     self.externalWebView.isHidden = false
                     self.summaryWebView.isHidden = true
-                    self.articleSegmentedControl.setSelected(true, forSegment: 1)
+                    self.articleSegmentedControl.setSelected(true, forSegment: 2)
                     self.externalWebView.load(URLRequest(url: url))
                     decisionHandler(.cancel)
                 }

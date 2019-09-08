@@ -216,7 +216,12 @@
                                                 <action selector="onSummary:" target="Ady-hI-5gd" id="PR7-rk-see"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Web" keyEquivalent="2" id="Uxx-Kl-70o">
+                                        <menuItem title="Readable" keyEquivalent="2" id="vJ6-pr-lnO">
+                                            <connections>
+                                                <action selector="onReadable:" target="Ady-hI-5gd" id="0Tf-b7-bsN"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Web" keyEquivalent="3" id="Uxx-Kl-70o">
                                             <connections>
                                                 <action selector="onWeb:" target="Ady-hI-5gd" id="J5M-nJ-9El"/>
                                             </connections>
@@ -545,10 +550,10 @@
                                                 <rect key="frame" x="0.0" y="479" width="376" height="40"/>
                                                 <subviews>
                                                     <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="7gt-Mi-gC4">
-                                                        <rect key="frame" x="248" y="12" width="16" height="16"/>
+                                                        <rect key="frame" x="249" y="12" width="16" height="16"/>
                                                     </progressIndicator>
                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="biR-6D-P8K">
-                                                        <rect key="frame" x="269" y="10" width="21" height="21"/>
+                                                        <rect key="frame" x="270" y="10" width="21" height="21"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="21" id="Lol-F7-hQ8"/>
                                                             <constraint firstAttribute="width" constant="21" id="bv0-fK-r90"/>
@@ -562,7 +567,7 @@
                                                         </connections>
                                                     </button>
                                                     <segmentedControl verticalHuggingPriority="750" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="snD-gk-rSP">
-                                                        <rect key="frame" x="295" y="8" width="71" height="23"/>
+                                                        <rect key="frame" x="295.5" y="8" width="71" height="23"/>
                                                         <segmentedCell key="cell" refusesFirstResponder="YES" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="cyL-WC-oNr">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
@@ -982,12 +987,15 @@
                                                         </connections>
                                                     </button>
                                                     <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HRz-bW-hNR">
-                                                        <rect key="frame" x="262" y="8" width="71" height="23"/>
+                                                        <rect key="frame" x="229.5" y="8" width="104" height="23"/>
                                                         <segmentedCell key="cell" borderStyle="border" alignment="left" style="texturedSquare" trackingMode="selectOne" id="nk8-Im-b1A">
                                                             <font key="font" metaFont="system"/>
                                                             <segments>
                                                                 <segment image="summary" width="32"/>
-                                                                <segment image="web" width="32" selected="YES" tag="1"/>
+                                                                <segment image="summary" width="32" tag="1"/>
+                                                                <segment image="web" width="32" selected="YES" tag="2">
+                                                                    <nil key="label"/>
+                                                                </segment>
                                                             </segments>
                                                         </segmentedCell>
                                                         <connections>

@@ -30,7 +30,6 @@
 		D0171ABA217BE6D600D2D34B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171AB9217BE6D600D2D34B /* ViewController.swift */; };
 		D0171ABC217BE6D800D2D34B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0171ABB217BE6D800D2D34B /* Assets.xcassets */; };
 		D0171ABF217BE6D800D2D34B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0171ABD217BE6D800D2D34B /* Main.storyboard */; };
-		D0171ACC217BE97800D2D34B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0171ACB217BE97800D2D34B /* Alamofire.framework */; };
 		D0171ACD217BE98200D2D34B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0171ACB217BE97800D2D34B /* Alamofire.framework */; };
 		D0171ACE217BE98200D2D34B /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D0171ACB217BE97800D2D34B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D0171AD1217C45DA00D2D34B /* NewsSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171AD0217C45DA00D2D34B /* NewsSessionManager.swift */; };
@@ -376,7 +375,6 @@
 				D02CCAF41CE7E27300F6CCEC /* WebKit.framework in Frameworks */,
 				D03689D019087A2800EE4BAA /* MobileCoreServices.framework in Frameworks */,
 				D0A33F3C1880987C00C6DA92 /* libz.dylib in Frameworks */,
-				D0171ACC217BE97800D2D34B /* Alamofire.framework in Frameworks */,
 				D04C7DD51BABBEFC000FB342 /* libpcre.a in Frameworks */,
 				D0A33F3A1880987000C6DA92 /* libc++.dylib in Frameworks */,
 				D06CB23617A074AA00A1310B /* CoreData.framework in Frameworks */,

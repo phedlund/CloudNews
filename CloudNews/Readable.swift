@@ -15,7 +15,6 @@ struct ReadableData {
     public let text: String?
     public let image: String?
     public let video: String?
-    public let keywords: [String]?
 }
 
 fileprivate struct Pattern {
@@ -31,7 +30,7 @@ fileprivate struct Pattern {
         + "foot|masthead|(me(dia|ta))|outbrain|promo|related|scroll|(sho(utbox|pping))|"
         + "sidebar|sponsor|tags|tool|widget|player|disclaimer|toc|infobox|vcard|post-ratings"
 
-    static let elements = "p|div|td|h1|h2|article|section"
+    static let elements = ["p", "div", "td", "h1", "h2", "article", "section", "pre"]
 }
 
 class Readable {
@@ -49,7 +48,7 @@ class Readable {
         return parser.parseHtml(html)
     }
 
-    func parseHtml(_ html: String) -> ReadableData? {
+    private func parseHtml(_ html: String) -> ReadableData? {
         guard let document = try? SwiftSoup.parse(html) else {
             return nil
         }
@@ -61,8 +60,7 @@ class Readable {
                             description: description(),
                             text: text(),
                             image: image(),
-                            video: video(),
-                            keywords: keywords())
+                            video: video())
     }
 
     private func processDocument() {
@@ -71,36 +69,48 @@ class Readable {
             try unlikelyRegExp = NSRegularExpression(pattern: Pattern.unlikely, options: .caseInsensitive)
             try positiveRegExp = NSRegularExpression(pattern: Pattern.positive, options: .caseInsensitive)
             try negativeRegExp = NSRegularExpression(pattern: Pattern.negative, options: .caseInsensitive)
-            try nodesRegExp = NSRegularExpression(pattern: Pattern.elements, options: .caseInsensitive)
-        }
-        catch { }
-
-        if let body = self.document?.body() {
-            let children = body.children().array()
-            for child in children {
-                var weight = elementWeight(element: child)
-                guard let stringValue = try? child.text() else {
-                    continue
-                }
-                weight += stringValue.count / 10
-
-                weight += childElementWeight(element: child)
-                if (weight > highestPriority) {
-                    highestPriority = weight
-                    highestPriorityElement = child
-                }
-
-                if weight > 200 {
-                    break
+//            try nodesRegExp = NSRegularExpression(pattern: Pattern.elements, options: .caseInsensitive)
+            if let body = self.document?.body() {
+                let children = try body.children().array()
+                let contentElements = pickContentElements(incoming: children)
+                for child in contentElements {
+                    var weight = elementWeight(element: child)
+                    guard let stringValue = try? child.text() else {
+                        continue
+                    }
+                    weight += stringValue.count / 10
+                    
+                    weight += childElementWeight(element: child)
+                    if (weight > highestPriority) {
+                        highestPriority = weight
+                        highestPriorityElement = child
+                    }
+                    
+                    if weight > 200 {
+                        break
+                    }
                 }
             }
         }
+        catch { }
+
     }
 
+    private func pickContentElements(incoming: [Element]) -> [Element] {
+        var result = incoming.filter({ Pattern.elements.contains($0.tagName())})
+//        for element in incoming {
+//            let tagName = element.tagName()
+//            if Pattern.elements.contains(tagName) {
+//                result.append(element)
+//            }
+//        }
+        return result
+    }
+    
     private func elementWeight(element: Element) -> Int {
         var weight = 0
         do {
-            let className = try element.className()
+            let className = try element.classNames().joined(separator: " ")
             let range = NSRange(location: 0, length: className.count)
             if let positiveRegExp = positiveRegExp,
                 positiveRegExp.matches(in: className, options: .reportProgress, range: range).count > 0 {
@@ -146,33 +156,36 @@ class Readable {
 
     private func childElementWeight(element: Element) -> Int {
         var weight = 0
-
-        for child in element.children().array() {
-            guard let text = try? child.text() else {
-                return weight
-            }
-
-            let count = text.count
-            if count < 20 {
-                return weight
-            }
-
-            if count > 200 {
-                weight += max(50, count / 10)
-            }
-
-            let tagName = element.tagName()
-            if tagName == "h1" || tagName == "h2" {
-                weight += 30
-            } else if tagName == "div" || tagName == "p" {
-                weight += calcWeightForChild(text: text)
-
-                if let _ = try? element.className().lowercased() == "caption" {
+        do {
+            let childElements = try element.getAllElements().array()
+            for child in childElements {
+                guard let text = try? child.text() else {
+                    return weight
+                }
+                
+                let count = text.count
+                if count < 20 {
+                    return weight
+                }
+                
+                if count > 200 {
+                    weight += max(50, count / 10)
+                }
+                
+                let tagName = element.tagName()
+                if tagName == "h1" || tagName == "h2" {
                     weight += 30
+                } else if tagName == "div" || tagName == "p" {
+                    weight += calcWeightForChild(text: text)
+                    
+                    if let _ = try? element.className().lowercased() == "caption" {
+                        weight += 30
+                    }
                 }
             }
-        }
-
+        } catch { }
+        
+        
         return weight
     }
 
@@ -283,44 +296,47 @@ class Readable {
 
     private func extractText(element: Element) -> String?
     {
-//        guard let strValue = clearNodeContent(node) else {
-//            return .none
-//        }
-//
-//        let texts = strValue.replacingOccurrences(of: "\t", with: "").components(separatedBy: CharacterSet.newlines)
-//        var importantTexts = [String]()
-//        let extractedTitle = title()
-//        texts.forEach({ (text: String) in
-//            let length = text.count
-//
-//            if let titleLength = extractedTitle?.count {
-//                if length > titleLength {
-//                    importantTexts.append(text)
-//                }
-//
-//            } else if length > 100 {
-//                importantTexts.append(text)
-//            }
-//        })
-//        return importantTexts.first?.trim()
-        return nil
+        guard let elements = try? element.getAllElements() else {
+            return nil
+        }
+//        var texts = [String]()
+        var importantTexts = [String]()
+        let extractedTitle = title()
+        for element in elements {
+            for textNode in element.textNodes() {
+                let length = textNode.text().count
+                
+                if let titleLength = extractedTitle?.count {
+                    if length > titleLength {
+                        importantTexts.append(textNode.text())
+                    }
+                    
+                } else if length > 100 {
+                    importantTexts.append(textNode.text())
+                }
+            }
+        }
+        return importantTexts.first?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func extractFullText(element: Element) -> String?
     {
-        guard let elementText = try? element.text() else {
+        guard let elements = try? element.children() else {
             return  nil
         }
 
-        let texts = elementText.replacingOccurrences(of: "\t", with: "").components(separatedBy: .newlines)
+        //        let texts = elementText.replacingOccurrences(of: "\t", with: "").components(separatedBy: .newlines)
         var importantTexts = [String]()
-        texts.forEach({ (text: String) in
-            let length = text.count
-            if length > 175 {
-                importantTexts.append(text)
+        for element in elements {
+            //            for textNode in element.textNodes() {
+            let length = try? element.text().count
+            if length ?? 0 > 100 {
+                let text = try? element.html()
+                importantTexts.append(text ?? "")
             }
-        })
-
+            //            }
+        }
+        
         var fullText = importantTexts.reduce("", { $0 + "\n" + $1 })
         lowContentChildren(element: element).forEach { lowContent in
             fullText = fullText.replacingOccurrences(of: lowContent, with: "")
@@ -333,7 +349,7 @@ class Readable {
         var contents = [String]()
         do {
             if element.children().array().isEmpty {
-                let content = try element.text()
+                let content = try element.html()
                 let length = content.count
                 if length > 3 && length < 175 {
                     contents.append(content)
@@ -346,111 +362,68 @@ class Readable {
         return contents
     }
 
-    private func extractValueUsing(path: String, attribute: String?) -> String? {
-
-//        guard let nodes = document.xPath(path) else {
-//            return .none
-//        }
-//
-//        if nodes.count == 0 {
-//            return .none
-//        }
-//
-//        if let node = nodes.first {
-//
-//            // Valid attribute
-//            if let attribute = attribute {
-//                if let attrNode = node.attributes[attribute] {
-//                    return attrNode
-//                }
-//            }
-//                // Not using attribute
-//            else {
-//                return node.content
-//            }
-//        }
-
-        return nil
-    }
-
-    private func extractValuesUsing(path: String, attribute: String?) -> [String]? {
-        var values: [String]?
-
-//        let nodes = document.xPath(path)
-//        values = [String]()
-//        nodes?.forEach { node in
-//
-//            if let attribute = attribute {
-//                if let value = node.attributes[attribute] {
-//                    values?.append(value)
-//                }
-//            }
-//            else {
-//                if let content = node.content {
-//                    values?.append(content)
-//                }
-//            }
-//        }
-
-        return values
-    }
-
     private func extractValueUsing(queries: [(String, String?)]) -> String? {
-//        for query in queries {
-//            if let value = extractValueUsing(document, path: query.0, attribute: query.1) {
-//                return value
-//            }
-//        }
-
-        return nil
-    }
-
-    private func extractValuesUsing(queries: [(String, String?)]) -> [String]? {
-//        for query in queries {
-//            if let values = extractValuesUsing(document, path: query.0, attribute: query.1) {
-//                return values
-//            }
-//        }
-//
-       return nil
+        var result: String?
+        if let document = document {
+            do {
+                for query in queries {
+                    if let valueElement = try document.select(query.0).array().first {
+                        if let attr = query.1 {
+                            result = try valueElement.attr(attr)
+                        } else {
+                            result = try valueElement.text()
+                        }
+                    }
+                    if result != nil {
+                        break
+                    }
+                }
+            } catch { }
+        }
+        return result
     }
 
     let titleQueries: [(String, String?)] = [
         ("head > title", nil),
-        ("head > meta[@name='title']", "content"),
-        ("head > meta[@property='og:title']", "content"),
-        ("head > meta[@name='twitter:title']", "content")
+        ("head > meta[name='title']", "content"),
+        ("head > meta[property='og:title']", "content"),
+        ("head > meta[name='twitter:title']", "content")
     ]
 
-
     private func title() -> String? {
-        var result: String?
-//        if let document = document {
-//            guard let title = extractValueUsing(document, queries: titleQueries) else {
-//                return .none
-//            }
-//
-//            if title.count == 0 {
-//                return .none
-//            }
-//
-//            return title
-//        }
-//
-//        return .none
-
-        return result
+        return extractValueUsing(queries: titleQueries)
     }
+
+    let descriptionQueries: [(String, String?)] = [
+        ("head > meta[name='description']", "content"),
+        ("head > meta[property='og:description']", "content"),
+        ("head > meta[name='twitter:description']", "content"),
+        ("head > meta[property='twitter:description']", "content")
+    ]
 
     private func description() -> String? {
         var result: String?
 //        if let document = document {
-//            if let description = extractValueUsing(document, queries: descQueries) {
-//                return description
-//            }
-//        }
+//            do {
+//                for query in descriptionQueries {
+//                    if let valueElement = try document.select(query.0).array().first {
+//                        if let attr = query.1 {
+//                            result = try valueElement.attr(attr)
+//                        } else {
+//                            result = try valueElement.text()
+//                        }
+//                    }
+//                    if result != nil {
+//                        return result
+//                    }
+//                }
 //
-//        self.extractText(highestPriorityElement)
+//            } catch { }
+//        }
+
+        if let topElement = highestPriorityElement {
+            result = self.extractText(element: topElement)
+        }
 
         return result
     }
@@ -463,13 +436,33 @@ class Readable {
         return extractFullText(element: highestPriorityElement)?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
+    let imageQueries: [(String, String?)] = [
+        ("head > meta[property='og:image']", "content"),
+        ("head > meta[name='twitter:image']", "content"),
+        ("link[rel='image_src']", "href"),
+        ("head > meta[name='thumbnail']", "content"),
+        ("img[img[src*=:small]]", "src")
+    ]
+    
     private func image() -> String? {
         var result: String?
-//        if let document = document {
-//            if let imageUrl = extractValueUsing(document, queries: imageQueries) {
-//                return imageUrl
-//            }
-//        }
+        if let document = document {
+            do {
+                for query in imageQueries {
+                    if let valueElement = try document.select(query.0).array().first {
+                        if let attr = query.1 {
+                            result = try valueElement.attr(attr)
+                        } else {
+                            result = try valueElement.text()
+                        }
+                    }
+                    if result != nil {
+                        return result
+                    }
+                }
+                
+            } catch { }
+        }
         if let topElement = highestPriorityElement,
             let imageNode = self.determineImageSource(element: topElement) {
             result = try? imageNode.attr("src")
@@ -478,38 +471,12 @@ class Readable {
         return result
     }
 
+    let videoQueries: [(String, String?)] = [
+        ("head > meta[property='og:video:url']", "content")
+    ]
+
     private func video() -> String? {
-        var result: String?
-//        if let document = document {
-//            if let imageUrl = extractValueUsing(document, queries: videoQueries) {
-//                return imageUrl
-//            }
-//        }
-//
-//        return .none
-        return result
-    }
-
-    private func keywords() -> [String]? {
-        var result: [String]?
-//        if let document = document {
-//            if let values = extractValuesUsing(document, queries: keywordsQueries) {
-//                var keywords = [String]()
-//                values.forEach { (value: String) in
-//                    var separatorsCharacterSet = CharacterSet.whitespacesAndNewlines
-//                    separatorsCharacterSet.formUnion(NSCharacterSet.punctuationCharacters)
-//                    keywords.append(contentsOf: value.components(separatedBy: separatorsCharacterSet))
-//                }
-//
-//                keywords = keywords.filter({ $0.count > 1 })
-//
-//                return keywords
-//            }
-//        }
-//
-//        return .none
-
-        return result
+        return extractValueUsing(queries: videoQueries)
     }
 }
 

@@ -1,22 +1,9 @@
 {
-  "Mac" : [
-
-  ],
-  "watchOS" : [
-
-  ],
-  "tvOS" : [
-
-  ],
   "commitish" : "21ffddfc6b24fe45b7bedac9d344f8fb7ec43766",
   "iOS" : [
     {
       "name" : "BRYHTMLParser",
-<<<<<<< HEAD
-      "hash" : "2ef1af16e431e61904d5e125648e9d931f185182db58623bc479567d73ad547e"
-=======
-      "hash" : "56ee941d551a10227209cc94d87218045f6cc69754db597f9a6f80ab437386ae"
->>>>>>> develop
+      "hash" : "d516baf9479973f8da23159e5b050eaa09703e1451e2eb9b2a72ce76cf1b4ac5"
     }
   ]
 }

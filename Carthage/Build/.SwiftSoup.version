@@ -1,9 +1,13 @@
 {
-  "commitish" : "1.7.5",
-  "Mac" : [
+  "commitish" : "2.2.0",
+  "iOS" : [
     {
       "name" : "SwiftSoup",
-      "hash" : "0a37121fedf414b6fd00364fedcf909381d471a32aaf5fa3baee10833bb1589e"
+      "hash" : "9039325dce77f94f5b64825d93fdea03402bd7a9f30e1db33eacc074206cad56"
+    },
+    {
+      "name" : "SwiftSoup",
+      "hash" : "9039325dce77f94f5b64825d93fdea03402bd7a9f30e1db33eacc074206cad56"
     }
   ]
 }
