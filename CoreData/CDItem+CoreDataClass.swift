@@ -69,9 +69,13 @@ public class CDItem: NSManagedObject, ItemProtocol {
                 let processor = CompositingImageProcessor(compositingOperation: .copy, alpha: 0.5, backgroundColor: nil)
                 options = [.processor(processor)]
             }
-            KingfisherManager.shared.retrieveImage(with: url, options: options, progressBlock: nil) { (image, error, cacheType, url) in
-                if let image = image {
-                    result = image
+            let resource = ImageResource(downloadURL: url, cacheKey: nil)
+            KingfisherManager.shared.retrieveImage(with: resource, options: options, progressBlock: nil, downloadTaskUpdated: nil) { (networkResult) in
+                switch networkResult {
+                case .success(let image):
+                    result = image.image
+                case .failure( _):
+                    break
                 }
             }
         }
@@ -99,12 +103,15 @@ public class CDItem: NSManagedObject, ItemProtocol {
         }
 
         let resource = ImageResource(downloadURL: imageURL)
-        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil) { (image, error, cacheType, url) in
-            if let image = image {
-                result = image
+        KingfisherManager.shared.retrieveImage(with: resource, options: nil, progressBlock: nil, downloadTaskUpdated: nil) { (networkResult) in
+            switch networkResult {
+            case .success(let image):
+                result = image.image
+            case .failure( _):
+                break
             }
         }
-        return result
+       return result
     }
 
     @objc dynamic var labelTextColor: NSColor {
