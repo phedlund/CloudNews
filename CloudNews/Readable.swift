@@ -35,13 +35,39 @@ fileprivate struct Pattern {
 
 class Readable {
 
-    var unlikelyRegExp: NSRegularExpression?
-    var positiveRegExp: NSRegularExpression?
-    var negativeRegExp: NSRegularExpression?
-    var nodesRegExp: NSRegularExpression?
+    private var unlikelyRegExp: NSRegularExpression?
+    private var positiveRegExp: NSRegularExpression?
+    private var negativeRegExp: NSRegularExpression?
+    private var nodesRegExp: NSRegularExpression?
 
-    var highestPriorityElement: Element?
-    var document: Document?
+    private var highestPriorityElement: Element?
+    private var document: Document?
+
+    private let titleQueries: [(String, String?)] = [
+        ("head > title", nil),
+        ("head > meta[name='title']", "content"),
+        ("head > meta[property='og:title']", "content"),
+        ("head > meta[name='twitter:title']", "content")
+    ]
+
+    private let descriptionQueries: [(String, String?)] = [
+        ("head > meta[name='description']", "content"),
+        ("head > meta[property='og:description']", "content"),
+        ("head > meta[name='twitter:description']", "content"),
+        ("head > meta[property='twitter:description']", "content")
+    ]
+
+    private let imageQueries: [(String, String?)] = [
+        ("head > meta[property='og:image']", "content"),
+        ("head > meta[name='twitter:image']", "content"),
+        ("link[rel='image_src']", "href"),
+        ("head > meta[name='thumbnail']", "content"),
+        ("img[img[src*=:small]]", "src")
+    ]
+
+    private let videoQueries: [(String, String?)] = [
+        ("head > meta[property='og:video:url']", "content")
+    ]
 
     class func parse(_ html: String) -> ReadableData? {
         let parser = Readable()
@@ -71,7 +97,7 @@ class Readable {
             try negativeRegExp = NSRegularExpression(pattern: Pattern.negative, options: .caseInsensitive)
 //            try nodesRegExp = NSRegularExpression(pattern: Pattern.elements, options: .caseInsensitive)
             if let body = self.document?.body() {
-                let children = try body.children().array()
+                let children = body.children().array()
                 let contentElements = pickContentElements(incoming: children)
                 for child in contentElements {
                     var weight = elementWeight(element: child)
@@ -97,14 +123,7 @@ class Readable {
     }
 
     private func pickContentElements(incoming: [Element]) -> [Element] {
-        var result = incoming.filter({ Pattern.elements.contains($0.tagName())})
-//        for element in incoming {
-//            let tagName = element.tagName()
-//            if Pattern.elements.contains(tagName) {
-//                result.append(element)
-//            }
-//        }
-        return result
+        return incoming.filter({ Pattern.elements.contains($0.tagName())})
     }
     
     private func elementWeight(element: Element) -> Int {
@@ -321,8 +340,9 @@ class Readable {
 
     private func extractFullText(element: Element) -> String?
     {
-        guard let elements = try? element.children() else {
-            return  nil
+        let elements = element.children()
+        if elements.isEmpty() {
+            return nil
         }
 
         //        let texts = elementText.replacingOccurrences(of: "\t", with: "").components(separatedBy: .newlines)
@@ -383,48 +403,17 @@ class Readable {
         return result
     }
 
-    let titleQueries: [(String, String?)] = [
-        ("head > title", nil),
-        ("head > meta[name='title']", "content"),
-        ("head > meta[property='og:title']", "content"),
-        ("head > meta[name='twitter:title']", "content")
-    ]
-
     private func title() -> String? {
         return extractValueUsing(queries: titleQueries)
     }
 
-    let descriptionQueries: [(String, String?)] = [
-        ("head > meta[name='description']", "content"),
-        ("head > meta[property='og:description']", "content"),
-        ("head > meta[name='twitter:description']", "content"),
-        ("head > meta[property='twitter:description']", "content")
-    ]
-
     private func description() -> String? {
         var result: String?
-//        if let document = document {
-//            do {
-//                for query in descriptionQueries {
-//                    if let valueElement = try document.select(query.0).array().first {
-//                        if let attr = query.1 {
-//                            result = try valueElement.attr(attr)
-//                        } else {
-//                            result = try valueElement.text()
-//                        }
-//                    }
-//                    if result != nil {
-//                        return result
-//                    }
-//                }
-//
-//            } catch { }
-//        }
-
-        if let topElement = highestPriorityElement {
-            result = self.extractText(element: topElement)
+        if let description = extractValueUsing(queries: descriptionQueries), !description.isEmpty {
+            return description
+        } else if let highestPriorityElement = highestPriorityElement {
+            result = extractText(element: highestPriorityElement)
         }
-
         return result
     }
 
@@ -436,14 +425,6 @@ class Readable {
         return extractFullText(element: highestPriorityElement)?.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    let imageQueries: [(String, String?)] = [
-        ("head > meta[property='og:image']", "content"),
-        ("head > meta[name='twitter:image']", "content"),
-        ("link[rel='image_src']", "href"),
-        ("head > meta[name='thumbnail']", "content"),
-        ("img[img[src*=:small]]", "src")
-    ]
-    
     private func image() -> String? {
         var result: String?
         if let document = document {
@@ -470,10 +451,6 @@ class Readable {
 
         return result
     }
-
-    let videoQueries: [(String, String?)] = [
-        ("head > meta[property='og:video:url']", "content")
-    ]
 
     private func video() -> String? {
         return extractValueUsing(queries: videoQueries)
