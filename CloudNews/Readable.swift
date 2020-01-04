@@ -95,7 +95,6 @@ class Readable {
             try unlikelyRegExp = NSRegularExpression(pattern: Pattern.unlikely, options: .caseInsensitive)
             try positiveRegExp = NSRegularExpression(pattern: Pattern.positive, options: .caseInsensitive)
             try negativeRegExp = NSRegularExpression(pattern: Pattern.negative, options: .caseInsensitive)
-//            try nodesRegExp = NSRegularExpression(pattern: Pattern.elements, options: .caseInsensitive)
             if let body = self.document?.body() {
                 let children = body.children().array()
                 let contentElements = pickContentElements(incoming: children)
@@ -119,7 +118,43 @@ class Readable {
             }
         }
         catch { }
+    }
 
+    private func title() -> String? {
+        return extractValue(usingQueries: titleQueries)
+    }
+
+    private func description() -> String? {
+        var result: String?
+        if let description = extractValue(usingQueries: descriptionQueries), !description.isEmpty {
+            return description
+        } else if let highestPriorityElement = highestPriorityElement {
+            result = extractText(element: highestPriorityElement)
+        }
+        return result
+    }
+
+    private func text() -> String? {
+        guard let highestPriorityElement = highestPriorityElement else {
+            return nil
+        }
+
+        return extractFullText(element: highestPriorityElement)?.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    private func image() -> String? {
+        var result: String?
+        if let image = extractValue(usingQueries: imageQueries), !image.isEmpty {
+            return image
+        } else if let highestPriorityElement = highestPriorityElement,
+            let imageNode = self.determineImageSource(element: highestPriorityElement) {
+                result = try? imageNode.attr("src")
+        }
+        return result
+    }
+
+    private func video() -> String? {
+        return extractValue(usingQueries: videoQueries)
     }
 
     private func pickContentElements(incoming: [Element]) -> [Element] {
@@ -382,7 +417,7 @@ class Readable {
         return contents
     }
 
-    private func extractValueUsing(queries: [(String, String?)]) -> String? {
+    private func extractValue(usingQueries queries: [(String, String?)]) -> String? {
         var result: String?
         if let document = document {
             do {
@@ -403,58 +438,6 @@ class Readable {
         return result
     }
 
-    private func title() -> String? {
-        return extractValueUsing(queries: titleQueries)
-    }
-
-    private func description() -> String? {
-        var result: String?
-        if let description = extractValueUsing(queries: descriptionQueries), !description.isEmpty {
-            return description
-        } else if let highestPriorityElement = highestPriorityElement {
-            result = extractText(element: highestPriorityElement)
-        }
-        return result
-    }
-
-    private func text() -> String? {
-        guard let highestPriorityElement = highestPriorityElement else {
-            return nil
-        }
-
-        return extractFullText(element: highestPriorityElement)?.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func image() -> String? {
-        var result: String?
-        if let document = document {
-            do {
-                for query in imageQueries {
-                    if let valueElement = try document.select(query.0).array().first {
-                        if let attr = query.1 {
-                            result = try valueElement.attr(attr)
-                        } else {
-                            result = try valueElement.text()
-                        }
-                    }
-                    if result != nil {
-                        return result
-                    }
-                }
-                
-            } catch { }
-        }
-        if let topElement = highestPriorityElement,
-            let imageNode = self.determineImageSource(element: topElement) {
-            result = try? imageNode.attr("src")
-        }
-
-        return result
-    }
-
-    private func video() -> String? {
-        return extractValueUsing(queries: videoQueries)
-    }
 }
 
 extension String {
