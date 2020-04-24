@@ -3,7 +3,7 @@
 //  CloudNews
 //
 //  Created by Peter Hedlund on 10/20/18.
-//  Copyright © 2018 Peter Hedlund. All rights reserved.
+//  Copyright © 2020 Peter Hedlund. All rights reserved.
 //
 
 import Alamofire
@@ -111,10 +111,11 @@ enum Router: URLRequestConvertible {
         let keychain = Keychain(service: "com.peterandlinda.CloudNews")
         let username = keychain["username"] ?? ""
         let password = keychain["password"] ?? ""
-        if let authorizationHeader = Request.authorizationHeader(user: username, password: password) {
-            urlRequest.setValue(authorizationHeader.value, forHTTPHeaderField: authorizationHeader.key)
-        }
-        urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
+        let headers: HTTPHeaders = [
+            .authorization(username: username, password: password),
+            .accept("application/json")
+        ]
+        urlRequest.headers = headers
         
         switch self {
 //        case .feeds:

@@ -43,7 +43,6 @@
 		D0171AE421852D9800D2D34B /* Folders.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171ADB21852D9700D2D34B /* Folders.swift */; };
 		D0171AE521852D9800D2D34B /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171ADC21852D9700D2D34B /* Avatar.swift */; };
 		D0171AE621852D9800D2D34B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171ADD21852D9700D2D34B /* User.swift */; };
-		D0171AE721852D9800D2D34B /* ResponseSerializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171ADE21852D9700D2D34B /* ResponseSerializer.swift */; };
 		D0171AE821852D9800D2D34B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171ADF21852D9700D2D34B /* Item.swift */; };
 		D0171AE921852D9800D2D34B /* Folder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0171AE021852D9800D2D34B /* Folder.swift */; };
 		D01ACADB17B83637005D1463 /* rd_list.c in Sources */ = {isa = PBXBuildFile; fileRef = D01ACABA17B83637005D1463 /* rd_list.c */; };
@@ -177,7 +176,6 @@
 		D0171ADB21852D9700D2D34B /* Folders.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folders.swift; sourceTree = "<group>"; };
 		D0171ADC21852D9700D2D34B /* Avatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
 		D0171ADD21852D9700D2D34B /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		D0171ADE21852D9700D2D34B /* ResponseSerializer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseSerializer.swift; sourceTree = "<group>"; };
 		D0171ADF21852D9700D2D34B /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D0171AE021852D9800D2D34B /* Folder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Folder.swift; sourceTree = "<group>"; };
 		D01ACAB517B83637005D1463 /* khash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = khash.h; sourceTree = "<group>"; };
@@ -377,7 +375,6 @@
 			children = (
 				D05A7C4C218AAE7B00961E29 /* CoreData */,
 				D05A7C4D218AB78C00961E29 /* Models */,
-				D0171ADE21852D9700D2D34B /* ResponseSerializer.swift */,
 				D0171AB7217BE6D600D2D34B /* AppDelegate.swift */,
 				D03C63242193F466007A5F15 /* WindowController.swift */,
 				D0171AB9217BE6D600D2D34B /* ViewController.swift */,
@@ -959,7 +956,6 @@
 				BD2410F621F66AAA00B25D8D /* CDItem+CoreDataProperties.swift in Sources */,
 				D0171AE621852D9800D2D34B /* User.swift in Sources */,
 				D05C4A22219D29C6008BA66F /* CDStarred+CoreDataClass.swift in Sources */,
-				D0171AE721852D9800D2D34B /* ResponseSerializer.swift in Sources */,
 				BD2410F921F66AAA00B25D8D /* CDFolder+CoreDataProperties.swift in Sources */,
 				BDEFCF242311C781004B147C /* Readable.swift in Sources */,
 				D0171AE921852D9800D2D34B /* Folder.swift in Sources */,
@@ -1384,7 +1380,7 @@
 			repositoryURL = "https://github.com/alamofire/alamofire";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.9.1;
+				minimumVersion = 5.1.0;
 			};
 		};
 		BDAC391523A585640024D77C /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {

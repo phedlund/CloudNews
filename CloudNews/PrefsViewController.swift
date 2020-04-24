@@ -3,7 +3,7 @@
 //  CloudNews
 //
 //  Created by Peter Hedlund on 11/23/18.
-//  Copyright © 2018 Peter Hedlund. All rights reserved.
+//  Copyright © 2020 Peter Hedlund. All rights reserved.
 //
 
 import Cocoa
@@ -57,23 +57,25 @@ class PrefsViewController: NSViewController {
             urlRequest.httpMethod = HTTPMethod.get.rawValue
             let username = self.usernameTextField.stringValue
             let password = self.passwordTextField.stringValue
-            if let authorizationHeader = Request.authorizationHeader(user: username, password: password) {
-                urlRequest.setValue(authorizationHeader.value, forHTTPHeaderField: authorizationHeader.key)
-                urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
-                Alamofire.request(urlRequest).responseDecodable(completionHandler: { [weak self] (response: DataResponse<Status>) in
-                    if let status = response.value {
-                        print(status)
-                        let keychain = Keychain(service: "com.peterandlinda.CloudNews")
-                        keychain["username"] = username
-                        keychain["password"] = password
-                        UserDefaults.standard.set(self?.serverTextField.stringValue, forKey: "server")
-                        UserDefaults.standard.set(status.version, forKey: "version")
-                        self?.statusLabel.stringValue = "News version \(status.version ?? "") found on server"
-                    }
-                    self?.connectionActivityIndicator.stopAnimation(nil)
-                })
-            } else {
-                self.connectionActivityIndicator.stopAnimation(nil)
+            let headers: HTTPHeaders = [
+                .authorization(username: username, password: password),
+                .accept("application/json")
+            ]
+            urlRequest.headers = headers
+            AF.request(urlRequest).responseDecodable(of: Status.self) { [weak self] response in
+                switch response.result {
+                case let .success(result):
+                    let keychain = Keychain(service: "com.peterandlinda.CloudNews")
+                    keychain["username"] = username
+                    keychain["password"] = password
+                    UserDefaults.standard.set(self?.serverTextField.stringValue, forKey: "server")
+                    UserDefaults.standard.set(result.version, forKey: "version")
+                    self?.statusLabel.stringValue = "News version \(result.version ?? "") found on server"
+                    
+                case let .failure(error):
+                    print(error.localizedDescription)
+                }
+                self?.connectionActivityIndicator.stopAnimation(nil)
             }
         } else {
             self.connectionActivityIndicator.stopAnimation(nil)
