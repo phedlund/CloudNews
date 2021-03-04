@@ -148,7 +148,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler
 {
     if ([webView.URL.scheme isEqualToString:@"file"] || [webView.URL.scheme hasPrefix:@"itms"]) {
-        if ([navigationAction.request.URL.absoluteString rangeOfString:@"itunes.apple.com"].location != NSNotFound) {
+        if ([navigationAction.request.URL.absoluteString rangeOfString:@"itunes.apple.com"].location != NSNotFound || [navigationAction.request.URL.absoluteString rangeOfString:@"apps.apple.com"].location != NSNotFound) {
             [[UIApplication sharedApplication] openURL:navigationAction.request.URL options:@{} completionHandler:nil];
             decisionHandler(WKNavigationActionPolicyCancel);
             return;
