@@ -76,6 +76,7 @@
 		D0BCAC6D178104FC00C965F4 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAC42178104FC00C965F4 /* defaults.plist */; };
 		D0BCAC8A178104FC00C965F4 /* rss.css in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAC5F178104FC00C965F4 /* rss.css */; };
 		D0BF490D17E4DCF800CB9311 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0BF490C17E4DCF800CB9311 /* Images.xcassets */; };
+		D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */; };
 		D0D39B8C2595245D002C07DD /* KSCrash in Frameworks */ = {isa = PBXBuildFile; productRef = D0D39B8B2595245D002C07DD /* KSCrash */; };
 		D0DD7BC1255E222700B124C9 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = D0DD7BC0255E222700B124C9 /* SwiftMessages */; };
 		D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */; };
@@ -84,7 +85,6 @@
 		D0E6C78A25A6AB690070317B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78925A6AB690070317B /* Kingfisher */; };
 		D0E6C78F25A6B2820070317B /* AFNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78E25A6B2820070317B /* AFNetworking */; };
 		D0E6C79D25A7F85E0070317B /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */; };
-		D0E89F581836E03A005F8CAF /* OCSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E89F571836E03A005F8CAF /* OCSettingsController.m */; };
 		D0F181261782585100F719D9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F181251782585100F719D9 /* SystemConfiguration.framework */; };
 		D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F181281783B12C00F719D9 /* OCLoginController.m */; };
 		D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */; };
@@ -184,12 +184,11 @@
 		D0BCAC42178104FC00C965F4 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = defaults.plist; sourceTree = "<group>"; };
 		D0BCAC5F178104FC00C965F4 /* rss.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = rss.css; sourceTree = "<group>"; };
 		D0BF490C17E4DCF800CB9311 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D0C66C9A17B1935600F0EC7C /* News 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 2.xcdatamodel"; sourceTree = "<group>"; };
 		D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMessagesHelper.swift; sourceTree = "<group>"; };
 		D0E6C782259FF1D90070317B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
-		D0E89F561836E03A005F8CAF /* OCSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCSettingsController.h; sourceTree = "<group>"; };
-		D0E89F571836E03A005F8CAF /* OCSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCSettingsController.m; sourceTree = "<group>"; };
 		D0F181251782585100F719D9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F181271783B12C00F719D9 /* OCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLoginController.h; sourceTree = "<group>"; };
 		D0F181281783B12C00F719D9 /* OCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLoginController.m; sourceTree = "<group>"; };
@@ -336,8 +335,7 @@
 				D06CB23817A0A0A900A1310B /* OCNewsHelper.m */,
 				D0BCAC22177F80BB00C965F4 /* OCAPIClient.h */,
 				D0BCAC23177F80BC00C965F4 /* OCAPIClient.m */,
-				D0E89F561836E03A005F8CAF /* OCSettingsController.h */,
-				D0E89F571836E03A005F8CAF /* OCSettingsController.m */,
+				D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */,
 				D042A9A120842E340086FBE9 /* OCThemeSettingsController.h */,
 				D042A9A220842E340086FBE9 /* OCThemeSettingsController.m */,
 				D0F181271783B12C00F719D9 /* OCLoginController.h */,
@@ -627,6 +625,7 @@
 				D06CB22E17A06E4F00A1310B /* News.xcdatamodeld in Sources */,
 				D06CB23917A0A0AA00A1310B /* OCNewsHelper.m in Sources */,
 				D0FB29611FA6A20D00578C29 /* PHThemeManager.m in Sources */,
+				D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */,
 				D02D9D11259FD09A00E243CD /* FolderTableViewController.swift in Sources */,
 				D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */,
 				D0735DCC1F905E39002D3AB3 /* UIColor+PHColor.m in Sources */,
@@ -639,7 +638,6 @@
 				D066144225A94EB900399DEF /* ArticleHelper.swift in Sources */,
 				D01ACADC17B83637005D1463 /* readable.c in Sources */,
 				D0A33F6018876CF700C6DA92 /* OCTextView.m in Sources */,
-				D0E89F581836E03A005F8CAF /* OCSettingsController.m in Sources */,
 				D01ACAFC17B969FE005D1463 /* NSDictionary+HandleNull.m in Sources */,
 				D0171AB02179596100D2D34B /* UICollectionView+ValidIndexPath.m in Sources */,
 			);

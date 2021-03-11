@@ -13,7 +13,6 @@
 #import "OCFeedListController.h"
 #import "iOCNews-Swift.h"
 #import "ArticleController.h"
-#import "OCSettingsController.h"
 #import "OCThemeSettingsController.h"
 
 @implementation UILabel (ThemeColor)
@@ -71,7 +70,7 @@
     [[UICollectionView appearanceWhenContainedInInstancesOfClasses:@[[ArticleListController class]]] setBackgroundColor:UIColor.ph_cellBackgroundColor];
     [[UICollectionView appearanceWhenContainedInInstancesOfClasses:@[[ArticleController class]]] setBackgroundColor:UIColor.ph_cellBackgroundColor];
     [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
-    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[OCSettingsController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
+    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[SettingsViewController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
     [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[OCThemeSettingsController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
 
     [UIScrollView appearance].backgroundColor = UIColor.ph_cellBackgroundColor;
