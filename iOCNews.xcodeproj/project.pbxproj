@@ -32,9 +32,6 @@
 		D02D9D11259FD09A00E243CD /* FolderTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D9D10259FD09900E243CD /* FolderTableViewController.swift */; };
 		D02D9D17259FE3B200E243CD /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02D9D16259FE3B200E243CD /* BadgeView.swift */; };
 		D042A9A320842E340086FBE9 /* OCThemeSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = D042A9A220842E340086FBE9 /* OCThemeSettingsController.m */; };
-		D04C7DD51BABBEFC000FB342 /* libpcre.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D04C7DCB1BABBEFC000FB342 /* libpcre.a */; };
-		D04C7DD71BABBEFC000FB342 /* libpcrecpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D04C7DCD1BABBEFC000FB342 /* libpcrecpp.a */; };
-		D04C7DD91BABBEFC000FB342 /* libpcreposix.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D04C7DCF1BABBEFC000FB342 /* libpcreposix.a */; };
 		D059E9512325C70500932E2B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D059E9502325C70500932E2B /* Colors.xcassets */; };
 		D05A6FB1213B914E006D3AB8 /* BaseArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FB0213B914E006D3AB8 /* BaseArticleCell.swift */; };
 		D05A6FB4213B9508006D3AB8 /* ArticleCellNoThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FB2213B9508006D3AB8 /* ArticleCellNoThumbnail.swift */; };
@@ -49,7 +46,6 @@
 		D06CB23617A074AA00A1310B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06CB23517A074AA00A1310B /* CoreData.framework */; };
 		D06CB23917A0A0AA00A1310B /* OCNewsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D06CB23817A0A0A900A1310B /* OCNewsHelper.m */; };
 		D0735DCC1F905E39002D3AB3 /* UIColor+PHColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D0735DCA1F905E37002D3AB3 /* UIColor+PHColor.m */; };
-		D073AF4725F0877100A8A4EC /* TUSafariActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F94F9620AA90D900833A7F /* TUSafariActivity.framework */; };
 		D07AD73225A92962005CBCFC /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = D07AD73125A92962005CBCFC /* SwiftSoup */; };
 		D07AD73625A9298B005CBCFC /* ArticleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AD73525A9298B005CBCFC /* ArticleImage.swift */; };
 		D07F5E8321FEA01E00528E90 /* ArticleFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F5E8221FEA01E00528E90 /* ArticleFlowLayout.swift */; };
@@ -77,6 +73,7 @@
 		D0BCAC8A178104FC00C965F4 /* rss.css in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAC5F178104FC00C965F4 /* rss.css */; };
 		D0BF490D17E4DCF800CB9311 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0BF490C17E4DCF800CB9311 /* Images.xcassets */; };
 		D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */; };
+		D0C7D40325FC88C500271F6D /* SafariActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C7D40225FC88C500271F6D /* SafariActivity.swift */; };
 		D0D39B8C2595245D002C07DD /* KSCrash in Frameworks */ = {isa = PBXBuildFile; productRef = D0D39B8B2595245D002C07DD /* KSCrash */; };
 		D0DD7BC1255E222700B124C9 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = D0DD7BC0255E222700B124C9 /* SwiftMessages */; };
 		D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */; };
@@ -117,15 +114,6 @@
 		D042A9A120842E340086FBE9 /* OCThemeSettingsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCThemeSettingsController.h; sourceTree = "<group>"; };
 		D042A9A220842E340086FBE9 /* OCThemeSettingsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCThemeSettingsController.m; sourceTree = "<group>"; };
 		D04AD65618070C4800FF6056 /* News 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 3.xcdatamodel"; sourceTree = "<group>"; };
-		D04C7DC41BABBEFC000FB342 /* pcre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre.h; sourceTree = "<group>"; };
-		D04C7DC51BABBEFC000FB342 /* pcre_scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre_scanner.h; sourceTree = "<group>"; };
-		D04C7DC61BABBEFC000FB342 /* pcre_stringpiece.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre_stringpiece.h; sourceTree = "<group>"; };
-		D04C7DC71BABBEFC000FB342 /* pcrecpp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcrecpp.h; sourceTree = "<group>"; };
-		D04C7DC81BABBEFC000FB342 /* pcrecpparg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcrecpparg.h; sourceTree = "<group>"; };
-		D04C7DC91BABBEFC000FB342 /* pcreposix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcreposix.h; sourceTree = "<group>"; };
-		D04C7DCB1BABBEFC000FB342 /* libpcre.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpcre.a; sourceTree = "<group>"; };
-		D04C7DCD1BABBEFC000FB342 /* libpcrecpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpcrecpp.a; sourceTree = "<group>"; };
-		D04C7DCF1BABBEFC000FB342 /* libpcreposix.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libpcreposix.a; sourceTree = "<group>"; };
 		D059E9502325C70500932E2B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		D05A6FB0213B914E006D3AB8 /* BaseArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseArticleCell.swift; sourceTree = "<group>"; };
 		D05A6FB2213B9508006D3AB8 /* ArticleCellNoThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCellNoThumbnail.swift; sourceTree = "<group>"; };
@@ -149,8 +137,6 @@
 		D0809718210AAF3C00EDF207 /* iOCNews-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOCNews-Bridging-Header.h"; sourceTree = "<group>"; };
 		D08D83B618161453005A75F0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListFlowLayout.swift; sourceTree = "<group>"; };
-		D09B149A1C30D0DB0019DB51 /* pcre_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcre_internal.h; sourceTree = "<group>"; };
-		D09B149B1C30D0DB0019DB51 /* pcrecpp_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pcrecpp_internal.h; sourceTree = "<group>"; };
 		D0A33F2B187F5BF900C6DA92 /* News 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 4.xcdatamodel"; sourceTree = "<group>"; };
 		D0A33F5E18876CF700C6DA92 /* OCTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCTextView.h; sourceTree = "<group>"; };
 		D0A33F5F18876CF700C6DA92 /* OCTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCTextView.m; sourceTree = "<group>"; };
@@ -186,6 +172,9 @@
 		D0BF490C17E4DCF800CB9311 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		D0C66C9A17B1935600F0EC7C /* News 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 2.xcdatamodel"; sourceTree = "<group>"; };
+		D0C7D3BF25FC7A9400271F6D /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
+		D0C7D3C025FC7ABF00271F6D /* libicucore.A.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.A.tbd; path = usr/lib/libicucore.A.tbd; sourceTree = SDKROOT; };
+		D0C7D40225FC88C500271F6D /* SafariActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SafariActivity.swift; path = ../../../../../../SafariActivity/Sources/SafariActivity/SafariActivity.swift; sourceTree = "<group>"; };
 		D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMessagesHelper.swift; sourceTree = "<group>"; };
 		D0E6C782259FF1D90070317B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
@@ -212,7 +201,6 @@
 				D0E6C78F25A6B2820070317B /* AFNetworking in Frameworks */,
 				D02CCAF41CE7E27300F6CCEC /* WebKit.framework in Frameworks */,
 				D0AAB685255CE93E00F4FC5F /* CoreServices.framework in Frameworks */,
-				D04C7DD51BABBEFC000FB342 /* libpcre.a in Frameworks */,
 				D0DD7BCC255F6FE100B124C9 /* UICKeyChainStore in Frameworks */,
 				D07AD73225A92962005CBCFC /* SwiftSoup in Frameworks */,
 				D06CB23617A074AA00A1310B /* CoreData.framework in Frameworks */,
@@ -222,14 +210,11 @@
 				D0BCABE31779119300C965F4 /* MessageUI.framework in Frameworks */,
 				D0D39B8C2595245D002C07DD /* KSCrash in Frameworks */,
 				D0BCABC8177910C000C965F4 /* ImageIO.framework in Frameworks */,
-				D04C7DD91BABBEFC000FB342 /* libpcreposix.a in Frameworks */,
 				D0BCAA681779091000C965F4 /* QuartzCore.framework in Frameworks */,
-				D073AF4725F0877100A8A4EC /* TUSafariActivity.framework in Frameworks */,
 				D0BCAA26177900C300C965F4 /* UIKit.framework in Frameworks */,
 				D0DD7BC1255E222700B124C9 /* SwiftMessages in Frameworks */,
 				D0BCAA28177900C300C965F4 /* Foundation.framework in Frameworks */,
 				D0BCAA2A177900C300C965F4 /* CoreGraphics.framework in Frameworks */,
-				D04C7DD71BABBEFC000FB342 /* libpcrecpp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,44 +233,9 @@
 			path = readable;
 			sourceTree = "<group>";
 		};
-		D04C7DC21BABBEFC000FB342 /* pcre */ = {
-			isa = PBXGroup;
-			children = (
-				D04C7DC31BABBEFC000FB342 /* include */,
-				D04C7DCA1BABBEFC000FB342 /* lib */,
-			);
-			path = pcre;
-			sourceTree = "<group>";
-		};
-		D04C7DC31BABBEFC000FB342 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				D09B149A1C30D0DB0019DB51 /* pcre_internal.h */,
-				D09B149B1C30D0DB0019DB51 /* pcrecpp_internal.h */,
-				D04C7DC41BABBEFC000FB342 /* pcre.h */,
-				D04C7DC51BABBEFC000FB342 /* pcre_scanner.h */,
-				D04C7DC61BABBEFC000FB342 /* pcre_stringpiece.h */,
-				D04C7DC71BABBEFC000FB342 /* pcrecpp.h */,
-				D04C7DC81BABBEFC000FB342 /* pcrecpparg.h */,
-				D04C7DC91BABBEFC000FB342 /* pcreposix.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		D04C7DCA1BABBEFC000FB342 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				D04C7DCB1BABBEFC000FB342 /* libpcre.a */,
-				D04C7DCD1BABBEFC000FB342 /* libpcrecpp.a */,
-				D04C7DCF1BABBEFC000FB342 /* libpcreposix.a */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
 		D0BCAA19177900C300C965F4 = {
 			isa = PBXGroup;
 			children = (
-				D04C7DC21BABBEFC000FB342 /* pcre */,
 				D01ACAB317B83637005D1463 /* readable */,
 				D0F18130178502E000F719D9 /* HTMLString */,
 				D0BCAA2B177900C300C965F4 /* iOCNews */,
@@ -305,6 +255,8 @@
 		D0BCAA24177900C300C965F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D0C7D3C025FC7ABF00271F6D /* libicucore.A.tbd */,
+				D0C7D3BF25FC7A9400271F6D /* libicucore.tbd */,
 				D073AF3E25F0872D00A8A4EC /* TUSafariActivity.xcframework */,
 				D0AAB684255CE93E00F4FC5F /* CoreServices.framework */,
 				D0F94F9620AA90D900833A7F /* TUSafariActivity.framework */,
@@ -380,6 +332,7 @@
 				D0FB29601FA6A20D00578C29 /* PHThemeManager.m */,
 				D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */,
 				D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */,
+				D0C7D40225FC88C500271F6D /* SafariActivity.swift */,
 				D0BCAA2C177900C300C965F4 /* Supporting Files */,
 				D0BCAC38178104FB00C965F4 /* Resources */,
 				D08D83B618161453005A75F0 /* Settings.bundle */,
@@ -441,7 +394,6 @@
 				D0BCAA1E177900C300C965F4 /* Sources */,
 				D0BCAA1F177900C300C965F4 /* Frameworks */,
 				D0BCAA20177900C300C965F4 /* Resources */,
-				D0735DC61F8337B0002D3AB3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -580,21 +532,6 @@
 			shellPath = /bin/sh;
 			shellScript = "cd ~/Projects/iOCNews/iOCNews\nmogenerator --template-var arc=true -m \"News.xcdatamodeld/News 5.xcdatamodel/\"";
 		};
-		D0735DC61F8337B0002D3AB3 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/TUSafariActivity.framework",
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/TUSafariActivity.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -627,6 +564,7 @@
 				D0FB29611FA6A20D00578C29 /* PHThemeManager.m in Sources */,
 				D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */,
 				D02D9D11259FD09A00E243CD /* FolderTableViewController.swift in Sources */,
+				D0C7D40325FC88C500271F6D /* SafariActivity.swift in Sources */,
 				D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */,
 				D0735DCC1F905E39002D3AB3 /* UIColor+PHColor.m in Sources */,
 				D05A6FBE213E35A8006D3AB8 /* ArticleCellWithWebView.swift in Sources */,
@@ -817,6 +755,7 @@
 					"$(PROJECT_DIR)/pcre/lib",
 				);
 				MARKETING_VERSION = 3.11.0;
+				"OTHER_CFLAGS[arch=*]" = "";
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-ObjC",
@@ -863,6 +802,7 @@
 					"$(PROJECT_DIR)/pcre/lib",
 				);
 				MARKETING_VERSION = 3.11.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
 					"-lxml2",
 					"-ObjC",

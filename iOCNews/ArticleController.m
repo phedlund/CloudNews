@@ -13,7 +13,6 @@
 #import "OCSharingProvider.h"
 #import "PHPrefViewController.h"
 #import "UIColor+PHColor.h"
-#import <TUSafariActivity/TUSafariActivity.h>
 #import "iOCNews-Swift.h"
 #import "UICollectionView+ValidIndexPath.h"
 #import "UIColor+PHColor.h"
@@ -290,7 +289,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
         return;
     }
     
-    TUSafariActivity *sa = [[TUSafariActivity alloc] init];
+    SafariActivity *sa = [[SafariActivity alloc] init];
     NSArray *activities = @[sa];
     
     OCSharingProvider *sharingProvider = [[OCSharingProvider alloc] initWithPlaceholderItem:url subject:subject];
