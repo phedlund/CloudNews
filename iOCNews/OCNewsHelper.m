@@ -610,6 +610,10 @@
 }
 
 - (void)updateItemsWithLastModified:(NSInteger)lastMod type:(NSInteger)aType andId:(NSInteger)anId {
+    NSInteger thirtyDaysAgo = [[NSDate date] dateByAddingTimeInterval:-30*24*60*60].timeIntervalSince1970;
+    if (lastMod < thirtyDaysAgo) {
+        lastMod = thirtyDaysAgo;
+    }
     NSDictionary *itemParams = @{@"lastModified": @(lastMod),
                                          @"type": @(aType),
                                            @"id": @(anId)};
