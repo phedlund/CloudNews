@@ -76,36 +76,36 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func onSyncOnStartChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "SyncOnStart")
     }
     
     @IBAction func onSyncInBackgroundChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "SyncInBackground")
         
     }
     
     @IBAction func onShowFaviconsChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "ShowFavicons")
         
     }
     
     @IBAction func onShowThumbnailsChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "ShowThumbnails")
         
     }
     
     @IBAction func onMarkWhileScrollingChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "MarkWhileScrolling")
         
     }
     
     @IBAction func onSortOldestFirstChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "SortOldestFirst")
         
     }
     
     @IBAction func onCompactViewChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "")
+        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "CompactView")
         
     }
     
