@@ -10,8 +10,17 @@ import UIKit
 import Kingfisher
 
 class ArticleCellWithThumbnail: BaseArticleCell {
-    @IBOutlet var contentContainerLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var mainSubView: UIView!
+    @IBOutlet var contentContainerView: UIView!
     @IBOutlet var articleImage: UIImageView!
+    @IBOutlet var favIconImage: UIImageView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var summaryLabel: UILabel!
+    @IBOutlet var starContainerView: UIView!
+    @IBOutlet var starImage: UIImageView!
+
+    @IBOutlet var contentContainerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageWidthContraint: NSLayoutConstraint!
     @IBOutlet var titleLabelLeadingConstraint: NSLayoutConstraint!

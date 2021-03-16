@@ -15,17 +15,6 @@ import UIKit
 
 class BaseArticleCell: UICollectionViewCell, ArticleCellProtocol {
 
-    @IBOutlet var mainSubView: UIView!
-    @IBOutlet var contentContainerView: UIView!
-    @IBOutlet var starContainerView: UIView!
-    @IBOutlet var starImage: UIImageView!
-    @IBOutlet var favIconImage: UIImageView!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var dateLabel: UILabel!
-    @IBOutlet var summaryLabel: UILabel!
-    
-    @IBOutlet var dateLabelLeadingConstraint: NSLayoutConstraint!
-    
     var item: ItemProvider? {
         didSet {
             self.configureView()
