@@ -169,7 +169,6 @@ static NSString * const reuseIdentifier = @"ArticleCell";
     self.navigationItem.rightBarButtonItem = self.markBarButtonItem;
     self.markBarButtonItem.enabled = NO;
     [self.collectionView registerNib:[UINib nibWithNibName:@"ArticleCellWithThumbnail" bundle:nil] forCellWithReuseIdentifier:@"ArticleCellWithThumbnail"];
-    [self.collectionView registerNib:[UINib nibWithNibName:@"NoThumbnailArticleCell" bundle:nil] forCellWithReuseIdentifier:@"NoThumbnailArticleCell"];
     self.collectionView.scrollsToTop = NO;
     [self.collectionView addGestureRecognizer:self.markGesture];
     [self.collectionView addGestureRecognizer:self.sideGestureRecognizer];
@@ -258,26 +257,14 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    Item *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    if (([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowThumbnails"] == YES) && item.imageLink) {
-        ArticleCellWithThumbnail *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ArticleCellWithThumbnail" forIndexPath:indexPath];
-        if (self.fetchedItemProviders[indexPath]) {
-            cell.item = self.fetchedItemProviders[indexPath];
-        } else {
-            [self performCellPrefetchForIndexPath:indexPath];
-        }
-        return cell;
+    ArticleCellWithThumbnail *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"ArticleCellWithThumbnail" forIndexPath:indexPath];
+    if (self.fetchedItemProviders[indexPath]) {
+        cell.item = self.fetchedItemProviders[indexPath];
     } else {
-        ArticleCellNoThumbnail *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NoThumbnailArticleCell" forIndexPath:indexPath];
-        if (self.fetchedItemProviders[indexPath]) {
-            cell.item = self.fetchedItemProviders[indexPath];
-        } else {
-            [self performCellPrefetchForIndexPath:indexPath];
-        }
-        return cell;
+        [self performCellPrefetchForIndexPath:indexPath];
     }
+    return cell;
 }
-
 
 #pragma mark - Table view delegate
 

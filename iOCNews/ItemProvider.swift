@@ -58,15 +58,17 @@ class ItemProvider: NSObject {
     var title: String = ""
     var dateText: String = ""
     var summaryText: String = ""
+    var isSummaryTextHidden = false
     
     var titleColor: UIColor = .black
     var dateColor: UIColor = .black
     var summaryColor: UIColor = .black
     
     var favIcon: UIImage?
-    var favIconHidden: Bool = false
+    var isFavIconHidden: Bool = false
     var imageAlpha: CGFloat = 1.0
     
+    var isThumbnailHidden: Bool = false
     var thumbnail: UIImage?
     
     var starIcon: UIImage?
@@ -92,6 +94,9 @@ class ItemProvider: NSObject {
         self.favIconLink = item.favIconLink
         self.feedTitle = item.feedTitle
         self.imageLink = item.imageLink
+        self.isFavIconHidden = !UserDefaults.standard.bool(forKey: "ShowFavicons")
+        self.isThumbnailHidden = !UserDefaults.standard.bool(forKey: "ShowThumbnails")
+        isSummaryTextHidden = UserDefaults.standard.bool(forKey: "CompactView")
 
         if let link = item.imageLink, let url = URL(string: link) {
             KingfisherManager.shared.retrieveImage(with: url) { result in
@@ -103,26 +108,18 @@ class ItemProvider: NSObject {
                 }
             }
         }
-        if UserDefaults.standard.bool(forKey: "ShowFavicons") == true {
-            if let link = self.favIconLink, link != "favicon", let url = URL(string: link) {
-                KingfisherManager.shared.retrieveImage(with: url) { result in
-                    switch result {
-                    case .success(let value):
-                        self.favIcon = value.image
-                        self.favIconHidden = false
-                    case .failure(_):
-                        self.favIconHidden = false
-                        self.favIcon = UIImage(named: "favicon")
-                    }                }
-            } else {
-                self.favIconHidden = false
-                self.favIcon = UIImage(named: "favicon")
-            }
+        if let link = self.favIconLink, link != "favicon", let url = URL(string: link) {
+            KingfisherManager.shared.retrieveImage(with: url) { result in
+                switch result {
+                case .success(let value):
+                    self.favIcon = value.image
+                case .failure(_):
+                    self.favIcon = UIImage(named: "favicon")
+                }                }
+        } else {
+            self.favIcon = UIImage(named: "favicon")
         }
-        else {
-            self.favIconHidden = true
-        }
-
+        
         let title = item.title
         self.title = title?.convertingHTMLToPlainText() ?? ""
         var dateLabelText = ""

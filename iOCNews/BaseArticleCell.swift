@@ -57,9 +57,10 @@ class BaseArticleCell: UICollectionViewCell, ArticleCellProtocol {
 
     override func apply(_ layoutAttributes: UICollectionViewLayoutAttributes) {
         super.apply(layoutAttributes)
+        let height = UserDefaults.standard.bool(forKey: "CompactView") ? Constants.itemHeightCompact : Constants.itemHeightRegular
         let width = layoutAttributes.frame.size.width
         self.contentView.frame.size.width = width
-        bottomBorder.frame = CGRect(x: 15, y: 153.0, width: width - 30, height: 0.5)
+        bottomBorder.frame = CGRect(x: 15, y: height - 1, width: width - 30, height: 0.5)
     }
 
 }
