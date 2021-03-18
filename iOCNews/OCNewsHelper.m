@@ -470,11 +470,23 @@
     
     //Update feed titles to those on server.
     NSDictionary *titleDict = [NSDictionary dictionaryWithObjects:[newFeeds valueForKey:@"title"] forKeys:newIds];
+    NSDictionary *faviconLinkDict = [NSDictionary dictionaryWithObjects:[newFeeds valueForKey:@"faviconLink"] forKeys:newIds];
+    NSDictionary *linkDict = [NSDictionary dictionaryWithObjects:[newFeeds valueForKey:@"link"] forKeys:newIds];
     //NSLog(@"Titles: %@", titleDict);
     [oldFeeds enumerateObjectsUsingBlock:^(Feed *feed, NSUInteger idx, BOOL *stop) {
         NSString *newTitle = [titleDict objectForKey:@(feed.myId)];
         if (newTitle) {
             feed.title = newTitle;
+        }
+        id newLink = [linkDict objectForKeyNotNull:@(feed.myId) fallback:@""];
+        if ([(NSString *)newLink length] > 0) {
+            feed.link = newLink;
+        }
+        id newFaviconLink = [faviconLinkDict objectForKeyNotNull:@(feed.myId) fallback:@""];
+        if ([(NSString *)newFaviconLink length] > 0) {
+            feed.faviconLink = newFaviconLink;
+        } else if (feed.faviconLink.length == 0) {
+            
         }
     }];
     [self saveContext];

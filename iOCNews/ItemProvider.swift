@@ -117,7 +117,19 @@ class ItemProvider: NSObject {
                     self.favIcon = UIImage(named: "favicon")
                 }                }
         } else {
-            self.favIcon = UIImage(named: "favicon")
+            if let itemUrl = URL(string: item.url ?? ""), let host = itemUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {
+                let processor = IcoDataProcessor()
+                KingfisherManager.shared.retrieveImage(with: url, options: [.processor(processor)]) { result in
+                    switch result {
+                    case .success(let value):
+                        self.favIcon = value.image
+                    case .failure(_):
+                        self.favIcon = UIImage(named: "favicon")
+                    }
+                }
+            } else {
+                self.favIcon = UIImage(named: "favicon")
+            }
         }
         
         let title = item.title

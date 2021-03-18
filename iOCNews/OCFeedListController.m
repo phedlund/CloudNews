@@ -284,14 +284,11 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 }
                 if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
                     if (cell.tag == indexPathTemp.row) {
-                        if ([feed.faviconLink isEqualToString:@"favicon"]) {
-                            [cell.imageView setImage:[UIImage imageNamed:@"favicon"]];
-                        } else if ([feed.faviconLink isEqualToString:@"star_icon"]) {
+                        if ([feed.faviconLink isEqualToString:@"star_icon"]) {
                             [cell.imageView setImage:[UIImage imageNamed:@"star_icon"]];
                         } else {
-                            NSURL *url = [NSURL URLWithString:feed.faviconLink];
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [cell.imageView setImageWith:url];
+                                [cell.imageView setFavIconFor:feed];
                             });
                         }
                     }
