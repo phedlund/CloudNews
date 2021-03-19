@@ -102,7 +102,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstItem="Qug-Vl-axT" firstAttribute="top" secondItem="3" secondAttribute="bottom" constant="10" id="2fa-bM-zck"/>
+                                    <constraint firstItem="Qug-Vl-axT" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3" secondAttribute="bottom" constant="10" id="2fa-bM-zck"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="152" id="2lI-Hw-KZz"/>
                                     <constraint firstItem="5" firstAttribute="leading" secondItem="fl2-Me-Ib6" secondAttribute="leading" constant="5" id="4Wy-7p-w8Q">
                                         <variation key="widthClass=compact" constant="0.0"/>
@@ -117,6 +117,7 @@
                                     <constraint firstAttribute="trailing" secondItem="3" secondAttribute="trailing" constant="16" id="hkd-f6-AB6"/>
                                     <constraint firstItem="3" firstAttribute="top" secondItem="fl2-Me-Ib6" secondAttribute="top" constant="5" id="iuU-MP-v1O"/>
                                     <constraint firstAttribute="trailing" secondItem="Qug-Vl-axT" secondAttribute="trailing" constant="16" id="uRg-sa-BdR"/>
+                                    <constraint firstAttribute="bottom" secondItem="Qug-Vl-axT" secondAttribute="bottom" constant="77.5" id="yZ9-tX-uHi"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peC-zy-JQ2" userLabel="StarContainer">
@@ -175,6 +176,7 @@
                 <outlet property="articleImageWidthContraint" destination="GYv-9d-N2u" id="SVx-9i-Oxv"/>
                 <outlet property="contentContainerLeadingConstraint" destination="7xO-z3-2hC" id="hA3-U6-H2f"/>
                 <outlet property="contentContainerView" destination="fl2-Me-Ib6" id="hhj-R4-Xs6"/>
+                <outlet property="dateAuthorStackViewBottomConstraint" destination="yZ9-tX-uHi" id="gYu-v1-keo"/>
                 <outlet property="dateLabel" destination="4" id="Dso-bz-8vW"/>
                 <outlet property="favIconImage" destination="ENK-Fa-lo4" id="KmL-i8-tPC"/>
                 <outlet property="mainSubView" destination="LQP-3C-1Dr" id="VPH-Cd-3Ql"/>

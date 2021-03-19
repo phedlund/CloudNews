@@ -27,6 +27,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var summaryLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var mainSubviewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageCenterYConstraint: NSLayoutConstraint!
+    @IBOutlet var dateAuthorStackViewBottomConstraint: NSLayoutConstraint!
     
     override func configureView() {
         super.configureView()
@@ -35,16 +36,19 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         }
         let isCompactView = UserDefaults.standard.bool(forKey: "CompactView")
         mainSubviewHeightConstraint.constant = isCompactView ? Constants.itemHeightCompact - 1 : Constants.itemHeightRegular - 1
-        if item.isSummaryTextHidden {
+        if isCompactView {
             summaryLabel.isHidden = true
             summaryLabel.text = nil
             summaryLabelLeadingConstraint.constant = 0
+            dateAuthorStackViewBottomConstraint.isActive = true
+            dateAuthorStackViewBottomConstraint.constant = 5
         } else {
             summaryLabel.isHidden = false
             summaryLabel.font = item.summaryFont
             summaryLabel.text = item.summaryText
             summaryLabel.setThemeTextColor(item.summaryColor)
             summaryLabel.highlightedTextColor = self.summaryLabel.textColor;
+            dateAuthorStackViewBottomConstraint.isActive = false
         }
         titleLabel.font = item.titleFont
         dateLabel.font = item.dateFont

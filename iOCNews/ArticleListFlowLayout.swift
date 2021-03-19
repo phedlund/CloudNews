@@ -10,7 +10,7 @@ import UIKit
 
 struct Constants {
     static let itemHeightRegular: CGFloat = 154
-    static let itemHeightCompact: CGFloat = 75
+    static let itemHeightCompact: CGFloat = 80
 }
 
 @objcMembers
