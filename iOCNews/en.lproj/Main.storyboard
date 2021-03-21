@@ -681,7 +681,7 @@
         <!--Feed Settings-->
         <scene sceneID="teH-Xq-aMz">
             <objects>
-                <tableViewController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="formSheet" id="Nhq-e9-Wb5" customClass="OCFeedSettingsController" sceneMemberID="viewController">
+                <tableViewController autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="formSheet" id="Nhq-e9-Wb5" customClass="FeedSettings" customModule="iOCNews" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="MGp-Mt-nLC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="786"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -796,7 +796,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zoq-O0-oQ8">
                                                     <rect key="frame" x="345" y="7" width="51" height="32"/>
                                                     <connections>
-                                                        <action selector="fullArticleStateChanged:" destination="Nhq-e9-Wb5" eventType="valueChanged" id="EjT-Ck-p4j"/>
+                                                        <action selector="onFullArticleChanged:" destination="Nhq-e9-Wb5" eventType="valueChanged" id="D0O-L2-hk7"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -827,6 +827,9 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vkM-D8-YH7">
                                                     <rect key="frame" x="345" y="7" width="51" height="31"/>
+                                                    <connections>
+                                                        <action selector="onReaderModeChanged:" destination="Nhq-e9-Wb5" eventType="valueChanged" id="aJa-vV-mxv"/>
+                                                    </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
@@ -857,7 +860,7 @@
                                                     <rect key="frame" x="300" y="7" width="94" height="32"/>
                                                     <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <connections>
-                                                        <action selector="keepCountChanged:" destination="Nhq-e9-Wb5" eventType="valueChanged" id="Q3v-Rf-ahV"/>
+                                                        <action selector="onKeepCounterChanged:" destination="Nhq-e9-Wb5" eventType="valueChanged" id="WQt-bQ-BEk"/>
                                                     </connections>
                                                 </stepper>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="diV-26-eAe">
@@ -892,28 +895,28 @@
                     <navigationItem key="navigationItem" title="Feed Settings" id="9oy-rz-e2b">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="qbY-TS-xZG">
                             <connections>
-                                <action selector="doCancel:" destination="Nhq-e9-Wb5" id="hzk-8h-lm0"/>
+                                <action selector="onCancel:" destination="Nhq-e9-Wb5" id="PQv-AH-c9b"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="wWK-GP-c2r">
                             <connections>
-                                <action selector="doSave:" destination="Nhq-e9-Wb5" id="vaL-pZ-tLu"/>
+                                <action selector="onSave:" destination="Nhq-e9-Wb5" id="Urz-Ov-e9Q"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="fullArticleSwitch" destination="Zoq-O0-oQ8" id="utS-Tn-NIf"/>
-                        <outlet property="keepLabel" destination="diV-26-eAe" id="Dp3-xi-2Xo"/>
-                        <outlet property="keepStepper" destination="ju4-Mh-1hg" id="yVG-ct-L2u"/>
-                        <outlet property="readerSwitch" destination="vkM-D8-YH7" id="rDq-i4-5Gt"/>
-                        <outlet property="titleTextField" destination="uHb-0o-I51" id="fec-Hl-0P5"/>
-                        <outlet property="urlTextView" destination="5JD-pO-xTc" id="YY9-xb-sjB"/>
+                        <outlet property="fullArticleSwitch" destination="Zoq-O0-oQ8" id="sHF-OJ-dZT"/>
+                        <outlet property="keepCountLabel" destination="diV-26-eAe" id="3zn-BJ-oqE"/>
+                        <outlet property="keepCountStepper" destination="ju4-Mh-1hg" id="3C6-Fw-TSG"/>
+                        <outlet property="readerModeSwitch" destination="vkM-D8-YH7" id="a4Y-7I-aKe"/>
+                        <outlet property="titleTextField" destination="uHb-0o-I51" id="Ish-gG-eab"/>
+                        <outlet property="urlTextView" destination="5JD-pO-xTc" id="yT5-bP-N4F"/>
                         <outlet property="view" destination="MGp-Mt-nLC" id="Yq9-X3-J0Q"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="281-qj-cwr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="818" y="-304"/>
+            <point key="canvasLocation" x="814" y="-304"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="7th-AJ-Ma5">

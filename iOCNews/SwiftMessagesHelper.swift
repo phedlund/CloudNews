@@ -71,7 +71,7 @@ open class Messenger : NSObject {
                                   buttonTapHandler: { _ in
                                     SwiftMessages.hide()
                                     viewController.dismiss(animated: true, completion: nil)
-                                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "SyncNews"), object: nil)
+                                    NotificationCenter.default.post(name: .syncNews, object: nil)
             })
             return view
         })

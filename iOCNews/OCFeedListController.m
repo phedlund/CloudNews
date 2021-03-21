@@ -32,7 +32,6 @@
 
 #import "OCFeedListController.h"
 #import "OCLoginController.h"
-#import "iOCNews-Swift.h"
 #import "OCNewsHelper.h"
 #import "Folder+CoreDataClass.h"
 #import "Feed+CoreDataClass.h"
@@ -157,16 +156,15 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.clearsSelectionOnViewWillAppear = NO;
     self.tableView.allowsSelection = YES;
     self.tableView.allowsSelectionDuringEditing = YES;
     self.tableView.scrollsToTop = YES;
     self.tableView.tableFooterView = [UIView new];
-
+    
     currentIndex = -1;
     networkHasBeenUnreachable = NO;
     
@@ -201,12 +199,12 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                              selector:@selector(didBecomeActive:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(drawerOpened:)
                                                  name:@"DrawerOpened"
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(drawerClosed:)
                                                  name:@"DrawerClosed"
@@ -216,17 +214,16 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                              selector:@selector(doRefresh:)
                                                  name:@"SyncNews"
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(networkCompleted:)
                                                  name:@"NetworkCompleted"
                                                object:nil];
-
+    
     [self updatePredicate];
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"HideRead"];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SyncInBackground"];
     [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"ShowFavicons"];
@@ -241,8 +238,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     return 3;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     switch (section) {
         case 0:
@@ -308,7 +304,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                     cell.textLabel.text = feed.title;
                 }
             }
-
+            
             cell.textLabel.textColor = UIColor.ph_textColor;
             cell.contentView.backgroundColor = [UIColor clearColor];
         }
@@ -319,7 +315,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     @finally {
         //
     }
-
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -365,15 +361,12 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 // Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     //
 }
 
 // Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 
@@ -478,10 +471,10 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         currentIndex = indexPath.row;
         NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
-
+        
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
         self.detailViewController = (ArticleListController *)navigationController.topViewController;
-
+        
         if (!self.tableView.isEditing) {
             Folder *folder;
             Feed *feed;
@@ -494,9 +487,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                 self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
                             } completion: nil];
                             feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
-//                            if (self.folderId > 0) {
-//                                self.detailViewController.folderId = self.folderId;
-//                            }
+                            //                            if (self.folderId > 0) {
+                            //                                self.detailViewController.folderId = self.folderId;
+                            //                            }
                             self.detailViewController.feed = feed;
                             if (self.folderId > 0) {
                                 self.detailViewController.folderId = self.folderId;
@@ -552,7 +545,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     if ([segue.identifier isEqualToString:@"feedSettings"]) {
         Feed *feed = [self.feedsFetchedResultsController.fetchedObjects objectAtIndex:currentIndex];
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
-        OCFeedSettingsController *settingsController = (OCFeedSettingsController*)navController.topViewController;
+        FeedSettings *settingsController = (FeedSettings*)navController.topViewController;
         settingsController.feed = feed;
         settingsController.delegate = self;
     }
@@ -651,14 +644,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         for (UIView* textField in alertController.textFields) {
             container = textField.superview;
             UIView *effectView = container.superview.subviews[0].subviews[0];
-
+            
             if (effectView && [effectView class] == [UIVisualEffectView class]) {
                 container.backgroundColor = [UIColor clearColor];
                 container.layer.borderWidth = 1;
                 [effectView removeFromSuperview];
             }
         }
-
+        
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *addButton = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [[OCNewsHelper sharedHelper] addFolderOffline:[[alertController.textFields objectAtIndex:0] text]];
@@ -694,14 +687,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         for (UIView* textField in alertController.textFields) {
             container = textField.superview;
             UIView *effectView = container.superview.subviews[0].subviews[0];
-
+            
             if (effectView && [effectView class] == [UIVisualEffectView class]) {
                 container.backgroundColor = [UIColor clearColor];
                 container.layer.borderWidth = 1;
                 [effectView removeFromSuperview];
             }
         }
-
+        
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             [self.tableView setEditing:NO animated:YES];
         }];
@@ -743,7 +736,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         for (UIView* textField in alertController.textFields) {
             container = textField.superview;
             UIView *effectView = container.superview.subviews[0].subviews[0];
-
+            
             if (effectView && [effectView class] == [UIVisualEffectView class]) {
                 container.backgroundColor = [UIColor clearColor];
                 container.layer.borderWidth = 1;
@@ -764,7 +757,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the url of the feed to add." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];
     [alertController setValue: message forKey: @"attributedMessage"];
-
+    
     return alertController;
 }
 
@@ -799,15 +792,15 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
 }
 
-- (void) reloadRow:(NSIndexPath*)indexPath {
+- (void)reloadRow:(NSIndexPath*)indexPath {
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     if (currentIndex >= 0) {
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
-
+    
 }
 
-- (void) feedSettingsUpdate:(OCFeedSettingsController *)settings {
+- (void)feedSettingsUpdateWithSettings:(FeedSettings * _Nonnull)settings {
     [self.tableView reloadData];
     [self.tableView setEditing:NO animated:YES];
 }
@@ -865,15 +858,15 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     NSError *error;
     if (![[self specialFetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        //        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     if (![[self foldersFetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        //        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     if (![[self feedsFetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        //        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
     [self.tableView reloadData];
@@ -1009,7 +1002,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-
+    
     UITableView *tableView = self.tableView;
     if (newIndexPath != nil && controller == self.foldersFetchedResultsController) {
         newIndexPath = [NSIndexPath indexPathForRow:[newIndexPath row] inSection:1];
@@ -1029,7 +1022,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     if (indexPath != nil && controller == self.feedsFetchedResultsController) {
         indexPath = [NSIndexPath indexPathForRow:[indexPath row] inSection:2];
     }
-
+    
     switch(type) {
             
         case NSFetchedResultsChangeInsert:

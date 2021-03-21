@@ -8,3 +8,4 @@
 #import "NSString+HTML.h"
 #import "PHThemeManager.h"
 #import "readable.h"
+#import "OCTextView.h"

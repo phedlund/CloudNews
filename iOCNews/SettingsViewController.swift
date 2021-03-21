@@ -25,7 +25,7 @@ class SettingsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor.ph_popoverBackground
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("ThemeUpdate"), object: nil, queue: .main) { _ in
+        NotificationCenter.default.addObserver(forName: .themeUpdate, object: nil, queue: .main) { _ in
             self.tableView.backgroundColor = UIColor.ph_popoverBackground
         }
     }
