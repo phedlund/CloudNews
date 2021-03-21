@@ -156,6 +156,10 @@ static NSString * const reuseIdentifier = @"ArticleCell";
                                                 forKeyPath:@"SortOldestFirst"
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
+        [[NSUserDefaults standardUserDefaults] addObserver:self
+                                                forKeyPath:@"CompactView"
+                                                   options:NSKeyValueObservingOptionNew
+                                                   context:NULL];
     }
     return self;
 }
@@ -439,7 +443,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
     if([keyPath isEqual:@"HideRead"]) {
         [self refresh];
     }
-    if([keyPath isEqual:@"ShowThumbnails"] || [keyPath isEqual:@"ShowFavicons"]) {
+    if([keyPath isEqual:@"ShowThumbnails"] || [keyPath isEqual:@"ShowFavicons"] || [keyPath isEqual:@"CompactView"]) {
         [self refresh];
     }
     if([keyPath isEqual:@"SortOldestFirst"]) {

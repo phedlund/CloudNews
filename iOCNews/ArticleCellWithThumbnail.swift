@@ -28,27 +28,26 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var mainSubviewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageCenterYConstraint: NSLayoutConstraint!
     @IBOutlet var dateAuthorStackViewBottomConstraint: NSLayoutConstraint!
-    
+    @IBOutlet var summarLabelVerticalSpacingConstraint: NSLayoutConstraint!
+
     override func configureView() {
         super.configureView()
         guard let item = self.item else {
             return
         }
         let isCompactView = UserDefaults.standard.bool(forKey: "CompactView")
-        mainSubviewHeightConstraint.constant = isCompactView ? Constants.itemHeightCompact - 1 : Constants.itemHeightRegular - 1
         if isCompactView {
             summaryLabel.isHidden = true
             summaryLabel.text = nil
             summaryLabelLeadingConstraint.constant = 0
-            dateAuthorStackViewBottomConstraint.isActive = true
-            dateAuthorStackViewBottomConstraint.constant = 5
+            summarLabelVerticalSpacingConstraint.isActive = false
         } else {
             summaryLabel.isHidden = false
             summaryLabel.font = item.summaryFont
             summaryLabel.text = item.summaryText
             summaryLabel.setThemeTextColor(item.summaryColor)
-            summaryLabel.highlightedTextColor = self.summaryLabel.textColor;
-            dateAuthorStackViewBottomConstraint.isActive = false
+            summaryLabel.highlightedTextColor = self.summaryLabel.textColor
+            summarLabelVerticalSpacingConstraint.isActive = true
         }
         titleLabel.font = item.titleFont
         dateLabel.font = item.dateFont
@@ -64,12 +63,10 @@ class ArticleCellWithThumbnail: BaseArticleCell {
 
         if item.isFavIconHidden {
             favIconImage.isHidden = true
-            titleLabelLeadingConstraint.constant = 0
         } else {
             favIconImage.image = item.favIcon
             favIconImage.isHidden = false
             favIconImage.alpha = item.imageAlpha
-            titleLabelLeadingConstraint.constant = 0
         }
 
         if item.isThumbnailHidden || item.imageLink == nil {
