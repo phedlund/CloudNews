@@ -23,11 +23,9 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var contentContainerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageWidthContraint: NSLayoutConstraint!
-    @IBOutlet var titleLabelLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var stackViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var summaryLabelLeadingConstraint: NSLayoutConstraint!
-    @IBOutlet var mainSubviewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageCenterYConstraint: NSLayoutConstraint!
-    @IBOutlet var dateAuthorStackViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet var summarLabelVerticalSpacingConstraint: NSLayoutConstraint!
 
     override func configureView() {
@@ -37,6 +35,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         }
         let isCompactView = UserDefaults.standard.bool(forKey: "CompactView")
         if isCompactView {
+            stackViewLeadingConstraint.constant = 0
             summaryLabel.isHidden = true
             summaryLabel.text = nil
             summaryLabelLeadingConstraint.constant = 0
@@ -72,6 +71,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         if item.isThumbnailHidden || item.imageLink == nil {
             articleImage.isHidden = true
             contentContainerLeadingConstraint.constant = 0
+            stackViewLeadingConstraint.constant = 0
             articleImageWidthContraint.constant = 0
             summaryLabelLeadingConstraint.constant = 0
         } else {
@@ -80,11 +80,13 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
                 articleImageWidthContraint.constant = 66
                 articleImageCenterYConstraint.constant = isCompactView ? 0 : -37
+                stackViewLeadingConstraint.constant = 0
                 summaryLabelLeadingConstraint.constant = -74
             } else {
                 articleImageHeightConstraint.constant = isCompactView ? 66 : 112
                 articleImageWidthContraint.constant = isCompactView ? 66 : 112
                 articleImageCenterYConstraint.constant = 0
+                stackViewLeadingConstraint.constant = 5
                 summaryLabelLeadingConstraint.constant = 5
             }
             if (item.thumbnail != nil) {

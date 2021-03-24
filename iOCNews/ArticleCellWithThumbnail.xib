@@ -111,7 +111,7 @@
                                     <constraint firstItem="5" firstAttribute="leading" secondItem="fl2-Me-Ib6" secondAttribute="leading" constant="5" id="4Wy-7p-w8Q">
                                         <variation key="widthClass=compact" constant="0.0"/>
                                     </constraint>
-                                    <constraint firstAttribute="bottom" secondItem="5" secondAttribute="bottom" constant="5" id="6Bm-z6-2vn">
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="5" secondAttribute="bottom" constant="5" id="6Bm-z6-2vn">
                                         <variation key="widthClass=compact" constant="5"/>
                                     </constraint>
                                     <constraint firstItem="6zP-WE-7Li" firstAttribute="top" secondItem="fl2-Me-Ib6" secondAttribute="top" constant="5" id="7Q5-8N-aUS"/>
@@ -179,6 +179,7 @@
                 <outlet property="dateLabel" destination="4" id="Dso-bz-8vW"/>
                 <outlet property="favIconImage" destination="ENK-Fa-lo4" id="KmL-i8-tPC"/>
                 <outlet property="mainSubView" destination="LQP-3C-1Dr" id="VPH-Cd-3Ql"/>
+                <outlet property="stackViewLeadingConstraint" destination="sge-1s-bEl" id="EkX-G5-gg2"/>
                 <outlet property="starContainerView" destination="peC-zy-JQ2" id="6BR-3a-fqJ"/>
                 <outlet property="starImage" destination="uAr-hd-b6i" id="pfE-vb-fhp"/>
                 <outlet property="summarLabelVerticalSpacingConstraint" destination="Y1A-ha-6Qo" id="dR8-mF-JwG"/>
