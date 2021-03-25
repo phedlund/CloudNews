@@ -264,7 +264,7 @@
         <!--Theme-->
         <scene sceneID="wUV-cg-IiS">
             <objects>
-                <tableViewController title="Theme" modalPresentationStyle="formSheet" id="tMk-6b-BmX" customClass="OCThemeSettingsController" sceneMemberID="viewController">
+                <tableViewController title="Theme" modalPresentationStyle="formSheet" id="tMk-6b-BmX" customClass="ThemeSettings" customModule="iOCNews" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="i30-Wn-q3L">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -333,9 +333,9 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="p5g-OP-vgo"/>
                     <connections>
-                        <outlet property="defaultCell" destination="Mnx-tq-esu" id="Fgw-WO-Ugb"/>
-                        <outlet property="nightCell" destination="6ZK-Ju-ORP" id="cqA-LC-Zxn"/>
-                        <outlet property="sepiaCell" destination="d9g-29-caq" id="LfI-ZL-L4F"/>
+                        <outlet property="defaultCell" destination="Mnx-tq-esu" id="2fW-IW-H6k"/>
+                        <outlet property="nightCell" destination="6ZK-Ju-ORP" id="Dk6-Qp-dQ1"/>
+                        <outlet property="sepiaCell" destination="d9g-29-caq" id="CAT-8D-1pR"/>
                         <outlet property="view" destination="i30-Wn-q3L" id="e1M-Xp-zQO"/>
                     </connections>
                 </tableViewController>
