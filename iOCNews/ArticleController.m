@@ -10,7 +10,6 @@
 
 #import "ArticleController.h"
 #import "OCNewsHelper.h"
-#import "OCSharingProvider.h"
 #import "PHPrefViewController.h"
 #import "UIColor+PHColor.h"
 #import "iOCNews-Swift.h"
@@ -292,7 +291,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
     SafariActivity *sa = [[SafariActivity alloc] init];
     NSArray *activities = @[sa];
     
-    OCSharingProvider *sharingProvider = [[OCSharingProvider alloc] initWithPlaceholderItem:url subject:subject];
+    SharingProvider *sharingProvider = [[SharingProvider alloc] initWithPlaceholderItem:url subject:subject];
     
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:@[sharingProvider] applicationActivities:activities];
     activityViewController.modalPresentationStyle = UIModalPresentationPopover;
