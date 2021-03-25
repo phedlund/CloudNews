@@ -35,8 +35,8 @@
 @import KSCrash_Reporting_Tools;
 @import KSCrash_Reporting_Filters_Tools;
 @import UserNotifications;
-@import UICKeyChainStore;
 
+#import "iOCNews-Swift.h"
 #import "OCAppDelegate.h"
 #import "OCNewsHelper.h"
 #import "PHThemeManager.h"
@@ -58,16 +58,12 @@
     UINavigationController *navController = (UINavigationController *)svc.viewControllers.lastObject;
     navController.topViewController.navigationItem.leftBarButtonItem = svc.displayModeButtonItem;
 
-    [[NSUserDefaults standardUserDefaults] registerDefaults:[NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"defaults" withExtension:@"plist"]]];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SyncInBackground"]) {
+    if (SettingsStore.syncInBackground) {
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     } else {
         [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
     }
 
-    UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.peterandlinda.iOCNews"];
-    [keychain setString:(__bridge id)(kSecAttrAccessibleAfterFirstUnlock) forKey:(__bridge id)(kSecAttrAccessible)];
     [self writeCss];
     
     [installation sendAllReportsWithCompletion:^(NSArray* reports, BOOL completed, NSError* error) {

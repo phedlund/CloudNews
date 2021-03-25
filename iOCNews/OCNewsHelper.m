@@ -123,21 +123,20 @@
         starredFeed.folderId = 0;
         starredFeed.unreadCount = 0;
         starredFeed.link = @"";
-        starredFeed.lastModified = (UInt32)[[NSUserDefaults standardUserDefaults] integerForKey:@"LastModified"];
+        starredFeed.lastModified = (UInt32)SettingsStore.lastModified;
     }
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    foldersToAdd =      [NSMutableSet setWithArray:[[prefs arrayForKey:@"FoldersToAdd"] mutableCopy]];
-    foldersToDelete =   [NSMutableSet setWithArray:[[prefs arrayForKey:@"FoldersToDelete"] mutableCopy]];
-    foldersToRename =   [NSMutableSet setWithArray:[[prefs arrayForKey:@"FoldersToRename"] mutableCopy]];
-    feedsToAdd =        [NSMutableSet setWithArray:[[prefs arrayForKey:@"FeedsToAdd"] mutableCopy]];
-    feedsToDelete =     [NSMutableSet setWithArray:[[prefs arrayForKey:@"FeedsToDelete"] mutableCopy]];
-    feedsToRename =     [NSMutableSet setWithArray:[[prefs arrayForKey:@"FeedsToRename"] mutableCopy]];
-    feedsToMove =       [NSMutableSet setWithArray:[[prefs arrayForKey:@"FeedsToMove"] mutableCopy]];
-    itemsToMarkRead =   [NSMutableSet setWithArray:[[prefs arrayForKey:@"ItemsToMarkRead"] mutableCopy]];
-    itemsToMarkUnread = [NSMutableSet setWithArray:[[prefs arrayForKey:@"ItemsToMarkUnread"] mutableCopy]];
-    itemsToStar =       [NSMutableSet setWithArray:[[prefs arrayForKey:@"ItemsToStar"] mutableCopy]];
-    itemsToUnstar =     [NSMutableSet setWithArray:[[prefs arrayForKey:@"ItemsToUnstar"] mutableCopy]];
+    foldersToAdd =      [NSMutableSet setWithArray:[SettingsStore.foldersToAdd mutableCopy]];
+    foldersToDelete =   [NSMutableSet setWithArray:[SettingsStore.foldersToDelete mutableCopy]];
+    foldersToRename =   [NSMutableSet setWithArray:[SettingsStore.foldersToRename mutableCopy]];
+    feedsToAdd =        [NSMutableSet setWithArray:[SettingsStore.feedsToAdd mutableCopy]];
+    feedsToDelete =     [NSMutableSet setWithArray:[SettingsStore.feedsToDelete mutableCopy]];
+    feedsToRename =     [NSMutableSet setWithArray:[SettingsStore.feedsToRename mutableCopy]];
+    feedsToMove =       [NSMutableSet setWithArray:[SettingsStore.feedsToMove mutableCopy]];
+    itemsToMarkRead =   [NSMutableSet setWithArray:[SettingsStore.itemsToMarkRead mutableCopy]];
+    itemsToMarkUnread = [NSMutableSet setWithArray:[SettingsStore.itemsToMarkUnread mutableCopy]];
+    itemsToStar =       [NSMutableSet setWithArray:[SettingsStore.itemsToStar mutableCopy]];
+    itemsToUnstar =     [NSMutableSet setWithArray:[SettingsStore.itemsToUnstar mutableCopy]];
 
     [self updateStarredCount];
     [self saveContext];
@@ -182,20 +181,18 @@
 }
 
 - (void)saveContext {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    [prefs setObject:[NSArray arrayWithArray:[foldersToAdd allObjects]] forKey:@"FoldersToAdd"];
-    [prefs setObject:[NSArray arrayWithArray:[foldersToDelete allObjects]] forKey:@"FoldersToDelete"];
-    [prefs setObject:[NSArray arrayWithArray:[foldersToRename allObjects]] forKey:@"FoldersToRename"];
-    [prefs setObject:[NSArray arrayWithArray:[feedsToAdd allObjects]] forKey:@"FeedsToAdd"];
-    [prefs setObject:[NSArray arrayWithArray:[feedsToDelete allObjects]] forKey:@"FeedsToDelete"];
-    [prefs setObject:[NSArray arrayWithArray:[feedsToRename allObjects]] forKey:@"FeedsToRename"];
-    [prefs setObject:[NSArray arrayWithArray:[feedsToMove allObjects]] forKey:@"FeedsToMove"];
-    [prefs setObject:[NSArray arrayWithArray:[itemsToMarkRead allObjects]] forKey:@"ItemsToMarkRead"];
-    [prefs setObject:[NSArray arrayWithArray:[itemsToMarkUnread allObjects]] forKey:@"ItemsToMarkUnread"];
-    [prefs setObject:[NSArray arrayWithArray:[itemsToStar allObjects]] forKey:@"ItemsToStar"];
-    [prefs setObject:[NSArray arrayWithArray:[itemsToUnstar allObjects]] forKey:@"ItemsToUnstar"];
-    [prefs synchronize];
-    
+    SettingsStore.foldersToAdd = foldersToAdd.allObjects;
+    SettingsStore.foldersToDelete = foldersToDelete.allObjects;
+    SettingsStore.foldersToRename = foldersToRename.allObjects;
+    SettingsStore.feedsToAdd = feedsToAdd.allObjects;
+    SettingsStore.feedsToDelete = feedsToDelete.allObjects;
+    SettingsStore.feedsToRename = feedsToRename.allObjects;
+    SettingsStore.feedsToMove = feedsToMove.allObjects;
+    SettingsStore.itemsToMarkRead = itemsToMarkRead.allObjects;
+    SettingsStore.itemsToMarkUnread = itemsToMarkUnread.allObjects;
+    SettingsStore.itemsToStar = itemsToStar.allObjects;
+    SettingsStore.itemsToUnstar = itemsToUnstar.allObjects;
+
     NSError *error = nil;
     if (self.context != nil) {
         if ([self.context hasChanges] && ![self.context save:&error]) {
@@ -423,7 +420,7 @@
                 [self renameFolderOfflineWithId:[[dict objectForKey:@"folderId"] integerValue] To:[dict objectForKey:@"name"]];
             }
             [self->foldersToRename removeAllObjects];
-            NSInteger lastMod = [[NSUserDefaults standardUserDefaults] integerForKey:@"LastModified"];
+            NSInteger lastMod = SettingsStore.lastModified;
             if ([self itemCount] > 0) {
                 [self updateItemsWithLastModified:lastMod type:OCUpdateTypeAll andId:0];
             } else {
@@ -610,14 +607,14 @@
 - (NSInteger)folderLastModified:(NSInteger)aFolderId {
     Folder *folder = [self folderWithId:aFolderId];
     NSInteger lastFolderUpdate = folder.lastModified;
-    NSInteger lastSync = [[NSUserDefaults standardUserDefaults] integerForKey:@"LastModified"];
+    NSInteger lastSync = SettingsStore.lastModified;
     return MAX(lastFolderUpdate, lastSync);
 }
 
 - (NSInteger)feedLastModified:(NSInteger)aFeedId {
     Feed *feed = [self feedWithId:aFeedId];
     NSInteger lastFeedUpdate = feed.lastModified;
-    NSInteger lastSync = [[NSUserDefaults standardUserDefaults] integerForKey:@"LastModified"];
+    NSInteger lastSync = SettingsStore.lastModified;
     return MAX(lastFeedUpdate, lastSync);
 }
 
@@ -751,7 +748,7 @@
                 [self updateStarredCount];
                 [self updateTotalUnreadCount];
                 if (errorCount == 0) {
-                    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:[[NSDate date] timeIntervalSince1970]] forKey:@"LastModified"];
+                    SettingsStore.lastModified = [[NSDate date] timeIntervalSince1970];
                 }
             }
                 break;
@@ -972,7 +969,7 @@
                 self->_completionHandler(UIBackgroundFetchResultNewData);
                 self->completionHandlerCalled = YES;
             }
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:[[NSDate date] timeIntervalSince1970]] forKey:@"LastModified"];
+            SettingsStore.lastModified = [[NSDate date] timeIntervalSince1970];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NetworkCompleted" object:self userInfo:nil];
         }
     });
@@ -1045,7 +1042,7 @@
                 self->_completionHandler(UIBackgroundFetchResultNewData);
                 self->completionHandlerCalled = YES;
             }
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:[[NSDate date] timeIntervalSince1970]] forKey:@"LastModified"];
+            SettingsStore.lastModified = [[NSDate date] timeIntervalSince1970];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"NetworkCompleted" object:self userInfo:nil];
         }
 
@@ -1538,7 +1535,7 @@
 
 - (NSObject *)rootFolderId {
     if (!rootFolderId) {
-        NSArray *versionArray = [[[NSUserDefaults standardUserDefaults] stringForKey:@"Version"] componentsSeparatedByString:@"."];
+        NSArray *versionArray = [SettingsStore.newsVersion componentsSeparatedByString:@"."];
         rootFolderId = @(0);
         if (versionArray.count > 1) {
             if (([versionArray[0] integerValue] > 15) || (([versionArray[0] integerValue] >= 15) && ([versionArray[1] integerValue] >= 1))) {

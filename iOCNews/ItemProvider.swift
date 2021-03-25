@@ -94,9 +94,9 @@ class ItemProvider: NSObject {
         self.favIconLink = item.favIconLink
         self.feedTitle = item.feedTitle
         self.imageLink = item.imageLink
-        self.isFavIconHidden = !UserDefaults.standard.bool(forKey: "ShowFavicons")
-        self.isThumbnailHidden = !UserDefaults.standard.bool(forKey: "ShowThumbnails")
-        isSummaryTextHidden = UserDefaults.standard.bool(forKey: "CompactView")
+        self.isFavIconHidden = !SettingsStore.showFavIcons
+        self.isThumbnailHidden = !SettingsStore.showThumbnails
+        isSummaryTextHidden = SettingsStore.compactView
 
         if let link = item.imageLink, let url = URL(string: link) {
             KingfisherManager.shared.retrieveImage(with: url) { result in

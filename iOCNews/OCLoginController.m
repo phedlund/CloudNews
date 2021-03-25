@@ -5,7 +5,7 @@
 
 /************************************************************************
  
- Copyright 2013-2019 Peter Hedlund peter.hedlund@me.com
+ Copyright 2013-2021 Peter Hedlund peter.hedlund@me.com
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions
@@ -29,8 +29,6 @@
  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
  *************************************************************************/
-
-@import UICKeyChainStore;
 
 #import "OCLoginController.h"
 #import "OCAPIClient.h"
@@ -79,16 +77,14 @@ static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    self.serverTextField.text = [prefs stringForKey:@"Server"];
+    self.serverTextField.text = SettingsStore.server;
     self.length1 = (self.serverTextField.text.length > 0);
-    UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.peterandlinda.iOCNews"];
-    self.usernameTextField.text = [keychain stringForKey:(__bridge id)(kSecAttrAccount)];
+    self.usernameTextField.text = SettingsStore.username;
     self.length2 = (self.usernameTextField.text.length > 0);
-    self.passwordTextField.text = [keychain stringForKey:(__bridge id)(kSecValueData)];
+    self.passwordTextField.text = SettingsStore.password;
     self.length3 = (self.passwordTextField.text.length > 0);
     self.connectLabel.enabled = (self.length1 && self.length2 && self.length3);
-    self.certificateSwitch.on = [prefs boolForKey:@"AllowInvalidSSLCertificate"];
+    self.certificateSwitch.on = SettingsStore.allowUntrustedCertificate;
     if ([OCAPIClient sharedClient].reachabilityManager.isReachable) {
         self.connectLabel.text = NSLocalizedString(@"Reconnect", @"A button title");
     } else {
@@ -101,7 +97,7 @@ static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
 }
 
 - (IBAction)onCertificateSwitch:(id)sender {
-    BOOL textHasChanged = (self.certificateSwitch.on != [[NSUserDefaults standardUserDefaults] boolForKey:@"AllowInvalidSSLCertificate"]);
+    BOOL textHasChanged = (self.certificateSwitch.on != SettingsStore.allowUntrustedCertificate);
     if (textHasChanged) {
         self.connectLabel.text = NSLocalizedString(@"Connect", @"A button title");
     } else {
@@ -120,10 +116,8 @@ static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
         }
         [tableView deselectRowAtIndexPath:indexPath animated:true];
         
-        NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-        [prefs setBool:self.certificateSwitch.on forKey:@"AllowInvalidSSLCertificate"];
-        [prefs synchronize];
-        
+        SettingsStore.allowUntrustedCertificate = self.certificateSwitch.on;
+
         NSMutableString *serverInput = [NSMutableString stringWithString: self.serverTextField.text];
         if (serverInput.length > 0) {
             if ([serverInput hasSuffix:@"/"]) {
@@ -150,15 +144,12 @@ static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
                     }
                 }
                 if (jsonDict) {
-                    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
                     NSString *version = [jsonDict valueForKey:@"version"];
-                    [prefs setObject:version forKey:@"Version"];
-                    [prefs setObject:self.serverTextField.text forKey:@"Server"];
-                    UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.peterandlinda.iOCNews"];
-                    [keychain setString:self.usernameTextField.text forKey:(__bridge id)(kSecAttrAccount)];
-                    [keychain setString:self.passwordTextField.text forKey:(__bridge id)(kSecValueData)];
-                    [prefs setBool:self.certificateSwitch.on forKey:@"AllowInvalidSSLCertificate"];
-                    [prefs synchronize];
+                    SettingsStore.newsVersion = version;
+                    SettingsStore.server = self.serverTextField.text;
+                    SettingsStore.username = self.usernameTextField.text;
+                    SettingsStore.password = self.passwordTextField.text;
+                    SettingsStore.allowUntrustedCertificate = self.certificateSwitch.on;
                     [OCAPIClient setSharedClient:nil];
                     __unused AFNetworkReachabilityStatus status = [[OCAPIClient sharedClient].reachabilityManager networkReachabilityStatus];
                     [self.connectionActivityIndicator stopAnimating];
@@ -226,22 +217,20 @@ static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
     NSMutableString *proposedNewString = [NSMutableString stringWithString:textField.text];
     [proposedNewString replaceCharactersInRange:range withString:string];
     
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
     if ([textField isEqual:self.serverTextField]) {
-        textHasChanged = (![proposedNewString isEqualToString:[prefs stringForKey:@"Server"]]);
+        textHasChanged = (![proposedNewString isEqualToString:SettingsStore.server]);
         self.length1 = (proposedNewString.length > 0);
     }
-    UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.peterandlinda.iOCNews"];
     if ([textField isEqual:self.usernameTextField]) {
-        textHasChanged = (![proposedNewString isEqualToString:[keychain stringForKey:(__bridge id)(kSecAttrAccount)]]);
+        textHasChanged = (![proposedNewString isEqualToString:SettingsStore.username]);
         self.length2 = (proposedNewString.length > 0);
     }
     if ([textField isEqual:self.passwordTextField]) {
-        textHasChanged = (![proposedNewString isEqualToString:[keychain stringForKey:(__bridge id)(kSecValueData)]]);
+        textHasChanged = (![proposedNewString isEqualToString:SettingsStore.password]);
         self.length3 = (proposedNewString.length > 0);
     }
     if (!textHasChanged) {
-        textHasChanged = (self.certificateSwitch.on != [prefs boolForKey:@"AllowInvalidSSLCertificate"]);
+        textHasChanged = (self.certificateSwitch.on != SettingsStore.allowUntrustedCertificate);
     }
     if (textHasChanged) {
         labelText = @"Connect";

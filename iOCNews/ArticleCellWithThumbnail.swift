@@ -33,7 +33,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         guard let item = self.item else {
             return
         }
-        let isCompactView = UserDefaults.standard.bool(forKey: "CompactView")
+        let isCompactView = SettingsStore.compactView
         if isCompactView {
             stackViewLeadingConstraint.constant = 0
             summaryLabel.isHidden = true

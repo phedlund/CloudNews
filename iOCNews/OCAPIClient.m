@@ -30,8 +30,7 @@
  
  *************************************************************************/
 
-@import UICKeyChainStore;
-
+#import "iOCNews-Swift.h"
 #import "OCAPIClient.h"
 
 //See http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/
@@ -48,7 +47,7 @@ static dispatch_once_t oncePredicate = 0;
 + (OCAPIClient *)sharedClient {
     //static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
-        NSString *serverURLString = [[NSUserDefaults standardUserDefaults] stringForKey:@"Server"];
+        NSString *serverURLString = SettingsStore.server;
         if (serverURLString.length > 0) {
             _sharedClient = [[self alloc] initWithBaseURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/%@", serverURLString, rootPath]]];
         }
@@ -61,7 +60,7 @@ static dispatch_once_t oncePredicate = 0;
     if (!self) {
         return nil;
     }
-    __block BOOL allowInvalid = [[NSUserDefaults standardUserDefaults] boolForKey:@"AllowInvalidSSLCertificate"];
+    __block BOOL allowInvalid = SettingsStore.allowUntrustedCertificate;
     self.securityPolicy.allowInvalidCertificates = allowInvalid;
 
     self.requestSerializer = [OCAPIClient jsonRequestSerializer];
@@ -86,17 +85,15 @@ static dispatch_once_t oncePredicate = 0;
 
 + (AFHTTPRequestSerializer*)httpRequestSerializer {
     AFHTTPRequestSerializer *result = [AFHTTPRequestSerializer serializer];
-    UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.peterandlinda.iOCNews"];
-    [result setAuthorizationHeaderFieldWithUsername:[keychain stringForKey:(__bridge id)(kSecAttrAccount)]
-                                           password:[keychain stringForKey:(__bridge id)(kSecValueData)]];
+    [result setAuthorizationHeaderFieldWithUsername:SettingsStore.username
+                                           password:SettingsStore.password];
     return result;
 }
 
 + (AFJSONRequestSerializer*)jsonRequestSerializer {
     AFJSONRequestSerializer *result = [AFJSONRequestSerializer serializer];
-    UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.peterandlinda.iOCNews"];
-    [result setAuthorizationHeaderFieldWithUsername:[keychain stringForKey:(__bridge id)(kSecAttrAccount)]
-                                           password:[keychain stringForKey:(__bridge id)(kSecValueData)]];
+    [result setAuthorizationHeaderFieldWithUsername:SettingsStore.username
+                                           password:SettingsStore.password];
     return result;
 }
 

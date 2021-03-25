@@ -44,11 +44,11 @@
 }
 
 - (PHTheme)currentTheme {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentTheme"];
+    return SettingsStore.theme;
 }
 
 - (void)setCurrentTheme:(PHTheme)currentTheme {
-    [[NSUserDefaults standardUserDefaults] setInteger:currentTheme forKey:@"CurrentTheme"];
+    SettingsStore.theme = currentTheme;
 
     [[[[UIApplication sharedApplication] delegate] window] setTintColor:UIColor.ph_iconColor];
     

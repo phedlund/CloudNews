@@ -34,7 +34,7 @@ class FeedCell: UITableViewCell {
         super.layoutSubviews()
         imageView?.layer.cornerRadius = 2.0
         var imageViewOffset: CGFloat = 15
-        if UserDefaults.standard.bool(forKey: "ShowFavicons") {
+        if SettingsStore.showFavIcons {
             imageView?.frame = CGRect(x: 5, y: 10, width: 22, height: 22)
             imageViewOffset = 37
         } else {

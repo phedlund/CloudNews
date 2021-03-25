@@ -32,14 +32,13 @@ class SettingsViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        let prefs = UserDefaults.standard
-        syncOnStartSwitch.isOn = prefs.bool(forKey: "SyncOnStart")
-        syncinBackgroundSwitch.isOn = prefs.bool(forKey: "SyncInBackground")
-        showFaviconsSwitch.isOn = prefs.bool(forKey: "ShowFavicons")
-        showThumbnailsSwitch.isOn = prefs.bool(forKey: "ShowThumbnails")
-        markWhileScrollingSwitch.isOn = prefs.bool(forKey: "MarkWhileScrolling")
-        sortOldestFirstSwitch.isOn = prefs.bool(forKey: "SortOldestFirst")
-        compactViewSwitch.isOn = prefs.bool(forKey: "CompactView")
+        syncOnStartSwitch.isOn = SettingsStore.syncOnStart
+        syncinBackgroundSwitch.isOn = SettingsStore.syncInBackground
+        showFaviconsSwitch.isOn = SettingsStore.showFavIcons
+        showThumbnailsSwitch.isOn = SettingsStore.showThumbnails
+        markWhileScrollingSwitch.isOn = SettingsStore.markReadWhileScrolling
+        sortOldestFirstSwitch.isOn = SettingsStore.sortOldestFirst
+        compactViewSwitch.isOn = SettingsStore.compactView
         let reachability = OCAPIClient.shared()?.reachabilityManager.isReachable ?? false
         if reachability {
             statusLabel.text = NSLocalizedString("Logged In", comment:"A status label indicating that the user is logged in")
@@ -76,37 +75,31 @@ class SettingsViewController: UITableViewController {
     }
     
     @IBAction func onSyncOnStartChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "SyncOnStart")
+        SettingsStore.syncOnStart = (sender as! UISwitch).isOn
     }
     
     @IBAction func onSyncInBackgroundChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "SyncInBackground")
-        
+        SettingsStore.syncInBackground = (sender as! UISwitch).isOn
     }
     
     @IBAction func onShowFaviconsChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "ShowFavicons")
-        
+        SettingsStore.showFavIcons = (sender as! UISwitch).isOn        
     }
     
     @IBAction func onShowThumbnailsChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "ShowThumbnails")
-        
+        SettingsStore.showThumbnails = (sender as! UISwitch).isOn
     }
     
     @IBAction func onMarkWhileScrollingChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "MarkWhileScrolling")
-        
+        SettingsStore.markReadWhileScrolling = (sender as! UISwitch).isOn
     }
     
     @IBAction func onSortOldestFirstChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "SortOldestFirst")
-        
+        SettingsStore.sortOldestFirst = (sender as! UISwitch).isOn
     }
     
     @IBAction func onCompactViewChanged(_ sender: Any) {
-        UserDefaults.standard.set((sender as! UISwitch).isOn, forKey: "CompactView")
-        
+        SettingsStore.compactView = (sender as! UISwitch).isOn
     }
     
     @IBAction func onDone(_ sender: Any) {

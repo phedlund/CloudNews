@@ -7,6 +7,7 @@
 //
 
 #import "BaseCollectionViewController.h"
+#import "iOCNews-Swift.h"
 #import "OCNewsHelper.h"
 #import "UICollectionView+ValidIndexPath.h"
 
@@ -31,8 +32,7 @@
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"Item" inManagedObjectContext:[OCNewsHelper sharedHelper].context];
         _fetchRequest.entity = entity;
         _fetchRequest.fetchBatchSize = 25;
-        BOOL sortOldestFirst = [[NSUserDefaults standardUserDefaults] boolForKey:@"SortOldestFirst"];
-        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:sortOldestFirst];
+        NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:SettingsStore.sortOldestFirst];
         _fetchRequest.sortDescriptors = @[sort];
     }
     return _fetchRequest;
@@ -53,7 +53,7 @@
             fetchPredicate = [NSPredicate predicateWithFormat:@"starred == 1"];
             self.fetchRequest.fetchLimit = self.feed.unreadCount;
         } else {
-            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideRead"]) {
+            if (SettingsStore.hideRead) {
                 if (self.feed.myId == -2) {
                     if (self.folderId > 0) {
                         NSMutableArray *feedsArray = [NSMutableArray new];

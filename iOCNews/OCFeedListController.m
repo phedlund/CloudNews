@@ -35,6 +35,7 @@
 #import "OCNewsHelper.h"
 #import "Folder+CoreDataClass.h"
 #import "Feed+CoreDataClass.h"
+#import "iOCNews-Swift.h"
 #import "UIColor+PHColor.h"
 #import "PHThemeManager.h"
 @import AFNetworking;
@@ -139,17 +140,17 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     self = [super initWithCoder:coder];
     if (self) {
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"HideRead"
+                                                forKeyPath:SettingKeys.hideRead
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"SyncInBackground"
+                                                forKeyPath:SettingKeys.syncInBackground
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"ShowFavicons"
+                                                forKeyPath:SettingKeys.showFavIcons
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
     }
@@ -169,7 +170,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     networkHasBeenUnreachable = NO;
     
     int imageViewOffset = 14;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
+    if (SettingsStore.showFavIcons) {
         imageViewOffset = 36;
     }
     self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
@@ -224,9 +225,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)dealloc {
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"HideRead"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SyncInBackground"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"ShowFavicons"];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.hideRead];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.syncInBackground];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.showFavIcons];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.feedsFetchedResultsController.delegate = nil;
 }
@@ -278,7 +279,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 } else {
                     feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
                 }
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
+                if (SettingsStore.showFavIcons) {
                     if (cell.tag == indexPathTemp.row) {
                         if ([feed.faviconLink isEqualToString:@"star_icon"]) {
                             [cell.imageView setImage:[UIImage imageNamed:@"star_icon"]];
@@ -293,8 +294,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 if ((self.folderId > 0) && (indexPath.section == 0) && indexPath.row == 0) {
                     Folder *folder = [[OCNewsHelper sharedHelper] folderWithId:self.folderId] ;
                     cell.countBadge.value = folder.unreadCount;
-                    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-                    if ([prefs boolForKey:@"HideRead"]) {
+                    if (SettingsStore.hideRead) {
                         cell.textLabel.text = [NSString stringWithFormat:@"All Unread %@ Articles", folder.name];
                     } else {
                         cell.textLabel.text = [NSString stringWithFormat:@"All %@ Articles", folder.name];
@@ -597,7 +597,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     
     [alert addAction:addFeedAction];
     
-    NSString *hideReadTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideRead"] ? @"Show Read" : @"Hide Read";
+    NSString *hideReadTitle = SettingsStore.hideRead ? @"Show Read" : @"Hide Read";
     UIAlertAction* hideReadAction = [UIAlertAction actionWithTitle:hideReadTitle
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
@@ -762,10 +762,8 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)doHideRead {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    BOOL hideRead = [prefs boolForKey:@"HideRead"];
-    [prefs setBool:!hideRead forKey:@"HideRead"];
-    [prefs synchronize];
+    BOOL hideRead = SettingsStore.hideRead;
+    SettingsStore.hideRead = !hideRead;
     [[OCNewsHelper sharedHelper] renameFeedOfflineWithId:-2 To:hideRead == YES ? @"All Articles" : @"All Unread Articles"];
 }
 
@@ -810,7 +808,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [self updatePredicate];
     }
     if([keyPath isEqual:@"SyncInBackground"]) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SyncInBackground"]) {
+        if (SettingsStore.syncInBackground) {
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
         } else {
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
@@ -818,7 +816,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
     if([keyPath isEqual:@"ShowFavicons"]) {
         int imageViewOffset = 14;
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
+        if (SettingsStore.showFavIcons) {
             imageViewOffset = 36;
         }
         self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
@@ -831,7 +829,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     [NSFetchedResultsController deleteCacheWithName:@"FolderCache"];
     [NSFetchedResultsController deleteCacheWithName:@"FeedCache"];
     NSPredicate *predFolder = [NSPredicate predicateWithFormat:@"folderId == %@", [NSNumber numberWithLong:self.folderId]];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideRead"]) {
+    if (SettingsStore.hideRead) {
         NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"myId > 0"];
         NSPredicate *pred2 = [NSPredicate predicateWithFormat:@"unreadCount == 0"];
         NSArray *predArray = @[pred1, pred2];
@@ -893,16 +891,16 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void) didBecomeActive:(NSNotification *)n {
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Server"].length == 0) {
+    if (SettingsStore.server.length == 0) {
         [self doSettings:nil];
     } else {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SyncOnStart"]) {
+        if (SettingsStore.syncOnStart) {
             [[OCNewsHelper sharedHelper] performSelector:@selector(sync:) withObject:nil afterDelay:1.0f];
         }
         UIPasteboard *board = [UIPasteboard generalPasteboard];
         if (board.URL) {
-            if (![board.URL.absoluteString isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"PreviousPasteboardURL"]]) {
-                [[NSUserDefaults standardUserDefaults] setObject:board.URL.absoluteString forKey:@"PreviousPasteboardURL"];
+            if (![board.URL.absoluteString isEqualToString:SettingsStore.previousPasteboardURL]) {
+                SettingsStore.previousPasteboardURL = board.URL.absoluteString;
                 NSArray *feedURLStrings = [self.feedsFetchedResultsController.fetchedObjects valueForKey:@"url"];
                 if ([feedURLStrings indexOfObject:[board.URL absoluteString]] == NSNotFound) {
                     NSString *message = [NSString stringWithFormat:@"Would you like to add the feed: '%@'?", [board.URL absoluteString]];

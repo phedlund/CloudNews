@@ -41,7 +41,6 @@
 		D05A6FBE213E35A8006D3AB8 /* ArticleCellWithWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FBD213E35A8006D3AB8 /* ArticleCellWithWebView.swift */; };
 		D0622FEA18C4EBEC0032E622 /* News.xcmappingmodel in Resources */ = {isa = PBXBuildFile; fileRef = D0622FE918C4EBEC0032E622 /* News.xcmappingmodel */; };
 		D066144225A94EB900399DEF /* ArticleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D066144125A94EB900399DEF /* ArticleHelper.swift */; };
-		D06CB221179C8E7500A1310B /* defaults~iphone.plist in Resources */ = {isa = PBXBuildFile; fileRef = D06CB220179C8E7500A1310B /* defaults~iphone.plist */; };
 		D06CB22E17A06E4F00A1310B /* News.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D06CB22C17A06E4E00A1310B /* News.xcdatamodeld */; };
 		D06CB23617A074AA00A1310B /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06CB23517A074AA00A1310B /* CoreData.framework */; };
 		D06CB23917A0A0AA00A1310B /* OCNewsHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = D06CB23817A0A0A900A1310B /* OCNewsHelper.m */; };
@@ -69,7 +68,6 @@
 		D0BCABDA1779112000C965F4 /* PHPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCABD51779112000C965F4 /* PHPrefViewController.m */; };
 		D0BCABE31779119300C965F4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCABE21779119300C965F4 /* MessageUI.framework */; };
 		D0BCAC24177F80BC00C965F4 /* OCAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAC23177F80BC00C965F4 /* OCAPIClient.m */; };
-		D0BCAC6D178104FC00C965F4 /* defaults.plist in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAC42178104FC00C965F4 /* defaults.plist */; };
 		D0BCAC8A178104FC00C965F4 /* rss.css in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAC5F178104FC00C965F4 /* rss.css */; };
 		D0BF490D17E4DCF800CB9311 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0BF490C17E4DCF800CB9311 /* Images.xcassets */; };
 		D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */; };
@@ -82,6 +80,8 @@
 		D0E6C78A25A6AB690070317B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78925A6AB690070317B /* Kingfisher */; };
 		D0E6C78F25A6B2820070317B /* AFNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78E25A6B2820070317B /* AFNetworking */; };
 		D0E6C79D25A7F85E0070317B /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */; };
+		D0E96E8526082BFD000B9590 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = D0E96E8426082BFD000B9590 /* KeychainAccess */; };
+		D0E96E8926082C14000B9590 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E8826082C14000B9590 /* SettingsStore.swift */; };
 		D0F181261782585100F719D9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F181251782585100F719D9 /* SystemConfiguration.framework */; };
 		D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F181281783B12C00F719D9 /* OCLoginController.m */; };
 		D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */; };
@@ -123,7 +123,6 @@
 		D0622FE418C29BD40032E622 /* News 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 5.xcdatamodel"; sourceTree = "<group>"; };
 		D0622FE918C4EBEC0032E622 /* News.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = News.xcmappingmodel; sourceTree = "<group>"; };
 		D066144125A94EB900399DEF /* ArticleHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleHelper.swift; sourceTree = "<group>"; };
-		D06CB220179C8E7500A1310B /* defaults~iphone.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "defaults~iphone.plist"; sourceTree = "<group>"; };
 		D06CB22D17A06E4F00A1310B /* News.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = News.xcdatamodel; sourceTree = "<group>"; };
 		D06CB23517A074AA00A1310B /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		D06CB23717A0A0A800A1310B /* OCNewsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCNewsHelper.h; sourceTree = "<group>"; };
@@ -166,7 +165,6 @@
 		D0BCABE21779119300C965F4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D0BCAC22177F80BB00C965F4 /* OCAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAPIClient.h; sourceTree = "<group>"; };
 		D0BCAC23177F80BC00C965F4 /* OCAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPIClient.m; sourceTree = "<group>"; };
-		D0BCAC42178104FC00C965F4 /* defaults.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = defaults.plist; sourceTree = "<group>"; };
 		D0BCAC5F178104FC00C965F4 /* rss.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = rss.css; sourceTree = "<group>"; };
 		D0BF490C17E4DCF800CB9311 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -177,6 +175,7 @@
 		D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMessagesHelper.swift; sourceTree = "<group>"; };
 		D0E6C782259FF1D90070317B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		D0E96E8826082C14000B9590 /* SettingsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		D0F181251782585100F719D9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F181271783B12C00F719D9 /* OCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLoginController.h; sourceTree = "<group>"; };
 		D0F181281783B12C00F719D9 /* OCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLoginController.m; sourceTree = "<group>"; };
@@ -197,6 +196,7 @@
 			files = (
 				D0E6C78F25A6B2820070317B /* AFNetworking in Frameworks */,
 				D02CCAF41CE7E27300F6CCEC /* WebKit.framework in Frameworks */,
+				D0E96E8526082BFD000B9590 /* KeychainAccess in Frameworks */,
 				D0AAB685255CE93E00F4FC5F /* CoreServices.framework in Frameworks */,
 				D0DD7BCC255F6FE100B124C9 /* UICKeyChainStore in Frameworks */,
 				D07AD73225A92962005CBCFC /* SwiftSoup in Frameworks */,
@@ -285,6 +285,7 @@
 				D0BCAC22177F80BB00C965F4 /* OCAPIClient.h */,
 				D0BCAC23177F80BC00C965F4 /* OCAPIClient.m */,
 				D0C2207725F9B3EF002BA5DB /* SettingsViewController.swift */,
+				D0E96E8826082C14000B9590 /* SettingsStore.swift */,
 				D042A9A120842E340086FBE9 /* OCThemeSettingsController.h */,
 				D042A9A220842E340086FBE9 /* OCThemeSettingsController.m */,
 				D0F181271783B12C00F719D9 /* OCLoginController.h */,
@@ -352,8 +353,6 @@
 		D0BCAC38178104FB00C965F4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D0BCAC42178104FC00C965F4 /* defaults.plist */,
-				D06CB220179C8E7500A1310B /* defaults~iphone.plist */,
 				D0BCAC5F178104FC00C965F4 /* rss.css */,
 			);
 			path = Resources;
@@ -402,6 +401,7 @@
 				D0E6C78925A6AB690070317B /* Kingfisher */,
 				D0E6C78E25A6B2820070317B /* AFNetworking */,
 				D07AD73125A92962005CBCFC /* SwiftSoup */,
+				D0E96E8426082BFD000B9590 /* KeychainAccess */,
 			);
 			productName = iOCNews;
 			productReference = D0BCAA22177900C300C965F4 /* iOCNews.app */;
@@ -480,6 +480,7 @@
 				D0E6C78825A6AB690070317B /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D0E6C78D25A6B2820070317B /* XCRemoteSwiftPackageReference "AFNetworking" */,
 				D07AD73025A92962005CBCFC /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+				D0E96E8326082BFD000B9590 /* XCRemoteSwiftPackageReference "KeychainAccess" */,
 			);
 			productRefGroup = D0BCAA23177900C300C965F4 /* Products */;
 			projectDirPath = "";
@@ -503,10 +504,8 @@
 				D0BCAA4A177903F500C965F4 /* Main.storyboard in Resources */,
 				D08D83B718161453005A75F0 /* Settings.bundle in Resources */,
 				D023001B1A58C0E800B354E0 /* Launch Screen.xib in Resources */,
-				D0BCAC6D178104FC00C965F4 /* defaults.plist in Resources */,
 				D0622FEA18C4EBEC0032E622 /* News.xcmappingmodel in Resources */,
 				D0BCAC8A178104FC00C965F4 /* rss.css in Resources */,
-				D06CB221179C8E7500A1310B /* defaults~iphone.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -561,6 +560,7 @@
 				D0C7D40325FC88C500271F6D /* SafariActivity.swift in Sources */,
 				D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */,
 				D0735DCC1F905E39002D3AB3 /* UIColor+PHColor.m in Sources */,
+				D0E96E8926082C14000B9590 /* SettingsStore.swift in Sources */,
 				D05A6FBE213E35A8006D3AB8 /* ArticleCellWithWebView.swift in Sources */,
 				D07AD73625A9298B005CBCFC /* ArticleImage.swift in Sources */,
 				D096143C21EED4AF000BD5D2 /* ArticleListFlowLayout.swift in Sources */,
@@ -898,6 +898,14 @@
 				minimumVersion = 4.0.1;
 			};
 		};
+		D0E96E8326082BFD000B9590 /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.2.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -930,6 +938,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D0E6C78D25A6B2820070317B /* XCRemoteSwiftPackageReference "AFNetworking" */;
 			productName = AFNetworking;
+		};
+		D0E96E8426082BFD000B9590 /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D0E96E8326082BFD000B9590 /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 

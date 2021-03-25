@@ -126,7 +126,7 @@ class ArticleCellWithWebView: BaseArticleCell {
                         let videoIdStartIndex = urlString.index(after: equalIndex)
                         let videoId = String(urlString[videoIdStartIndex...])
                         let screenSize = UIScreen.main.nativeBounds.size
-                        let margin = UserDefaults.standard.integer(forKey: "MarginPortrait")
+                        let margin = SettingsStore.marginPortrait
                         let currentWidth = Double(screenSize.width / UIScreen.main.scale) * (Double(margin) / 100.0)
                         let newheight = currentWidth * 0.5625
                         let embed = "<embed id=\"yt\" src=\"http://www.youtube.com/embed/\(videoId)?playsinline=1\" type=\"text/html\" frameborder=\"0\" width=\"\(Int(currentWidth))px\" height=\"\(Int(newheight))px\"></embed>"

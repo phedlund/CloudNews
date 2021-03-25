@@ -6,6 +6,7 @@
 //  Copyright (c) 2012-2017 Peter Hedlund. All rights reserved.
 //
 
+#import "iOCNews-Swift.h"
 #import "PHPrefViewController.h"
 #import "QuartzCore/QuartzCore.h"
 #import "UIColor+PHColor.h"
@@ -84,20 +85,19 @@
     unread = NO;
     if (_delegate != nil) {
         starred = [_delegate starred];
-        [[NSUserDefaults standardUserDefaults] setBool:starred forKey:@"Starred"];
+        SettingsStore.starred = starred;
         if (starred) {
             [self.starButton setImage:[UIImage imageNamed:@"starred"] forState:UIControlStateNormal];
         } else {
             [self.starButton setImage:[UIImage imageNamed:@"unstarred"] forState:UIControlStateNormal];
         }
         unread = [_delegate unread];
-        [[NSUserDefaults standardUserDefaults] setBool:unread forKey:@"Unread"];
+        SettingsStore.unread = unread;
         if (unread) {
             [self.markUnreadButton setImage:[UIImage imageNamed:@"unread"] forState:UIControlStateNormal];
         } else {
             [self.markUnreadButton setImage:[UIImage imageNamed:@"read"] forState:UIControlStateNormal];
         }
-        [[NSUserDefaults standardUserDefaults] synchronize];
     }
 }
 
@@ -137,11 +137,10 @@
 
 - (IBAction)onButtonTap:(UIButton *)sender {
     NSString *reload = @"true";
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    
+
     if (sender == self.starButton) {
         starred = !starred;
-        [prefs setBool:starred forKey:@"Starred"];
+        SettingsStore.starred = starred;
         if (starred) {
             [self.starButton setImage:[UIImage imageNamed:@"starred"] forState:UIControlStateNormal];
         } else {
@@ -152,7 +151,7 @@
 
     if (sender == self.markUnreadButton) {
         unread = !unread;
-        [prefs setBool:unread forKey:@"Unread"];
+        SettingsStore.unread = unread;
         if (unread) {
             [self.markUnreadButton setImage:[UIImage imageNamed:@"unread"] forState:UIControlStateNormal];
         } else {
@@ -162,72 +161,69 @@
     }
 
     if (sender == self.decreaseFontSizeButton) {
-        NSInteger currentFontSize = [[prefs valueForKey:@"FontSize"] integerValue];
-        
+        NSInteger currentFontSize = SettingsStore.fontSize;
         if (currentFontSize > MIN_FONT_SIZE) {
             --currentFontSize;
         }
-        [prefs setInteger:currentFontSize forKey:@"FontSize"];
+        SettingsStore.fontSize = currentFontSize;
     }
     
     if (sender == self.increaseFontSizeButton) {
-        NSInteger currentFontSize = [[prefs valueForKey:@"FontSize"] integerValue];
+        NSInteger currentFontSize = SettingsStore.fontSize;
         if (currentFontSize < MAX_FONT_SIZE) {
             ++currentFontSize;
         }
-        [prefs setInteger:currentFontSize forKey:@"FontSize"];
+        SettingsStore.fontSize = currentFontSize;
     }
     
     if (sender == self.decreaseLineHeightButton) {
-        double currentLineHeight = [[prefs valueForKey:@"LineHeight"] doubleValue];
+        double currentLineHeight = SettingsStore.lineHeight;
         if (currentLineHeight > MIN_LINE_HEIGHT) {
             currentLineHeight = currentLineHeight - 0.2f;
         }
-        [prefs setDouble:currentLineHeight forKey:@"LineHeight"];
+        SettingsStore.lineHeight = currentLineHeight;
     }
 
     if (sender == self.increaseLineHeightButton) {
-        double currentLineHeight = [[prefs valueForKey:@"LineHeight"] doubleValue];
+        double currentLineHeight = SettingsStore.lineHeight;
         if (currentLineHeight < MAX_LINE_HEIGHT) {
             currentLineHeight = currentLineHeight + 0.2f;
         }    
-        [prefs setDouble:currentLineHeight forKey:@"LineHeight"];
+        SettingsStore.lineHeight = currentLineHeight;
     }
     
     if (sender == self.decreaseMarginButton) {
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-            NSInteger currentMargin = [[prefs valueForKey:@"MarginPortrait"] integerValue];
+            NSInteger currentMargin =SettingsStore.marginPortrait;
             if (currentMargin < MAX_WIDTH) {
                 currentMargin += 5;
             }
-            [prefs setInteger:currentMargin forKey:@"MarginPortrait"];
+            SettingsStore.marginPortrait = currentMargin;
         } else {
-            NSInteger currentMarginLandscape = [[prefs valueForKey:@"MarginLandscape"] integerValue];
+            NSInteger currentMarginLandscape = SettingsStore.marginLandscape;
             if (currentMarginLandscape < MAX_WIDTH) {
                 currentMarginLandscape += 5;
             }
-            [prefs setInteger:currentMarginLandscape forKey:@"MarginLandscape"];
+            SettingsStore.marginLandscape = currentMarginLandscape;
         }
     }
     
     if (sender == self.increaseMarginButton) {
         if (UIInterfaceOrientationIsPortrait([UIApplication sharedApplication].statusBarOrientation)) {
-            NSInteger currentMargin = [[prefs valueForKey:@"MarginPortrait"] integerValue];
+            NSInteger currentMargin = SettingsStore.marginPortrait;
             if (currentMargin > MIN_WIDTH) {
                 currentMargin -= 5;
             }
-            [prefs setInteger:currentMargin forKey:@"MarginPortrait"];
+            SettingsStore.marginPortrait = currentMargin;
         } else {
-            NSInteger currentMarginLandscape = [[prefs valueForKey:@"MarginLandscape"] integerValue];
+            NSInteger currentMarginLandscape = SettingsStore.marginLandscape;
             if (currentMarginLandscape > MIN_WIDTH) {
                 currentMarginLandscape -= 5;
             }
-            [prefs setInteger:currentMarginLandscape forKey:@"MarginLandscape"];
+            SettingsStore.marginLandscape = currentMarginLandscape;
         }
     }
     
-    [prefs synchronize];
-
     if (_delegate != nil) {
 		[_delegate settingsChanged:reload newValue:0];
 	}

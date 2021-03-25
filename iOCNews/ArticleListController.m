@@ -82,8 +82,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
         if (self.feed.myId == -2) {
             Folder *folder = [[OCNewsHelper sharedHelper] folderWithId:self.folderId];
             if (folder && folder.name.length) {
-                NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-                if ([prefs boolForKey:@"HideRead"]) {
+                if (SettingsStore.hideRead) {
                     self.navigationItem.title = [NSString stringWithFormat:@"All Unread %@ Articles", folder.name];
                 } else {
                     self.navigationItem.title = [NSString stringWithFormat:@"All %@ Articles", folder.name];
@@ -139,25 +138,25 @@ static NSString * const reuseIdentifier = @"ArticleCell";
     self = [super initWithCoder:coder];
     if (self) {
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"HideRead"
+                                                forKeyPath:SettingKeys.hideRead
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"ShowThumbnails"
+                                                forKeyPath:SettingKeys.showThumbnails
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"ShowFavicons"
+                                                forKeyPath:SettingKeys.showFavIcons
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"SortOldestFirst"
+                                                forKeyPath:SettingKeys.sortOldestFirst
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"CompactView"
+                                                forKeyPath:SettingKeys.compactView
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
     }
@@ -236,10 +235,11 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 }
 
 - (void)dealloc {
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"HideRead"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"ShowThumbnails"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"ShowFavicons"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SortOldestFirst"];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.hideRead];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.showThumbnails];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.showFavIcons];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.sortOldestFirst];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.compactView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.fetchedResultsController.delegate = nil;
 }
@@ -401,7 +401,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 }
 
 - (void)markRowsRead {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"MarkWhileScrolling"]) {
+    if (SettingsStore.markReadWhileScrolling) {
         long unreadCount = [self unreadCount];
         if (unreadCount > 0) {
             NSArray *visibleCells = self.collectionView.indexPathsForVisibleItems;
@@ -447,7 +447,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
         [self refresh];
     }
     if([keyPath isEqual:@"SortOldestFirst"]) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SortOldestFirst"]) {
+        if (SettingsStore.sortOldestFirst) {
             NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
             [self.fetchedResultsController.fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
         } else {

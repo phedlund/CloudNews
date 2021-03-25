@@ -321,7 +321,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 #pragma mark - PHPrefViewControllerDelegate
 
 - (void)settingsChanged:(NSString *)setting newValue:(NSUInteger)value {
-    BOOL starred = [[NSUserDefaults standardUserDefaults] boolForKey:@"Starred"];
+    BOOL starred = SettingsStore.starred;
     if (starred != currentCell.item.starred) {
         currentCell.item.starred = starred;
         Item *currentItem = [self currentItem];
@@ -336,7 +336,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
         }
     }
     
-    BOOL unread = [[NSUserDefaults standardUserDefaults] boolForKey:@"Unread"];
+    BOOL unread = SettingsStore.unread;
     if (unread != currentCell.item.unread) {
         currentCell.item.unread = unread;
         Item *currentItem = [self currentItem];
@@ -366,8 +366,8 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 }
 
 - (UIColor*)myBackgroundColor {
-    NSArray *backgrounds = [[NSUserDefaults standardUserDefaults] arrayForKey:@"Backgrounds"];
-    long backgroundIndex =[[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentTheme"];
+    NSArray *backgrounds = SettingsStore.backgrounds;
+    long backgroundIndex = SettingsStore.theme;
     NSString *background = [backgrounds objectAtIndex:backgroundIndex];
     UIColor *backColor = [UIColor blackColor];
     if ([background isEqualToString:@"#FFFFFF"]) {

@@ -28,7 +28,7 @@ class ArticleListFlowLayout: UICollectionViewFlowLayout {
         cellAttributes.removeAll()
         
         let itemWidth = cv.frame.size.width
-        let itemHeight = UserDefaults.standard.bool(forKey: "CompactView") ? Constants.itemHeightCompact : Constants.itemHeightRegular
+        let itemHeight = SettingsStore.compactView ? Constants.itemHeightCompact : Constants.itemHeightRegular
 
         for section in 0 ..< cv.numberOfSections {
             for item in 0 ..< cv.numberOfItems(inSection: section) {
