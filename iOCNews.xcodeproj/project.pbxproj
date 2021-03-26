@@ -48,7 +48,6 @@
 		D07F5E8321FEA01E00528E90 /* ArticleFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F5E8221FEA01E00528E90 /* ArticleFlowLayout.swift */; };
 		D08D83B718161453005A75F0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D08D83B618161453005A75F0 /* Settings.bundle */; };
 		D096143C21EED4AF000BD5D2 /* ArticleListFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */; };
-		D0A33F6018876CF700C6DA92 /* OCTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A33F5F18876CF700C6DA92 /* OCTextView.m */; };
 		D0AAB685255CE93E00F4FC5F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0AAB684255CE93E00F4FC5F /* CoreServices.framework */; };
 		D0B95D1221100A6200D1A2B8 /* BaseCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B95D1121100A6200D1A2B8 /* BaseCollectionViewController.m */; };
 		D0B95D15211144A200D1A2B8 /* ArticleController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B95D14211144A200D1A2B8 /* ArticleController.m */; };
@@ -81,6 +80,7 @@
 		D0E96E91260C234C000B9590 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E90260C234C000B9590 /* ThemeSettings.swift */; };
 		D0E96E97260C2941000B9590 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E96260C2941000B9590 /* SharingProvider.swift */; };
 		D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96EA2260D75B0000B9590 /* AppDelegate.swift */; };
+		D0E96EAF260D7B9F000B9590 /* NewsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96EAE260D7B9F000B9590 /* NewsTextView.swift */; };
 		D0F181261782585100F719D9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F181251782585100F719D9 /* SystemConfiguration.framework */; };
 		D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F181281783B12C00F719D9 /* OCLoginController.m */; };
 		D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */; };
@@ -131,8 +131,6 @@
 		D08D83B618161453005A75F0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListFlowLayout.swift; sourceTree = "<group>"; };
 		D0A33F2B187F5BF900C6DA92 /* News 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 4.xcdatamodel"; sourceTree = "<group>"; };
-		D0A33F5E18876CF700C6DA92 /* OCTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCTextView.h; sourceTree = "<group>"; };
-		D0A33F5F18876CF700C6DA92 /* OCTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCTextView.m; sourceTree = "<group>"; };
 		D0AAB684255CE93E00F4FC5F /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		D0B95D1021100A6200D1A2B8 /* BaseCollectionViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BaseCollectionViewController.h; sourceTree = "<group>"; };
 		D0B95D1121100A6200D1A2B8 /* BaseCollectionViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BaseCollectionViewController.m; sourceTree = "<group>"; };
@@ -170,6 +168,7 @@
 		D0E96E90260C234C000B9590 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		D0E96E96260C2941000B9590 /* SharingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
 		D0E96EA2260D75B0000B9590 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D0E96EAE260D7B9F000B9590 /* NewsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsTextView.swift; sourceTree = "<group>"; };
 		D0F181251782585100F719D9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F181271783B12C00F719D9 /* OCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLoginController.h; sourceTree = "<group>"; };
 		D0F181281783B12C00F719D9 /* OCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLoginController.m; sourceTree = "<group>"; };
@@ -310,8 +309,7 @@
 				D01ACAFA17B969FE005D1463 /* NSDictionary+HandleNull.h */,
 				D01ACAFB17B969FE005D1463 /* NSDictionary+HandleNull.m */,
 				D02D9D16259FE3B200E243CD /* BadgeView.swift */,
-				D0A33F5E18876CF700C6DA92 /* OCTextView.h */,
-				D0A33F5F18876CF700C6DA92 /* OCTextView.m */,
+				D0E96EAE260D7B9F000B9590 /* NewsTextView.swift */,
 				D0735DCB1F905E38002D3AB3 /* UIColor+PHColor.h */,
 				D0735DCA1F905E37002D3AB3 /* UIColor+PHColor.m */,
 				D0FB295F1FA6A20D00578C29 /* PHThemeManager.h */,
@@ -523,6 +521,7 @@
 			files = (
 				D0B95D1221100A6200D1A2B8 /* BaseCollectionViewController.m in Sources */,
 				D05A6FB1213B914E006D3AB8 /* BaseArticleCell.swift in Sources */,
+				D0E96EAF260D7B9F000B9590 /* NewsTextView.swift in Sources */,
 				D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */,
 				D04ECCEF26043C31000569A0 /* NSNotificationExtension.swift in Sources */,
 				D0BCAA74177909A600C965F4 /* ArticleListController.m in Sources */,
@@ -557,7 +556,6 @@
 				D01ACADB17B83637005D1463 /* rd_list.c in Sources */,
 				D066144225A94EB900399DEF /* ArticleHelper.swift in Sources */,
 				D01ACADC17B83637005D1463 /* readable.c in Sources */,
-				D0A33F6018876CF700C6DA92 /* OCTextView.m in Sources */,
 				D01ACAFC17B969FE005D1463 /* NSDictionary+HandleNull.m in Sources */,
 				D0171AB02179596100D2D34B /* UICollectionView+ValidIndexPath.m in Sources */,
 			);

@@ -16,7 +16,7 @@ protocol FeedSettingsDelegate {
 @objcMembers
 class FeedSettings: UITableViewController {
     
-    @IBOutlet var urlTextView: OCTextView!
+    @IBOutlet var urlTextView: NewsTextView!
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var fullArticleSwitch: UISwitch!
     @IBOutlet var readerModeSwitch: UISwitch!
