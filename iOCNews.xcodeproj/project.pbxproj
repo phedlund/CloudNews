@@ -56,8 +56,6 @@
 		D0BCAA28177900C300C965F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCAA27177900C300C965F4 /* Foundation.framework */; };
 		D0BCAA2A177900C300C965F4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCAA29177900C300C965F4 /* CoreGraphics.framework */; };
 		D0BCAA30177900C300C965F4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAA2E177900C300C965F4 /* InfoPlist.strings */; };
-		D0BCAA32177900C400C965F4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAA31177900C300C965F4 /* main.m */; };
-		D0BCAA36177900C400C965F4 /* OCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAA35177900C400C965F4 /* OCAppDelegate.m */; };
 		D0BCAA4A177903F500C965F4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAA48177903F500C965F4 /* Main.storyboard */; };
 		D0BCAA681779091000C965F4 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCAA671779091000C965F4 /* QuartzCore.framework */; };
 		D0BCAA74177909A600C965F4 /* ArticleListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAA6C177909A500C965F4 /* ArticleListController.m */; };
@@ -82,6 +80,7 @@
 		D0E96E8926082C14000B9590 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E8826082C14000B9590 /* SettingsStore.swift */; };
 		D0E96E91260C234C000B9590 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E90260C234C000B9590 /* ThemeSettings.swift */; };
 		D0E96E97260C2941000B9590 /* SharingProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E96260C2941000B9590 /* SharingProvider.swift */; };
+		D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96EA2260D75B0000B9590 /* AppDelegate.swift */; };
 		D0F181261782585100F719D9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F181251782585100F719D9 /* SystemConfiguration.framework */; };
 		D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F181281783B12C00F719D9 /* OCLoginController.m */; };
 		D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */; };
@@ -145,10 +144,7 @@
 		D0BCAA29177900C300C965F4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D0BCAA2D177900C300C965F4 /* iOCNews-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iOCNews-Info.plist"; sourceTree = "<group>"; };
 		D0BCAA2F177900C300C965F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		D0BCAA31177900C300C965F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D0BCAA33177900C400C965F4 /* iOCNews-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOCNews-Prefix.pch"; sourceTree = "<group>"; };
-		D0BCAA34177900C400C965F4 /* OCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OCAppDelegate.h; sourceTree = "<group>"; };
-		D0BCAA35177900C400C965F4 /* OCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OCAppDelegate.m; sourceTree = "<group>"; };
 		D0BCAA49177903F500C965F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D0BCAA671779091000C965F4 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D0BCAA6B177909A500C965F4 /* ArticleListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ArticleListController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -174,6 +170,7 @@
 		D0E96E8826082C14000B9590 /* SettingsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		D0E96E90260C234C000B9590 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		D0E96E96260C2941000B9590 /* SharingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
+		D0E96EA2260D75B0000B9590 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0F181251782585100F719D9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F181271783B12C00F719D9 /* OCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLoginController.h; sourceTree = "<group>"; };
 		D0F181281783B12C00F719D9 /* OCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLoginController.m; sourceTree = "<group>"; };
@@ -276,8 +273,7 @@
 				D0C66CA417B19C6A00F0EC7C /* DataModel */,
 				D0BCAA48177903F500C965F4 /* Main.storyboard */,
 				D023001A1A58C0E800B354E0 /* Launch Screen.xib */,
-				D0BCAA34177900C400C965F4 /* OCAppDelegate.h */,
-				D0BCAA35177900C400C965F4 /* OCAppDelegate.m */,
+				D0E96EA2260D75B0000B9590 /* AppDelegate.swift */,
 				D06CB23717A0A0A800A1310B /* OCNewsHelper.h */,
 				D06CB23817A0A0A900A1310B /* OCNewsHelper.m */,
 				D0BCAC22177F80BB00C965F4 /* OCAPIClient.h */,
@@ -340,7 +336,6 @@
 			children = (
 				D0BCAA2D177900C300C965F4 /* iOCNews-Info.plist */,
 				D0BCAA2E177900C300C965F4 /* InfoPlist.strings */,
-				D0BCAA31177900C300C965F4 /* main.m */,
 				D0BCAA33177900C400C965F4 /* iOCNews-Prefix.pch */,
 			);
 			name = "Supporting Files";
@@ -529,9 +524,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D0B95D1221100A6200D1A2B8 /* BaseCollectionViewController.m in Sources */,
-				D0BCAA32177900C400C965F4 /* main.m in Sources */,
-				D0BCAA36177900C400C965F4 /* OCAppDelegate.m in Sources */,
 				D05A6FB1213B914E006D3AB8 /* BaseArticleCell.swift in Sources */,
+				D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */,
 				D04ECCEF26043C31000569A0 /* NSNotificationExtension.swift in Sources */,
 				D0BCAA74177909A600C965F4 /* ArticleListController.m in Sources */,
 				D0BCAA76177909A600C965F4 /* OCFeedListController.m in Sources */,
