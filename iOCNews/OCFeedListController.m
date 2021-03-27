@@ -36,7 +36,7 @@
 #import "Folder+CoreDataClass.h"
 #import "Feed+CoreDataClass.h"
 #import "iOCNews-Swift.h"
-#import "UIColor+PHColor.h"
+
 #import "PHThemeManager.h"
 @import AFNetworking;
 
@@ -305,7 +305,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 }
             }
             
-            cell.textLabel.textColor = UIColor.ph_textColor;
+            cell.textLabel.textColor = [[ThemeColors alloc] init].pbhText;
             cell.contentView.backgroundColor = [UIColor clearColor];
         }
     }
@@ -615,7 +615,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     {
         popover.barButtonItem = (UIBarButtonItem *)sender;
         popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
-        popover.backgroundColor = [UIColor ph_cellBackgroundColor];
+        popover.backgroundColor = [[ThemeColors alloc] init].pbhCellBackground;
     }
     
     [self.navigationController presentViewController:alert animated:YES completion:^{
@@ -659,9 +659,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [alertController addAction:cancelButton];
         [alertController addAction:addButton];
     });
-    container.layer.borderColor = UIColor.ph_iconColor.CGColor;
-    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: UIColor.ph_textColor};
-    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: UIColor.ph_textColor};
+    container.layer.borderColor = [[ThemeColors alloc] init].pbhIcon.CGColor;
+    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName:[[ThemeColors alloc] init].pbhText};
+    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName:[[ThemeColors alloc] init].pbhText};
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Add New Folder" attributes:titleAttributes];
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the name of the folder to add." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];
@@ -705,11 +705,11 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [alertController addAction:cancelButton];
         [alertController addAction:renameButton];
     });
-    container.layer.borderColor = UIColor.ph_iconColor.CGColor;
-    NSDictionary *placeholderAttributes = @{NSFontAttributeName: theTextField.font, NSForegroundColorAttributeName: UIColor.ph_textColor};
+    container.layer.borderColor = [[ThemeColors alloc] init].pbhIcon.CGColor;
+    NSDictionary *placeholderAttributes = @{NSFontAttributeName: theTextField.font, NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
     theTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Folder name" attributes:placeholderAttributes];
-    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: UIColor.ph_textColor};
-    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: UIColor.ph_textColor};
+    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
+    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Rename Folder" attributes:titleAttributes];
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the new name of the folder." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];
@@ -750,9 +750,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [alertController addAction:cancelButton];
         [alertController addAction:addButton];
     });
-    container.layer.borderColor = UIColor.ph_iconColor.CGColor;
-    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: UIColor.ph_textColor};
-    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: UIColor.ph_textColor};
+    container.layer.borderColor = [[ThemeColors alloc] init].pbhIcon.CGColor;
+    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
+    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Add New Feed" attributes:titleAttributes];
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the url of the feed to add." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];

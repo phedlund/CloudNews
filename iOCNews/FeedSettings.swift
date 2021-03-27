@@ -31,9 +31,9 @@ class FeedSettings: UITableViewController {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
         tableView.estimatedRowHeight = 44
-        tableView.backgroundColor = UIColor.ph_popoverBackground
+        tableView.backgroundColor = ThemeColors().pbhPopoverBackground
         NotificationCenter.default.addObserver(forName: .themeUpdate, object: nil, queue: .main) { _ in
-            self.tableView.backgroundColor = UIColor.ph_popoverBackground
+            self.tableView.backgroundColor = ThemeColors().pbhPopoverBackground
         }
         refresh()
     }

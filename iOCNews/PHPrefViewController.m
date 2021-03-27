@@ -9,7 +9,6 @@
 #import "iOCNews-Swift.h"
 #import "PHPrefViewController.h"
 #import "QuartzCore/QuartzCore.h"
-#import "UIColor+PHColor.h"
 
 #define MIN_FONT_SIZE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ? 11 : 9)
 #define MAX_FONT_SIZE 30
@@ -102,9 +101,10 @@
 }
 
 - (void)updateBackgrounds {
-    self.view.backgroundColor = [UIColor ph_popoverBackgroundColor];
+    ThemeColors *themeColors = [[ThemeColors alloc] init];
+    self.view.backgroundColor = themeColors.pbhPopoverBackground;
     
-    UIColor *buttonColor = [UIColor ph_popoverButtonColor];
+    UIColor *buttonColor = themeColors.pbhPopoverButton;
     self.starButton.backgroundColor = buttonColor;
     self.markUnreadButton.backgroundColor = buttonColor;
     self.decreaseFontSizeButton.backgroundColor = buttonColor;
@@ -114,7 +114,7 @@
     self.decreaseMarginButton.backgroundColor = buttonColor;
     self.increaseMarginButton.backgroundColor = buttonColor;
  
-    CGColorRef borderColor = [[UIColor ph_popoverBorderColor] CGColor];
+    CGColorRef borderColor = themeColors.pbhPopoverBorder.CGColor;
     self.starButton.layer.borderColor = borderColor;
     self.markUnreadButton.layer.borderColor = borderColor;
     self.decreaseFontSizeButton.layer.borderColor = borderColor;
@@ -124,7 +124,7 @@
     self.decreaseMarginButton.layer.borderColor = borderColor;
     self.increaseMarginButton.layer.borderColor = borderColor;
     
-    UIColor *iconColor = [UIColor ph_popoverIconColor];
+    UIColor *iconColor = themeColors.pbhIcon;
     self.starButton.tintColor = iconColor;
     self.markUnreadButton.tintColor = iconColor;
     self.decreaseFontSizeButton.tintColor = iconColor;

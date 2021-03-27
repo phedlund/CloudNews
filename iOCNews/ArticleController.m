@@ -11,10 +11,8 @@
 #import "ArticleController.h"
 #import "OCNewsHelper.h"
 #import "PHPrefViewController.h"
-#import "UIColor+PHColor.h"
 #import "iOCNews-Swift.h"
 #import "UICollectionView+ValidIndexPath.h"
-#import "UIColor+PHColor.h"
 
 @interface ArticleController () <UICollectionViewDelegateFlowLayout, WKUIDelegate, WKNavigationDelegate, PHPrefViewControllerDelegate, UIPopoverPresentationControllerDelegate> {
     BOOL shouldScrollToInitialArticle;
@@ -50,9 +48,9 @@ static NSString * const reuseIdentifier = @"ArticleCell";
     shouldScrollToInitialArticle = YES;
     self.reloadItemsOnUpdate = NO;
     [self.collectionView registerClass:[ArticleCellWithWebView class] forCellWithReuseIdentifier:@"ArticleCellWithWebView"];
-    self.view.backgroundColor =  UIColor.ph_backgroundColor;
+    self.view.backgroundColor =  [[ThemeColors alloc] init].pbhBackground;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"ThemeUpdate" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-        self.view.backgroundColor =  UIColor.ph_backgroundColor;
+        self.view.backgroundColor =  [[ThemeColors alloc] init].pbhBackground;
     }];
 }
 
@@ -307,7 +305,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
     settingsPresentationController.delegate = self;
     settingsPresentationController.barButtonItem = self.menuBarButton;
     settingsPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    settingsPresentationController.backgroundColor = [UIColor ph_popoverBackgroundColor];
+    settingsPresentationController.backgroundColor = [[ThemeColors alloc] init].pbhPopoverBackground;
     [self presentViewController:self.settingsViewController animated:YES completion:nil];
 }
 

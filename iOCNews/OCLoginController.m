@@ -33,7 +33,6 @@
 #import "OCLoginController.h"
 #import "OCAPIClient.h"
 #import "iOCNews-Swift.h"
-#import "UIColor+PHColor.h"
 
 static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
 
@@ -68,9 +67,9 @@ static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
     self.length1 = NO;
     self.length2 = NO;
     self.length3 = NO;
-    self.tableView.backgroundColor = UIColor.ph_popoverBackgroundColor;
+    self.tableView.backgroundColor = [[ThemeColors alloc] init].pbhPopoverBackground;
     [[NSNotificationCenter defaultCenter] addObserverForName:@"ThemeUpdate" object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-        self.tableView.backgroundColor = UIColor.ph_popoverBackgroundColor;
+        self.tableView.backgroundColor = [[ThemeColors alloc] init].pbhPopoverBackground;
     }];
 }
 

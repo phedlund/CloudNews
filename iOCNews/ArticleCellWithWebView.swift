@@ -29,7 +29,7 @@ class ArticleCellWithWebView: BaseArticleCell {
                     result.backgroundColor = UIColor.clear
                 }
             }
-            internalWebView?.scrollView.backgroundColor = UIColor.ph_background
+            internalWebView?.scrollView.backgroundColor = ThemeColors().pbhBackground
             return internalWebView
         }
         set(newValue) {

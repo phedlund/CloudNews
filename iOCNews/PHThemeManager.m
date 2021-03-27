@@ -9,7 +9,6 @@
 @import WebKit;
 
 #import "PHThemeManager.h"
-#import "UIColor+PHColor.h"
 #import "OCFeedListController.h"
 #import "iOCNews-Swift.h"
 #import "ArticleController.h"
@@ -48,44 +47,46 @@
 
 - (void)setCurrentTheme:(PHTheme)currentTheme {
     SettingsStore.theme = currentTheme;
+    ThemeColors *themeColors = [[ThemeColors alloc] init];
 
-    [[[[UIApplication sharedApplication] delegate] window] setTintColor:UIColor.ph_iconColor];
+    [[[[UIApplication sharedApplication] delegate] window] setTintColor:themeColors.pbhIcon];
     
-    [UINavigationBar appearance].barTintColor = UIColor.ph_popoverButtonColor;
+    [UINavigationBar appearance].barTintColor = themeColors.pbhPopoverButton;
     NSMutableDictionary<NSAttributedStringKey, id> *newTitleAttributes = [NSMutableDictionary<NSAttributedStringKey, id> new];
-    newTitleAttributes[NSForegroundColorAttributeName] = UIColor.ph_textColor;
+    newTitleAttributes[NSForegroundColorAttributeName] = themeColors.pbhText;
     [UINavigationBar appearance].titleTextAttributes = newTitleAttributes;
-    [UINavigationBar appearance].tintColor = UIColor.ph_iconColor;
+    [UINavigationBar appearance].tintColor = themeColors.pbhIcon;
 
-    [UIBarButtonItem appearance].tintColor = UIColor.ph_textColor;
+    [UIBarButtonItem appearance].tintColor = themeColors.pbhText;
 
-    [UITableViewCell appearance].backgroundColor = UIColor.ph_cellBackgroundColor;
+    [UITableViewCell appearance].backgroundColor = [[ThemeColors alloc] init].pbhCellBackground;
 
-    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[ArticleListController class]]] setBackgroundColor:UIColor.ph_cellBackgroundColor];
-    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[FeedCell class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
-    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
-    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[UITableViewHeaderFooterView class]]] setBackgroundColor:UIColor.ph_popoverButtonColor];
+    UIColor *backgroundColor = [[[ThemeColors alloc] init] pbhBackground];
+    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[ArticleListController class]]] setBackgroundColor: themeColors.pbhBackground];
+    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[FeedCell class]]] setBackgroundColor:themeColors.pbhPopoverBackground];
+    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]] setBackgroundColor:themeColors.pbhPopoverBackground];
+    [[UIView appearanceWhenContainedInInstancesOfClasses:@[[UITableViewHeaderFooterView class]]] setBackgroundColor:themeColors.pbhPopoverButton];
 
-    [[UICollectionView appearanceWhenContainedInInstancesOfClasses:@[[ArticleListController class]]] setBackgroundColor:UIColor.ph_cellBackgroundColor];
-    [[UICollectionView appearanceWhenContainedInInstancesOfClasses:@[[ArticleController class]]] setBackgroundColor:UIColor.ph_cellBackgroundColor];
-    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
-    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[SettingsViewController class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
-    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[ThemeSettings class]]] setBackgroundColor:UIColor.ph_popoverBackgroundColor];
+    [[UICollectionView appearanceWhenContainedInInstancesOfClasses:@[[ArticleListController class]]] setBackgroundColor:themeColors.pbhCellBackground];
+    [[UICollectionView appearanceWhenContainedInInstancesOfClasses:@[[ArticleController class]]] setBackgroundColor:themeColors.pbhCellBackground];
+    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]] setBackgroundColor:themeColors.pbhPopoverBackground];
+    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[SettingsViewController class]]] setBackgroundColor:themeColors.pbhPopoverBackground];
+    [[UITableView appearanceWhenContainedInInstancesOfClasses:@[[ThemeSettings class]]] setBackgroundColor:themeColors.pbhPopoverBackground];
 
-    [UIScrollView appearance].backgroundColor = UIColor.ph_cellBackgroundColor;
-    [UIScrollView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]].backgroundColor = UIColor.ph_popoverBackgroundColor;
+    [UIScrollView appearance].backgroundColor = themeColors.pbhCellBackground;
+    [UIScrollView appearanceWhenContainedInInstancesOfClasses:@[[OCFeedListController class]]].backgroundColor = themeColors.pbhPopoverBackground;
 
-    [[UILabel appearance] setThemeTextColor:UIColor.ph_textColor];
+    [[UILabel appearance] setThemeTextColor:themeColors.pbhText];
 
-    [[UISwitch appearance] setOnTintColor:UIColor.ph_switchTintColor];
-    [[UISwitch appearance] setTintColor:UIColor.ph_switchTintColor];
+    [[UISwitch appearance] setOnTintColor:themeColors.pbhPopoverBorder];
+    [[UISwitch appearance] setTintColor:themeColors.pbhPopoverBorder];
 
-    [WKWebView appearance].backgroundColor = UIColor.ph_cellBackgroundColor;
+    [WKWebView appearance].backgroundColor = [[ThemeColors alloc] init].pbhCellBackground;
 
-    [[UILabel appearanceWhenContainedInInstancesOfClasses:@[[UITextField class]]] setThemeTextColor:UIColor.ph_readTextColor];
-    [[UITextField appearance] setTextColor:UIColor.ph_textColor];
-    [[UITextView appearance] setTextColor:UIColor.ph_textColor];
-    [[UIStepper appearance] setTintColor:UIColor.ph_textColor];
+    [[UILabel appearanceWhenContainedInInstancesOfClasses:@[[UITextField class]]] setThemeTextColor:themeColors.pbhReadText];
+    [[UITextField appearance] setTextColor:themeColors.pbhText];
+    [[UITextView appearance] setTextColor:themeColors.pbhText];
+    [[UIStepper appearance] setTintColor:themeColors.pbhText];
 
     NSArray * windows = [UIApplication sharedApplication].windows;
     

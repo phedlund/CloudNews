@@ -150,14 +150,14 @@ class ArticleHelper: NSObject {
         let lineHeight = SettingsStore.lineHeight
        
         return ":root {" +
-                    "--bg-color: \(UIColor.ph_background.hexString);" +
-                    "--text-color: \(UIColor.ph_text.hexString);" +
+            "--bg-color: \(ThemeColors().pbhBackground.hexString);" +
+                    "--text-color: \(ThemeColors().pbhText.hexString);" +
                     "--font-size: \(fontSize)px;" +
                     "--body-width-portrait: \(currentWidth)px;" +
                     "--body-width-landscape: \(currentWidthLandscape)px;" +
                     "--line-height: \(lineHeight)em;" +
-                    "--link-color: \(UIColor.ph_link.hexString);" +
-                    "--footer-link: \(UIColor.ph_popoverBackground.hexString);" +
+                    "--link-color: \(ThemeColors().pbhLink.hexString);" +
+                    "--footer-link: \(ThemeColors().pbhPopoverBackground.hexString);" +
                 "}"
     }
 

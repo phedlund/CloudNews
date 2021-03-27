@@ -36,7 +36,6 @@
 #import "OCNewsHelper.h"
 #import "Item+CoreDataClass.h"
 #import "PHThemeManager.h"
-#import "UIColor+PHColor.h"
 #import "ArticleController.h"
 #import "iOCNews-Swift.h"
 #import "UICollectionView+ValidIndexPath.h"

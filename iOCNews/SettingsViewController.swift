@@ -24,9 +24,9 @@ class SettingsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.backgroundColor = UIColor.ph_popoverBackground
+        tableView.backgroundColor = ThemeColors().pbhPopoverBackground
         NotificationCenter.default.addObserver(forName: .themeUpdate, object: nil, queue: .main) { _ in
-            self.tableView.backgroundColor = UIColor.ph_popoverBackground
+            self.tableView.backgroundColor = ThemeColors().pbhPopoverBackground
         }
     }
     
@@ -46,7 +46,7 @@ class SettingsViewController: UITableViewController {
             statusLabel.text =  NSLocalizedString("Not Logged In", comment:"A status label indicating that the user is not logged in")
         }
         themeLabel.text = PHThemeManager.shared().themeName
-        tableView.backgroundColor = UIColor.ph_popoverBackground
+        tableView.backgroundColor = ThemeColors().pbhPopoverBackground
     }
     
     

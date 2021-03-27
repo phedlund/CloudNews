@@ -20,9 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        #if !targetEnvironment(simulator)
         let installation = makeEmailInstallation()
         installation?.install()
-
+        #endif
         if let svc: UISplitViewController = window?.rootViewController as? UISplitViewController {
             svc.maximumPrimaryColumnWidth = svc.primaryColumnWidth
             if #available(iOS 13, *) {
