@@ -51,10 +51,15 @@ class SettingKeys: NSObject {
     static let itemsToUnstar = "ItemsToUnstar"
 }
 
-@propertyWrapper struct UserDefaultsBacked<Value> {
+@propertyWrapper class UserDefaultsBacked<Value> {
     let key: String
     let defaultValue: Value
     var storage: UserDefaults = .standard
+
+    init(key: String, defaultValue: Value) {
+        self.key = key
+        self.defaultValue = defaultValue
+    }
 
     var wrappedValue: Value {
         get {
