@@ -34,8 +34,8 @@ class ThemeSettings: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let newTheme = PHTheme(rawValue: indexPath.row) {
-            PHThemeManager.shared().currentTheme = newTheme
+        if let newTheme = AppTheme(rawValue: indexPath.row) {
+            ThemeManager.shared.theme = newTheme
             update()
         }
     }
@@ -44,15 +44,13 @@ class ThemeSettings: UITableViewController {
         defaultCell.accessoryType = .none
         sepiaCell.accessoryType = .none
         nightCell.accessoryType = .none
-        switch PHThemeManager.shared().currentTheme {
-        case .default:
+        switch ThemeManager.shared.theme {
+        case .light:
             defaultCell.accessoryType = .checkmark
         case .sepia:
             sepiaCell.accessoryType = .checkmark
-        case .night:
+        case .dark:
             nightCell.accessoryType = .checkmark
-        default:
-            break
         }
     }
 

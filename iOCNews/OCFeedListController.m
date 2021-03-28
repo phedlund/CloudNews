@@ -36,13 +36,11 @@
 #import "Folder+CoreDataClass.h"
 #import "Feed+CoreDataClass.h"
 #import "iOCNews-Swift.h"
-
-#import "PHThemeManager.h"
 @import AFNetworking;
 
 static NSString *DetailSegueIdentifier = @"showDetail";
 
-@interface OCFeedListController () <UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate> {
+@interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
     NSInteger currentRenameId;
     long currentIndex;
     BOOL networkHasBeenUnreachable;

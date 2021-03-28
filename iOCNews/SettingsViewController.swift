@@ -45,11 +45,10 @@ class SettingsViewController: UITableViewController {
         } else {
             statusLabel.text =  NSLocalizedString("Not Logged In", comment:"A status label indicating that the user is not logged in")
         }
-        themeLabel.text = PHThemeManager.shared().themeName
+        themeLabel.text = ThemeManager.shared.theme.description
         tableView.backgroundColor = ThemeColors().pbhPopoverBackground
     }
-    
-    
+
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         44.0
     }

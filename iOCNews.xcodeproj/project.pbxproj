@@ -46,6 +46,7 @@
 		D07AD73625A9298B005CBCFC /* ArticleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07AD73525A9298B005CBCFC /* ArticleImage.swift */; };
 		D07DD2D2260EB59800BDDC10 /* PBHColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07DD2D1260EB59800BDDC10 /* PBHColors.swift */; };
 		D07F5E8321FEA01E00528E90 /* ArticleFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07F5E8221FEA01E00528E90 /* ArticleFlowLayout.swift */; };
+		D086D3DC261010F400136795 /* ThemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D086D3DB261010F400136795 /* ThemeManager.swift */; };
 		D08D83B718161453005A75F0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D08D83B618161453005A75F0 /* Settings.bundle */; };
 		D096143C21EED4AF000BD5D2 /* ArticleListFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */; };
 		D0AAB685255CE93E00F4FC5F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0AAB684255CE93E00F4FC5F /* CoreServices.framework */; };
@@ -86,7 +87,6 @@
 		D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */; };
 		D0F1812F178502D500F719D9 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812D178502D500F719D9 /* NSString+HTML.m */; };
 		D0F1813F17850CAF00F719D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F1813E17850CAF00F719D9 /* Security.framework */; };
-		D0FB29611FA6A20D00578C29 /* PHThemeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D0FB29601FA6A20D00578C29 /* PHThemeManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -127,6 +127,7 @@
 		D07DD2D1260EB59800BDDC10 /* PBHColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PBHColors.swift; sourceTree = "<group>"; };
 		D07F5E8221FEA01E00528E90 /* ArticleFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleFlowLayout.swift; sourceTree = "<group>"; };
 		D0809718210AAF3C00EDF207 /* iOCNews-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iOCNews-Bridging-Header.h"; sourceTree = "<group>"; };
+		D086D3DB261010F400136795 /* ThemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeManager.swift; sourceTree = "<group>"; };
 		D08D83B618161453005A75F0 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListFlowLayout.swift; sourceTree = "<group>"; };
 		D0A33F2B187F5BF900C6DA92 /* News 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 4.xcdatamodel"; sourceTree = "<group>"; };
@@ -177,8 +178,6 @@
 		D0F1812D178502D500F719D9 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		D0F1813E17850CAF00F719D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D0F94F9620AA90D900833A7F /* TUSafariActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TUSafariActivity.framework; path = Carthage/Build/iOS/TUSafariActivity.framework; sourceTree = "<group>"; };
-		D0FB295F1FA6A20D00578C29 /* PHThemeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PHThemeManager.h; sourceTree = "<group>"; };
-		D0FB29601FA6A20D00578C29 /* PHThemeManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PHThemeManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,8 +309,7 @@
 				D02D9D16259FE3B200E243CD /* BadgeView.swift */,
 				D0E96EAE260D7B9F000B9590 /* NewsTextView.swift */,
 				D07DD2D1260EB59800BDDC10 /* PBHColors.swift */,
-				D0FB295F1FA6A20D00578C29 /* PHThemeManager.h */,
-				D0FB29601FA6A20D00578C29 /* PHThemeManager.m */,
+				D086D3DB261010F400136795 /* ThemeManager.swift */,
 				D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */,
 				D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */,
 				D0C7D40225FC88C500271F6D /* SafariActivity.swift */,
@@ -539,11 +537,11 @@
 				D0F1812F178502D500F719D9 /* NSString+HTML.m in Sources */,
 				D06CB22E17A06E4F00A1310B /* News.xcdatamodeld in Sources */,
 				D06CB23917A0A0AA00A1310B /* OCNewsHelper.m in Sources */,
-				D0FB29611FA6A20D00578C29 /* PHThemeManager.m in Sources */,
 				D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */,
 				D0E96E91260C234C000B9590 /* ThemeSettings.swift in Sources */,
 				D02D9D11259FD09A00E243CD /* FolderTableViewController.swift in Sources */,
 				D0C7D40325FC88C500271F6D /* SafariActivity.swift in Sources */,
+				D086D3DC261010F400136795 /* ThemeManager.swift in Sources */,
 				D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */,
 				D0E96E8926082C14000B9590 /* SettingsStore.swift in Sources */,
 				D05A6FBE213E35A8006D3AB8 /* ArticleCellWithWebView.swift in Sources */,

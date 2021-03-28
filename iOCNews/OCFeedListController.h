@@ -32,9 +32,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ArticleListController.h"
-#import "iOCNews-Swift.h"
 
-@interface OCFeedListController : UITableViewController <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, FeedSettingsDelegate>
+@interface OCFeedListController: UITableViewController
 
 @property (strong, nonatomic) ArticleListController *detailViewController;
 @property (nonatomic, retain) NSFetchedResultsController *specialFetchedResultsController;

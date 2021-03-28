@@ -44,7 +44,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             summaryLabel.isHidden = false
             summaryLabel.font = item.summaryFont
             summaryLabel.text = item.summaryText
-            summaryLabel.setThemeTextColor(item.summaryColor)
+            summaryLabel.setThemeColor(item.summaryColor)
             summaryLabel.highlightedTextColor = self.summaryLabel.textColor
             summarLabelVerticalSpacingConstraint.isActive = true
         }
@@ -54,8 +54,8 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         titleLabel.text = item.title
         dateLabel.text = item.dateText
         
-        titleLabel.setThemeTextColor(item.titleColor)
-        dateLabel.setThemeTextColor(item.dateColor)
+        titleLabel.setThemeColor(item.titleColor)
+        dateLabel.setThemeColor(item.dateColor)
         
         titleLabel.highlightedTextColor = self.titleLabel.textColor;
         dateLabel.highlightedTextColor = self.dateLabel.textColor;

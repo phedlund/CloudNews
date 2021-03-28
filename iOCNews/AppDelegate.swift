@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         #endif
 
-        PHThemeManager.shared()
+        _ = ThemeManager.shared
         return true
     }
 
