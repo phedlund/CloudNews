@@ -61,7 +61,6 @@
 		D0BCAA74177909A600C965F4 /* ArticleListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAA6C177909A500C965F4 /* ArticleListController.m */; };
 		D0BCAA76177909A600C965F4 /* OCFeedListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAA70177909A600C965F4 /* OCFeedListController.m */; };
 		D0BCABC8177910C000C965F4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCABC7177910C000C965F4 /* ImageIO.framework */; };
-		D0BCABDA1779112000C965F4 /* PHPrefViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCABD51779112000C965F4 /* PHPrefViewController.m */; };
 		D0BCABE31779119300C965F4 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCABE21779119300C965F4 /* MessageUI.framework */; };
 		D0BCAC24177F80BC00C965F4 /* OCAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D0BCAC23177F80BC00C965F4 /* OCAPIClient.m */; };
 		D0BCAC8A178104FC00C965F4 /* rss.css in Resources */ = {isa = PBXBuildFile; fileRef = D0BCAC5F178104FC00C965F4 /* rss.css */; };
@@ -76,6 +75,7 @@
 		D0E6C78A25A6AB690070317B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78925A6AB690070317B /* Kingfisher */; };
 		D0E6C78F25A6B2820070317B /* AFNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78E25A6B2820070317B /* AFNetworking */; };
 		D0E6C79D25A7F85E0070317B /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */; };
+		D0E8C0ED261138D500C3E9E2 /* ArticleSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C0EC261138D500C3E9E2 /* ArticleSettings.swift */; };
 		D0E96E8526082BFD000B9590 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = D0E96E8426082BFD000B9590 /* KeychainAccess */; };
 		D0E96E8926082C14000B9590 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E8826082C14000B9590 /* SettingsStore.swift */; };
 		D0E96E91260C234C000B9590 /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E90260C234C000B9590 /* ThemeSettings.swift */; };
@@ -149,8 +149,6 @@
 		D0BCAA6F177909A600C965F4 /* OCFeedListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OCFeedListController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		D0BCAA70177909A600C965F4 /* OCFeedListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OCFeedListController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		D0BCABC7177910C000C965F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
-		D0BCABD41779112000C965F4 /* PHPrefViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHPrefViewController.h; sourceTree = "<group>"; };
-		D0BCABD51779112000C965F4 /* PHPrefViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PHPrefViewController.m; sourceTree = "<group>"; };
 		D0BCABE21779119300C965F4 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		D0BCAC22177F80BB00C965F4 /* OCAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCAPIClient.h; sourceTree = "<group>"; };
 		D0BCAC23177F80BC00C965F4 /* OCAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCAPIClient.m; sourceTree = "<group>"; };
@@ -164,6 +162,7 @@
 		D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftMessagesHelper.swift; sourceTree = "<group>"; };
 		D0E6C782259FF1D90070317B /* FeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		D0E6C79C25A7F85E0070317B /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		D0E8C0EC261138D500C3E9E2 /* ArticleSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleSettings.swift; sourceTree = "<group>"; };
 		D0E96E8826082C14000B9590 /* SettingsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		D0E96E90260C234C000B9590 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		D0E96E96260C2941000B9590 /* SharingProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingProvider.swift; sourceTree = "<group>"; };
@@ -279,8 +278,7 @@
 				D0E96E90260C234C000B9590 /* ThemeSettings.swift */,
 				D0F181271783B12C00F719D9 /* OCLoginController.h */,
 				D0F181281783B12C00F719D9 /* OCLoginController.m */,
-				D0BCABD41779112000C965F4 /* PHPrefViewController.h */,
-				D0BCABD51779112000C965F4 /* PHPrefViewController.m */,
+				D0E8C0EC261138D500C3E9E2 /* ArticleSettings.swift */,
 				D0E6C782259FF1D90070317B /* FeedCell.swift */,
 				D0BCAA6F177909A600C965F4 /* OCFeedListController.h */,
 				D0BCAA70177909A600C965F4 /* OCFeedListController.m */,
@@ -520,11 +518,11 @@
 				D0E96EAF260D7B9F000B9590 /* NewsTextView.swift in Sources */,
 				D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */,
 				D04ECCEF26043C31000569A0 /* NSNotificationExtension.swift in Sources */,
+				D0E8C0ED261138D500C3E9E2 /* ArticleSettings.swift in Sources */,
 				D0BCAA74177909A600C965F4 /* ArticleListController.m in Sources */,
 				D0BCAA76177909A600C965F4 /* OCFeedListController.m in Sources */,
 				D0E6C79D25A7F85E0070317B /* UIImageViewExtension.swift in Sources */,
 				D0E6C783259FF1D90070317B /* FeedCell.swift in Sources */,
-				D0BCABDA1779112000C965F4 /* PHPrefViewController.m in Sources */,
 				D0BCAC24177F80BC00C965F4 /* OCAPIClient.m in Sources */,
 				D0B95D15211144A200D1A2B8 /* ArticleController.m in Sources */,
 				D02D9D17259FE3B200E243CD /* BadgeView.swift in Sources */,

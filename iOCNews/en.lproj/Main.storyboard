@@ -1197,10 +1197,10 @@
             </objects>
             <point key="canvasLocation" x="181.294964028777" y="507.73381294964031"/>
         </scene>
-        <!--Pref View Controller-->
+        <!--Article Settings-->
         <scene sceneID="GbA-Io-fFE">
             <objects>
-                <viewController storyboardIdentifier="preferences" id="m60-CL-y5D" customClass="PHPrefViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="preferences" id="m60-CL-y5D" customClass="ArticleSettings" customModule="iOCNews" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YkA-9H-V3A">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1221,7 +1221,7 @@
                                                 <inset key="imageEdgeInsets" minX="35" minY="10" maxX="34" maxY="6"/>
                                                 <state key="normal" image="read"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="gaM-fC-baY"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="u85-09-KIB"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SmS-sZ-YXk">
@@ -1234,7 +1234,7 @@
                                                 <inset key="imageEdgeInsets" minX="35" minY="10" maxX="34" maxY="8"/>
                                                 <state key="normal" image="starred"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="dir-Gj-5mF"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="rQY-eJ-t9E"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1252,7 +1252,7 @@
                                                 <inset key="imageEdgeInsets" minX="35" minY="9" maxX="34" maxY="9"/>
                                                 <state key="normal" image="fontsizes"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="noF-aW-wz0"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="TWR-gV-ycM"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VWq-wP-EBz">
@@ -1265,7 +1265,7 @@
                                                 <inset key="imageEdgeInsets" minX="35" minY="9" maxX="34" maxY="9"/>
                                                 <state key="normal" image="fontsizel"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="399-lZ-gN9"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="22E-LB-Pqb"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1283,7 +1283,7 @@
                                                 <inset key="imageEdgeInsets" minX="26" minY="0.0" maxX="25" maxY="0.0"/>
                                                 <state key="normal" image="lineheight_small"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="ksz-Vt-GDS"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="40U-ld-rbS"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xDz-NK-aW1">
@@ -1296,7 +1296,7 @@
                                                 <inset key="imageEdgeInsets" minX="26" minY="0.0" maxX="25" maxY="0.0"/>
                                                 <state key="normal" image="lineheight_large"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="YVP-NJ-Jry"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="yUA-o0-e5d"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1314,7 +1314,7 @@
                                                 <inset key="imageEdgeInsets" minX="26" minY="0.0" maxX="25" maxY="0.0"/>
                                                 <state key="normal" image="margin_narrow"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="KMa-iR-4ZT"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="7iT-Z4-czl"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kyt-P3-G2q">
@@ -1327,7 +1327,7 @@
                                                 <inset key="imageEdgeInsets" minX="26" minY="0.0" maxX="25" maxY="0.0"/>
                                                 <state key="normal" image="margin_wide"/>
                                                 <connections>
-                                                    <action selector="onButtonTap:" destination="m60-CL-y5D" eventType="touchUpInside" id="jki-oj-hR3"/>
+                                                    <action selector="onButton:" destination="m60-CL-y5D" eventType="touchUpInside" id="h1P-HF-evf"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -1343,14 +1343,14 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="decreaseFontSizeButton" destination="SR5-V7-Lhc" id="6kr-1U-jYj"/>
-                        <outlet property="decreaseLineHeightButton" destination="33m-Q1-vFh" id="DIc-1K-vvH"/>
-                        <outlet property="decreaseMarginButton" destination="OEn-5Q-pfj" id="AuT-NN-cun"/>
-                        <outlet property="increaseFontSizeButton" destination="VWq-wP-EBz" id="XFI-4n-ymm"/>
-                        <outlet property="increaseLineHeightButton" destination="xDz-NK-aW1" id="YSn-O3-cNN"/>
-                        <outlet property="increaseMarginButton" destination="kyt-P3-G2q" id="OXi-7e-0GF"/>
-                        <outlet property="markUnreadButton" destination="XqK-h5-kCE" id="MBW-mh-KQ1"/>
-                        <outlet property="starButton" destination="SmS-sZ-YXk" id="mDf-Yv-3dg"/>
+                        <outlet property="decreaseFontSizeButton" destination="SR5-V7-Lhc" id="ePb-NO-0xV"/>
+                        <outlet property="decreaseLineHeightButton" destination="33m-Q1-vFh" id="CVa-ta-j2Y"/>
+                        <outlet property="decreaseMarginButton" destination="OEn-5Q-pfj" id="bPh-sy-9Sh"/>
+                        <outlet property="increaseFontSizeButton" destination="VWq-wP-EBz" id="zEV-EF-vsT"/>
+                        <outlet property="increaseLineHeightButton" destination="xDz-NK-aW1" id="kQf-rG-g6X"/>
+                        <outlet property="increaseMarginButton" destination="kyt-P3-G2q" id="nLU-0h-kkt"/>
+                        <outlet property="markUnreadButton" destination="XqK-h5-kCE" id="NQt-mc-L4N"/>
+                        <outlet property="starButton" destination="SmS-sZ-YXk" id="1lK-KQ-PfI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LHK-ks-kN1" userLabel="First Responder" sceneMemberID="firstResponder"/>

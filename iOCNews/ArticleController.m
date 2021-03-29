@@ -10,11 +10,10 @@
 
 #import "ArticleController.h"
 #import "OCNewsHelper.h"
-#import "PHPrefViewController.h"
 #import "iOCNews-Swift.h"
 #import "UICollectionView+ValidIndexPath.h"
 
-@interface ArticleController () <UICollectionViewDelegateFlowLayout, WKUIDelegate, WKNavigationDelegate, PHPrefViewControllerDelegate, UIPopoverPresentationControllerDelegate> {
+@interface ArticleController () <UICollectionViewDelegateFlowLayout, WKUIDelegate, WKNavigationDelegate, ArticleSettingsDelegate, UIPopoverPresentationControllerDelegate> {
     BOOL shouldScrollToInitialArticle;
     BOOL loadingComplete;
     BOOL loadingSummary;
@@ -27,7 +26,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *actionBarButton;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *menuBarButton;
 
-@property (nonatomic, strong, readonly) PHPrefViewController *settingsViewController;
+@property (nonatomic, strong, readonly) ArticleSettings *settingsViewController;
 @property (nonatomic, strong, readonly) UIPopoverPresentationController *settingsPresentationController;
 @property (nonatomic, strong) ArticleCellWithWebView *currentCell;
 
@@ -40,7 +39,9 @@
 @synthesize settingsPresentationController;
 @synthesize currentCell;
 @synthesize items;
+@synthesize starred;
 
+@synthesize unread;
 static NSString * const reuseIdentifier = @"ArticleCell";
 
 - (void)viewDidLoad {
@@ -317,7 +318,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 
 #pragma mark - PHPrefViewControllerDelegate
 
-- (void)settingsChanged:(NSString *)setting newValue:(NSUInteger)value {
+- (void)settingsChanged:(BOOL)reload {
     BOOL starred = SettingsStore.starred;
     if (starred != currentCell.item.starred) {
         currentCell.item.starred = starred;
@@ -348,7 +349,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
         }
     }
     
-    if (currentCell.webView != nil && [setting isEqualToString:@"true"]) {
+    if (currentCell.webView != nil && reload) {
         [currentCell prepareForReuse];
         [currentCell configureView];
     }
@@ -377,7 +378,7 @@ static NSString * const reuseIdentifier = @"ArticleCell";
 
 #pragma mark - Lazy Objects
 
-- (PHPrefViewController *)settingsViewController {
+- (ArticleSettings *)settingsViewController {
     if (!settingsViewController) {
         settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"preferences"];
         settingsViewController.preferredContentSize = CGSizeMake(220, 245);
