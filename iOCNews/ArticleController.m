@@ -11,7 +11,6 @@
 #import "ArticleController.h"
 #import "OCNewsHelper.h"
 #import "iOCNews-Swift.h"
-#import "UICollectionView+ValidIndexPath.h"
 
 @interface ArticleController () <UICollectionViewDelegateFlowLayout, WKUIDelegate, WKNavigationDelegate, ArticleSettingsDelegate, UIPopoverPresentationControllerDelegate> {
     BOOL shouldScrollToInitialArticle;

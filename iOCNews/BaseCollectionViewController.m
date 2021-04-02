@@ -9,7 +9,6 @@
 #import "BaseCollectionViewController.h"
 #import "iOCNews-Swift.h"
 #import "OCNewsHelper.h"
-#import "UICollectionView+ValidIndexPath.h"
 
 @interface BaseCollectionViewController () <NSFetchedResultsControllerDelegate> {
     NSMutableArray<NSBlockOperation *> *blockOperations;

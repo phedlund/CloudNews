@@ -37,7 +37,6 @@
 #import "Item+CoreDataClass.h"
 #import "ArticleController.h"
 #import "iOCNews-Swift.h"
-#import "UICollectionView+ValidIndexPath.h"
 @import AFNetworking;
 
 @interface ArticleListController () <UIGestureRecognizerDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource, UICollectionViewDataSourcePrefetching> {
