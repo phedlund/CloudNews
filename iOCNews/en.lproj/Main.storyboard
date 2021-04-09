@@ -1036,7 +1036,7 @@
         <!--Articles-->
         <scene sceneID="1Vi-aZ-4mE">
             <objects>
-                <viewController id="FkQ-sC-AN6" customClass="ArticleListController" sceneMemberID="viewController">
+                <viewController id="FkQ-sC-AN6" customClass="ItemsViewController" customModule="iOCNews" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R3B-oJ-SGC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1084,30 +1084,36 @@
                     <navigationItem key="navigationItem" title="Articles" id="JCw-8O-7t8">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="mark" id="amN-ub-wN6">
                             <connections>
-                                <action selector="onMarkRead:" destination="FkQ-sC-AN6" id="nQL-tM-XbB"/>
+                                <action selector="onMarkRead:" destination="FkQ-sC-AN6" id="5Hv-Wx-dYW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="mMD-CZ-qdZ" id="1pC-Hz-ihm"/>
-                        <outlet property="markBarButtonItem" destination="amN-ub-wN6" id="Nu9-U7-zV2"/>
-                        <outlet property="sideGestureRecognizer" destination="48A-Ka-8BA" id="D6l-XJ-KZ5"/>
+                        <outlet property="markBarButton" destination="amN-ub-wN6" id="4vQ-P5-xND"/>
+                        <outlet property="markGestureRecognizer" destination="QQg-l0-wTu" id="9DJ-3t-A2J"/>
+                        <outlet property="sideGestureRecognizer" destination="48A-Ka-8BA" id="HNw-NJ-yiv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WPF-ET-LuO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="left" id="QQg-l0-wTu">
+                    <connections>
+                        <action selector="onCellSwipe:" destination="FkQ-sC-AN6" id="GTq-YJ-bOJ"/>
+                    </connections>
+                </swipeGestureRecognizer>
                 <screenEdgePanGestureRecognizer minimumNumberOfTouches="1" id="48A-Ka-8BA">
                     <rectEdge key="edges" left="YES"/>
                     <connections>
-                        <action selector="onSideGestureRecognizer:" destination="FkQ-sC-AN6" id="ls2-f4-KjL"/>
+                        <action selector="onSideGestureRecognizer:" destination="FkQ-sC-AN6" id="Yjs-2R-kGV"/>
                     </connections>
                 </screenEdgePanGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-554" y="508"/>
         </scene>
-        <!--Article Controller-->
+        <!--Article View Controller-->
         <scene sceneID="lTA-mE-Wi7">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ggy-ns-Rvt" customClass="ArticleController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ggy-ns-Rvt" customClass="ArticleViewController" customModule="iOCNews" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eVB-F7-ce0">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1150,46 +1156,46 @@
                         <leftBarButtonItems>
                             <barButtonItem title="Item" image="back" id="gHu-gB-uO9">
                                 <connections>
-                                    <action selector="onBackBarButton:" destination="ggy-ns-Rvt" id="IPo-wt-hf7"/>
+                                    <action selector="onBackBarButton:" destination="ggy-ns-Rvt" id="J9z-rm-daW"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem title="Item" image="forward" id="Hdw-iG-Cnh">
                                 <connections>
-                                    <action selector="onForwardBarButton:" destination="ggy-ns-Rvt" id="OiH-NE-WUs"/>
+                                    <action selector="onForwardBarButton:" destination="ggy-ns-Rvt" id="YsF-Yc-EyW"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="zPH-u1-rTs">
                                 <connections>
-                                    <action selector="onReloadBarButton:" destination="ggy-ns-Rvt" id="ejE-uk-Vxw"/>
+                                    <action selector="onReloadButton:" destination="ggy-ns-Rvt" id="gBp-kX-wNB"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="stop" id="n0k-Pa-PLg">
                                 <connections>
-                                    <action selector="onStopBarButton:" destination="ggy-ns-Rvt" id="gkQ-TF-LlZ"/>
+                                    <action selector="onStopBarButton:" destination="ggy-ns-Rvt" id="uFP-Mv-UvZ"/>
                                 </connections>
                             </barButtonItem>
                         </leftBarButtonItems>
                         <rightBarButtonItems>
                             <barButtonItem title="Item" image="menu" id="Sj6-Qv-C2G">
                                 <connections>
-                                    <action selector="onMenuBarButton:" destination="ggy-ns-Rvt" id="aS5-ta-bmr"/>
+                                    <action selector="onMenuBarButton:" destination="ggy-ns-Rvt" id="9Nw-4u-UvV"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="action" id="piT-EF-A8R">
                                 <connections>
-                                    <action selector="onActionBarButton:" destination="ggy-ns-Rvt" id="Mcf-G2-B0T"/>
+                                    <action selector="onActionBarButton:" destination="ggy-ns-Rvt" id="qTp-j2-Xw6"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
                     <connections>
-                        <outlet property="actionBarButton" destination="piT-EF-A8R" id="cID-Zb-vjo"/>
-                        <outlet property="backBarButton" destination="gHu-gB-uO9" id="gES-rd-qAi"/>
+                        <outlet property="actionBarButton" destination="piT-EF-A8R" id="QSe-HB-Awf"/>
+                        <outlet property="backBarButton" destination="gHu-gB-uO9" id="ygk-Tm-1tt"/>
                         <outlet property="collectionView" destination="Eyg-5R-30c" id="6hB-M4-S6K"/>
-                        <outlet property="forwardBarButton" destination="Hdw-iG-Cnh" id="mtS-26-QNs"/>
-                        <outlet property="menuBarButton" destination="Sj6-Qv-C2G" id="Wt3-v9-kxz"/>
-                        <outlet property="reloadBarButton" destination="zPH-u1-rTs" id="eG4-RS-OrX"/>
-                        <outlet property="stopBarButton" destination="n0k-Pa-PLg" id="4W9-zh-bz0"/>
+                        <outlet property="forwardBarButton" destination="Hdw-iG-Cnh" id="OSb-TZ-tII"/>
+                        <outlet property="menuBarButton" destination="Sj6-Qv-C2G" id="Qjg-cx-UZh"/>
+                        <outlet property="reloadBarButton" destination="zPH-u1-rTs" id="rkw-BN-ucL"/>
+                        <outlet property="stopBarButton" destination="n0k-Pa-PLg" id="QBH-wY-UoE"/>
                         <outlet property="view" destination="eVB-F7-ce0" id="SkJ-Zb-xhL"/>
                     </connections>
                 </viewController>

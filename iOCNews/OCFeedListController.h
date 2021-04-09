@@ -30,12 +30,11 @@
  
  *************************************************************************/
 
-#import <UIKit/UIKit.h>
-#import "ArticleListController.h"
+@import CoreData;
+@import UIKit;
 
 @interface OCFeedListController: UITableViewController
 
-@property (strong, nonatomic) ArticleListController *detailViewController;
 @property (nonatomic, retain) NSFetchedResultsController *specialFetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *foldersFetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;

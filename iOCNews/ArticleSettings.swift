@@ -10,8 +10,8 @@ import UIKit
 
 @objc
 protocol ArticleSettingsDelegate {
-    var starred: Bool { get set }
-    var unread: Bool { get set }
+    var starred: Bool { get }
+    var unread: Bool { get }
     func settingsChanged(_ reload: Bool)
 }
 

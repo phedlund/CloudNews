@@ -72,13 +72,13 @@ class ThemeManager: NSObject {
 
         UITableViewCell.appearance().backgroundColor = themeColors.pbhCellBackground
 
-        UIView.appearance(whenContainedInInstancesOf: [ArticleListController.self]).backgroundColor = themeColors.pbhBackground
+        UIView.appearance(whenContainedInInstancesOf: [ItemsViewController.self]).backgroundColor = themeColors.pbhBackground
         UIView.appearance(whenContainedInInstancesOf: [FeedCell.self]).backgroundColor = themeColors.pbhPopoverBackground
         UIView.appearance(whenContainedInInstancesOf: [OCFeedListController.self]).backgroundColor = themeColors.pbhPopoverBackground
         UIView.appearance(whenContainedInInstancesOf: [UITableViewHeaderFooterView.self]).backgroundColor = themeColors.pbhPopoverButton
 
-        UICollectionView.appearance(whenContainedInInstancesOf: [ArticleListController.self]).backgroundColor = themeColors.pbhCellBackground
-        UICollectionView.appearance(whenContainedInInstancesOf: [ArticleController.self]).backgroundColor = themeColors.pbhCellBackground
+        UICollectionView.appearance(whenContainedInInstancesOf: [ItemsViewController.self]).backgroundColor = themeColors.pbhCellBackground
+        UICollectionView.appearance(whenContainedInInstancesOf: [ArticleViewController.self]).backgroundColor = themeColors.pbhCellBackground
         UITableView.appearance(whenContainedInInstancesOf: [OCFeedListController.self]).backgroundColor = themeColors.pbhPopoverBackground
         UITableView.appearance(whenContainedInInstancesOf: [SettingsViewController.self]).backgroundColor = themeColors.pbhPopoverBackground
         UITableView.appearance(whenContainedInInstancesOf: [ThemeSettings.self]).backgroundColor = themeColors.pbhPopoverBackground

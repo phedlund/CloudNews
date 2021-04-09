@@ -49,6 +49,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *gearBarButtonItem;
 @property (nonatomic, assign) BOOL collapseDetailViewController;
+@property (strong, nonatomic) ItemsViewController *detailViewController;
 
 - (void) networkCompleted:(NSNotification*)n;
 - (void) networkError:(NSNotification*)n;
@@ -471,7 +472,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
         
         UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        self.detailViewController = (ArticleListController *)navigationController.topViewController;
+        self.detailViewController = (ItemsViewController *)navigationController.topViewController;
         
         if (!self.tableView.isEditing) {
             Folder *folder;
