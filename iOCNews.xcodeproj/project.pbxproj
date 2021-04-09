@@ -65,7 +65,6 @@
 		D0D39B8C2595245D002C07DD /* KSCrash in Frameworks */ = {isa = PBXBuildFile; productRef = D0D39B8B2595245D002C07DD /* KSCrash */; };
 		D0DD7BC1255E222700B124C9 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = D0DD7BC0255E222700B124C9 /* SwiftMessages */; };
 		D0DD7BC5255E225500B124C9 /* SwiftMessagesHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DD7BC4255E225500B124C9 /* SwiftMessagesHelper.swift */; };
-		D0DD7BCC255F6FE100B124C9 /* UICKeyChainStore in Frameworks */ = {isa = PBXBuildFile; productRef = D0DD7BCB255F6FE100B124C9 /* UICKeyChainStore */; };
 		D0E6C783259FF1D90070317B /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6C782259FF1D90070317B /* FeedCell.swift */; };
 		D0E6C78A25A6AB690070317B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78925A6AB690070317B /* Kingfisher */; };
 		D0E6C78F25A6B2820070317B /* AFNetworking in Frameworks */ = {isa = PBXBuildFile; productRef = D0E6C78E25A6B2820070317B /* AFNetworking */; };
@@ -184,7 +183,6 @@
 				D02CCAF41CE7E27300F6CCEC /* WebKit.framework in Frameworks */,
 				D0E96E8526082BFD000B9590 /* KeychainAccess in Frameworks */,
 				D0AAB685255CE93E00F4FC5F /* CoreServices.framework in Frameworks */,
-				D0DD7BCC255F6FE100B124C9 /* UICKeyChainStore in Frameworks */,
 				D07AD73225A92962005CBCFC /* SwiftSoup in Frameworks */,
 				D06CB23617A074AA00A1310B /* CoreData.framework in Frameworks */,
 				D0F1813F17850CAF00F719D9 /* Security.framework in Frameworks */,
@@ -369,7 +367,6 @@
 			name = iOCNews;
 			packageProductDependencies = (
 				D0DD7BC0255E222700B124C9 /* SwiftMessages */,
-				D0DD7BCB255F6FE100B124C9 /* UICKeyChainStore */,
 				D0D39B8B2595245D002C07DD /* KSCrash */,
 				D0E6C78925A6AB690070317B /* Kingfisher */,
 				D0E6C78E25A6B2820070317B /* AFNetworking */,
@@ -448,7 +445,6 @@
 			mainGroup = D0BCAA19177900C300C965F4;
 			packageReferences = (
 				D0DD7BBF255E222700B124C9 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
-				D0DD7BCA255F6FE100B124C9 /* XCRemoteSwiftPackageReference "UICKeyChainStore" */,
 				D0D39B8A2595245D002C07DD /* XCRemoteSwiftPackageReference "KSCrash" */,
 				D0E6C78825A6AB690070317B /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				D0E6C78D25A6B2820070317B /* XCRemoteSwiftPackageReference "AFNetworking" */,
@@ -844,14 +840,6 @@
 				minimumVersion = 8.0.3;
 			};
 		};
-		D0DD7BCA255F6FE100B124C9 /* XCRemoteSwiftPackageReference "UICKeyChainStore" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kishikawakatsumi/UICKeyChainStore";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.1;
-			};
-		};
 		D0E6C78825A6AB690070317B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -893,11 +881,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D0DD7BBF255E222700B124C9 /* XCRemoteSwiftPackageReference "SwiftMessages" */;
 			productName = SwiftMessages;
-		};
-		D0DD7BCB255F6FE100B124C9 /* UICKeyChainStore */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D0DD7BCA255F6FE100B124C9 /* XCRemoteSwiftPackageReference "UICKeyChainStore" */;
-			productName = UICKeyChainStore;
 		};
 		D0E6C78925A6AB690070317B /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
