@@ -13,7 +13,6 @@ struct Constants {
     static let itemHeightCompact: CGFloat = 80
 }
 
-@objcMembers
 class ArticleListFlowLayout: UICollectionViewFlowLayout {
 
     private var computedContentSize: CGSize = .zero

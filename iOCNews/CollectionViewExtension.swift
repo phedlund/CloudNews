@@ -8,7 +8,6 @@
 
 import UIKit
 
-@objc
 extension UICollectionView {
 
     func isIndexPathAvailable(_ indexPath: IndexPath) -> Bool {

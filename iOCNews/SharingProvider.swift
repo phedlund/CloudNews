@@ -12,7 +12,7 @@ class SharingProvider: UIActivityItemProvider {
 
     private var subject = ""
 
-    @objc init(placeholderItem: Any, subject: String) {
+    init(placeholderItem: Any, subject: String) {
         super.init(placeholderItem: placeholderItem)
         self.subject = subject
     }

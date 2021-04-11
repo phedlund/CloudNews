@@ -9,7 +9,6 @@
 import Foundation
 import SwiftSoup
 
-@objcMembers
 class ArticleImage: NSObject {
     
     static let imagesToSkip = ["feedads","twitter_icon","facebook_icon","feedburner","gplus-16"]

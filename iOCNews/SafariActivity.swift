@@ -1,6 +1,5 @@
 import UIKit
 
-@objcMembers
 class SafariActivity: UIActivity {
     
     private var activityURL: URL?

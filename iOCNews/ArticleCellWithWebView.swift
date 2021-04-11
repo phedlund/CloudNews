@@ -19,7 +19,7 @@ class ArticleCellWithWebView: BaseArticleCell {
     }
 
     private var internalWebView: WKWebView?
-    @objc var webView: WKWebView? {
+    var webView: WKWebView? {
         get {
             if internalWebView == nil {
                 internalWebView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), configuration: self.webConfig)
@@ -37,7 +37,7 @@ class ArticleCellWithWebView: BaseArticleCell {
         }
     }
     
-    @objc func addWebView() {
+    func addWebView() {
         if let webView = self.webView {
             self.contentView.addSubview(webView)
             webView.translatesAutoresizingMaskIntoConstraints = false

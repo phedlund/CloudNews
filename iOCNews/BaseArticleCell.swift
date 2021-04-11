@@ -8,7 +8,7 @@
 
 import UIKit
 
-@objc protocol ArticleCellProtocol {
+protocol ArticleCellProtocol {
     var item: ItemProvider? {get set}
     func configureView()
 }

@@ -9,8 +9,7 @@
 import Foundation
 import Kingfisher
 
-@objcMembers
-class ItemProviderStruct: NSObject {
+class ItemProviderStruct {
     var myID: Int = -1
     var title: String?
     var author: String?
@@ -27,12 +26,9 @@ class ItemProviderStruct: NSObject {
     var feedTitle: String?
     var feedPreferWeb: Bool = false
     var feedUseReader: Bool = false
-    
-    override init() { }
 }
 
 
-@objcMembers
 class ItemProvider: NSObject {
     
     var item: ItemProviderStruct

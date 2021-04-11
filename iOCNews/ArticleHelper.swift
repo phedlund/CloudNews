@@ -8,7 +8,6 @@
 
 import SwiftSoup
 
-@objcMembers
 class ArticleHelper: NSObject {
     
     static var template: String? {
