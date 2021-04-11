@@ -80,9 +80,10 @@ class ItemProvider: NSObject {
     init(item: ItemProviderStruct) {
         self.item = item
         super.init()
+        configure()
     }
     
-    func configure() {
+    private func configure() {
         self.url = item.url
         self.starred = item.starred
         self.unread = item.unread
@@ -94,17 +95,17 @@ class ItemProvider: NSObject {
         self.isThumbnailHidden = !SettingsStore.showThumbnails
         isSummaryTextHidden = SettingsStore.compactView
 
-        if let link = item.imageLink, let url = URL(string: link) {
+        if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
             KingfisherManager.shared.retrieveImage(with: url) { result in
                 switch result {
                 case .success(let value):
                     self.thumbnail = value.image
-                case .failure(let error):
-                    print(error)
+                case .failure(_):
+                    print("Failed to retrieve image from \(link)")
                 }
             }
         }
-        if let link = self.favIconLink, link != "favicon", let url = URL(string: link) {
+        if let link = self.favIconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
             KingfisherManager.shared.retrieveImage(with: url) { result in
                 switch result {
                 case .success(let value):

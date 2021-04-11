@@ -206,7 +206,7 @@ extension ArticleViewController: UIScrollViewDelegate {
                 let set = Set([item.myId])
                 let nsSet = NSMutableSet(set: set)
                 OCNewsHelper.shared().markItemsReadOffline(nsSet)
-                articleListController?.performCellPrefetch(for: indexPath)
+                _ = articleListController?.createItemProvider(for: indexPath)
             }
             articleListController?.collectionView.scrollToItemIfAvailable(indexPath, atScrollPosition: .top, animated: false)
             updateNavigationItemTitle()
@@ -251,7 +251,6 @@ extension ArticleViewController: UICollectionViewDataSource {
             itemData.feedPreferWeb = feed?.preferWeb ?? false
             itemData.feedUseReader = feed?.useReader ?? false
             let provider = ItemProvider(item: itemData)
-            provider.configure()
             articleCell.item = provider;
             if currentCell == nil {
                 currentCell = articleCell
@@ -340,7 +339,7 @@ extension ArticleViewController: ArticleSettingsDelegate {
         let starred = SettingsStore.starred
         if starred != currentCell?.item?.starred {
             currentCell?.item?.starred = starred
-            articleListController?.performCellPrefetch(for: currentIndexPath)
+            _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
                 if starred {
                     OCNewsHelper.shared().starItemOffline(item.myId)
@@ -353,7 +352,7 @@ extension ArticleViewController: ArticleSettingsDelegate {
         let unread = SettingsStore.unread
         if unread != currentCell?.item?.unread {
             currentCell?.item?.unread = unread
-            articleListController?.performCellPrefetch(for: currentIndexPath)
+            _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
                 if unread {
                     OCNewsHelper.shared().markItemUnreadOffline(item.myId)

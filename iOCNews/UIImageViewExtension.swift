@@ -13,7 +13,14 @@ import Kingfisher
 extension UIImageView {
     
     func setImage(with url: URL) {
-        self.kf.setImage(with: url)
+        self.kf.setImage(with: url, placeholder: nil, options: nil) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure(_):
+                print("Failed to retrieve image from \(url.absoluteString)")
+            }
+        }
     }
     
     func setFavIcon(for feed: Feed) {
@@ -34,7 +41,7 @@ extension UIImageView {
             }
         }
         
-        if let link = feed.faviconLink, link != "favicon", let url = URL(string: link) {
+        if let link = feed.faviconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
             self.kf.setImage(with: url) { result in
                 switch result {
                 case .success(_):

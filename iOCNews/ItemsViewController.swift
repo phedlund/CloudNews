@@ -121,11 +121,11 @@ class ItemsViewController: BaseCollectionViewController {
 
     // MARK: - Public Functions
 
-    func performCellPrefetch(for indexPath: IndexPath) {
+    func createItemProvider(for indexPath: IndexPath, preFetching: Bool = true) -> ItemProvider? {
         guard collectionView.isIndexPathAvailable(indexPath),
               let item = fetchedResultsController?.object(at: indexPath) as? Item,
               let feed = OCNewsHelper.shared()?.feed(withId: Int(item.feedId)) else {
-            return
+            return nil
         }
 
         let itemData = ItemProviderStruct()
@@ -144,26 +144,28 @@ class ItemsViewController: BaseCollectionViewController {
         itemData.feedTitle = feed.title
         itemData.feedPreferWeb = feed.preferWeb
         itemData.feedUseReader = feed.useReader
-
         let provider = ItemProvider(item: itemData)
-        let blockOperation = BlockOperation()
-        blockOperation.addExecutionBlock { [weak self, weak provider, weak blockOperation] in
-            if blockOperation?.isCancelled ?? false {
-                self?.operations[indexPath] = nil
-                return
-            }
-            provider?.configure()
-            DispatchQueue.main.async {
-                if let visibleCells = self?.collectionView.indexPathsForVisibleItems, visibleCells.contains(indexPath),
-                   let cell = self?.collectionView.cellForItem(at: indexPath) as? BaseArticleCell {
-                    cell.item = provider
+
+        if preFetching {
+            let blockOperation = BlockOperation()
+            blockOperation.addExecutionBlock { [weak self, weak provider, weak blockOperation] in
+                if blockOperation?.isCancelled ?? false {
+                    self?.operations[indexPath] = nil
+                    return
+                }
+                DispatchQueue.main.async {
+                    if let visibleCells = self?.collectionView.indexPathsForVisibleItems, visibleCells.contains(indexPath),
+                       let cell = self?.collectionView.cellForItem(at: indexPath) as? BaseArticleCell {
+                        cell.item = provider
+                    }
                 }
             }
-        }
 
-        itemProviderOperationQueue.addOperation(blockOperation)
-        operations[indexPath] = blockOperation
+            itemProviderOperationQueue.addOperation(blockOperation)
+            operations[indexPath] = blockOperation
+        }
         fetchedItemProviders[indexPath] = provider
+        return provider
     }
 
     // MARK: - Private Functions
@@ -256,7 +258,7 @@ class ItemsViewController: BaseCollectionViewController {
             let nsSet = NSMutableSet(set: set)
             OCNewsHelper.shared()?.markItemsReadOffline(nsSet)
             for indexPath in indexPaths {
-                performCellPrefetch(for: indexPath)
+                _ = createItemProvider(for: indexPath)
             }
             refresh()
     }
@@ -441,7 +443,7 @@ extension ItemsViewController: UICollectionViewDataSource {
             if let itemProvider = fetchedItemProviders[indexPath] {
                 cell.item = itemProvider
             } else {
-                performCellPrefetch(for: indexPath)
+                cell.item = createItemProvider(for: indexPath, preFetching: false)
             }
             return cell
         }
@@ -455,7 +457,7 @@ extension ItemsViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             guard fetchedItemProviders[indexPath] != nil else {
-                performCellPrefetch(for: indexPath)
+                _ = createItemProvider(for: indexPath)
                 return
             }
         }

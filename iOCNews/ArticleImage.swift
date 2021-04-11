@@ -10,7 +10,8 @@ import Foundation
 import SwiftSoup
 
 class ArticleImage: NSObject {
-    
+
+    static let validSchemas = ["http", "https", "file"]
     static let imagesToSkip = ["feedads","twitter_icon","facebook_icon","feedburner","gplus-16"]
 
     @objc
@@ -22,6 +23,9 @@ class ArticleImage: NSObject {
             let srcs: Elements = try doc.select("img[src]")
             let images = try srcs.array().map({ try $0.attr("src") })
             let filteredImages = images.filter { src in
+                if !validSchemas.contains(String(src.prefix(4))) {
+                    return false
+                }
                 for skip in imagesToSkip {
                     if src.contains(skip) {
                         return false
