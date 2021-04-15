@@ -93,14 +93,9 @@ class ArticleCellWithThumbnail: BaseArticleCell {
                 articleImage.image = item.thumbnail
             } else {
                 if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-                    articleImage.kf.setImage(with: url, placeholder: nil, options: nil) { result in
-                        switch result {
-                        case .success(_):
-                            break
-                        case .failure(_):
-                            print("Failed to retrieve image from \(link)")
-                        }
-                    }
+                    KF.url(url)
+                        .loadDiskFileSynchronously()
+                        .set(to: articleImage)
                 }
             }
         }

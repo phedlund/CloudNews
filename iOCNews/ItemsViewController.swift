@@ -440,14 +440,25 @@ extension ItemsViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithThumbnail", for: indexPath) as? ArticleCellWithThumbnail {
-            if let itemProvider = fetchedItemProviders[indexPath] {
-                cell.item = itemProvider
-            } else {
-                cell.item = createItemProvider(for: indexPath, preFetching: false)
-            }
             return cell
         }
         return UICollectionViewCell()
+    }
+
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let articleCell = cell as? ArticleCellWithThumbnail {
+            if let itemProvider = fetchedItemProviders[indexPath] {
+                articleCell.item = itemProvider
+            } else {
+                articleCell.item = createItemProvider(for: indexPath, preFetching: false)
+            }
+        }
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let articleCell = cell as? ArticleCellWithThumbnail {
+            articleCell.articleImage.kf.cancelDownloadTask()
+        }
     }
 
 }
