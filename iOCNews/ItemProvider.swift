@@ -55,20 +55,13 @@ class ItemProvider: NSObject {
     var dateText: String = ""
     var summaryText: String = ""
     var isSummaryTextHidden = false
-    
     var titleColor: UIColor = .black
     var dateColor: UIColor = .black
     var summaryColor: UIColor = .black
-    
-    var favIcon: UIImage?
-    var isFavIconHidden: Bool = false
     var imageAlpha: CGFloat = 1.0
-    
+    var isFavIconHidden: Bool = false
     var isThumbnailHidden: Bool = false
-    var thumbnail: UIImage?
-    
     var starIcon: UIImage?
-    
     var url: String?
     var starred: Bool = false
     var unread: Bool = true
@@ -96,37 +89,14 @@ class ItemProvider: NSObject {
         isSummaryTextHidden = SettingsStore.compactView
 
         if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-            KingfisherManager.shared.retrieveImage(with: url) { result in
-                switch result {
-                case .success(let value):
-                    self.thumbnail = value.image
-                case .failure(_):
-                    print("Failed to retrieve image from \(link)")
-                }
-            }
-        }
-        if let link = self.favIconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-            KingfisherManager.shared.retrieveImage(with: url) { result in
-                switch result {
-                case .success(let value):
-                    self.favIcon = value.image
-                case .failure(_):
-                    self.favIcon = UIImage(named: "favicon")
-                }                }
+            self.imageLink = item.imageLink
         } else {
-            if let itemUrl = URL(string: item.url ?? ""), let host = itemUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {
-                let processor = IcoDataProcessor()
-                KingfisherManager.shared.retrieveImage(with: url, options: [.processor(processor)]) { result in
-                    switch result {
-                    case .success(let value):
-                        self.favIcon = value.image
-                    case .failure(_):
-                        self.favIcon = UIImage(named: "favicon")
-                    }
-                }
-            } else {
-                self.favIcon = UIImage(named: "favicon")
-            }
+            self.imageLink = nil
+        }
+        if let link = item.favIconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
+            self.favIconLink = item.favIconLink
+        } else if let itemUrl = URL(string: item.url ?? ""), let host = itemUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {
+            self.favIconLink = url.absoluteString
         }
         
         let title = item.title

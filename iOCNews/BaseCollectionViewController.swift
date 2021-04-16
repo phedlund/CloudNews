@@ -31,7 +31,6 @@ open class BaseCollectionViewController: UIViewController {
             if internalFetchRequest == nil, let context = OCNewsHelper.shared()?.context {
                 internalFetchRequest = NSFetchRequest()
                 internalFetchRequest?.entity = NSEntityDescription.entity(forEntityName: "Item", in: context)
-                internalFetchRequest?.fetchBatchSize = 25
                 internalFetchRequest?.sortDescriptors = [NSSortDescriptor(key: "myId", ascending: SettingsStore.sortOldestFirst)]
             }
             return internalFetchRequest

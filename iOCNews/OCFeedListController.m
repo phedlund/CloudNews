@@ -82,8 +82,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchBatchSize:100];
-        
+
         specialFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                               managedObjectContext:[OCNewsHelper sharedHelper].context
                                                                                 sectionNameKeyPath:nil
@@ -101,8 +100,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchBatchSize:20];
-    
+
         foldersFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                               managedObjectContext:[OCNewsHelper sharedHelper].context
                                                                                 sectionNameKeyPath:nil
@@ -123,7 +121,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchBatchSize:20];
         
         feedsFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                             managedObjectContext:[OCNewsHelper sharedHelper].context

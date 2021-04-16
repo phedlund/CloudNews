@@ -28,6 +28,65 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var articleImageCenterYConstraint: NSLayoutConstraint!
     @IBOutlet var summarLabelVerticalSpacingConstraint: NSLayoutConstraint!
 
+    func configureFavIcon() {
+        guard let item = self.item else {
+            return
+        }
+        if item.isFavIconHidden {
+            favIconImage.isHidden = true
+        } else {
+            if let link = item.favIconLink, link != "favicon", let url = URL(string: link) {
+                KF.url(url)
+                    .loadDiskFileSynchronously()
+                    .set(to: favIconImage)
+            } else {
+                favIconImage.image = UIImage(named: "favicon")
+            }
+            favIconImage.isHidden = false
+            favIconImage.alpha = item.imageAlpha
+        }
+    }
+
+    func configureThumbnail(_ isCompactView: Bool) {
+        guard let item = self.item else {
+            return
+        }
+        if item.isThumbnailHidden || item.imageLink == nil {
+            articleImage.isHidden = true
+            contentContainerLeadingConstraint.constant = 0
+            stackViewLeadingConstraint.constant = 0
+            articleImageWidthContraint.constant = 0
+            summaryLabelLeadingConstraint.constant = 0
+        } else {
+            if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
+                articleImage.isHidden = false
+                contentContainerLeadingConstraint.constant = 10
+                if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
+                    articleImageWidthContraint.constant = 66
+                    articleImageCenterYConstraint.constant = isCompactView ? 0 : -37
+                    stackViewLeadingConstraint.constant = 0
+                    summaryLabelLeadingConstraint.constant = -74
+                } else {
+                    articleImageHeightConstraint.constant = isCompactView ? 66 : 112
+                    articleImageWidthContraint.constant = isCompactView ? 66 : 112
+                    articleImageCenterYConstraint.constant = 0
+                    stackViewLeadingConstraint.constant = 5
+                    summaryLabelLeadingConstraint.constant = 5
+                }
+                KF.url(url)
+                    .loadDiskFileSynchronously()
+                    .set(to: articleImage)
+                articleImage.alpha = item.imageAlpha
+            } else {
+                articleImage.isHidden = true
+                contentContainerLeadingConstraint.constant = 0
+                stackViewLeadingConstraint.constant = 0
+                articleImageWidthContraint.constant = 0
+                summaryLabelLeadingConstraint.constant = 0
+            }
+        }
+    }
+
     override func configureView() {
         super.configureView()
         guard let item = self.item else {
@@ -60,47 +119,6 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         titleLabel.highlightedTextColor = self.titleLabel.textColor;
         dateLabel.highlightedTextColor = self.dateLabel.textColor;
 
-        if item.isFavIconHidden {
-            favIconImage.isHidden = true
-        } else {
-            favIconImage.image = item.favIcon
-            favIconImage.isHidden = false
-            favIconImage.alpha = item.imageAlpha
-        }
-
-        if item.isThumbnailHidden || item.imageLink == nil {
-            articleImage.isHidden = true
-            contentContainerLeadingConstraint.constant = 0
-            stackViewLeadingConstraint.constant = 0
-            articleImageWidthContraint.constant = 0
-            summaryLabelLeadingConstraint.constant = 0
-        } else {
-            articleImage.isHidden = false
-            contentContainerLeadingConstraint.constant = 10
-            if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
-                articleImageWidthContraint.constant = 66
-                articleImageCenterYConstraint.constant = isCompactView ? 0 : -37
-                stackViewLeadingConstraint.constant = 0
-                summaryLabelLeadingConstraint.constant = -74
-            } else {
-                articleImageHeightConstraint.constant = isCompactView ? 66 : 112
-                articleImageWidthContraint.constant = isCompactView ? 66 : 112
-                articleImageCenterYConstraint.constant = 0
-                stackViewLeadingConstraint.constant = 5
-                summaryLabelLeadingConstraint.constant = 5
-            }
-            if (item.thumbnail != nil) {
-                articleImage.image = item.thumbnail
-            } else {
-                if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-                    KF.url(url)
-                        .loadDiskFileSynchronously()
-                        .set(to: articleImage)
-                }
-            }
-        }
-
-        articleImage.alpha = item.imageAlpha
         starImage.image = item.starIcon
 
         isHighlighted = false
