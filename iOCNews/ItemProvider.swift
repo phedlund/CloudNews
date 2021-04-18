@@ -9,7 +9,7 @@
 import Foundation
 import Kingfisher
 
-class ItemProviderStruct {
+struct ItemProviderStruct {
     var myID: Int = -1
     var title: String?
     var author: String?
@@ -29,7 +29,7 @@ class ItemProviderStruct {
 }
 
 
-class ItemProvider: NSObject {
+struct ItemProvider {
     
     var item: ItemProviderStruct
     
@@ -66,37 +66,30 @@ class ItemProvider: NSObject {
     var starred: Bool = false
     var unread: Bool = true
     var myId: Int = -1
-    var favIconLink: String?
+    var favIconUrl: URL?
     var feedTitle: String?
-    var imageLink: String?
+    var imageUrl: URL?
     
     init(item: ItemProviderStruct) {
         self.item = item
-        super.init()
-        configure()
-    }
-    
-    private func configure() {
         self.url = item.url
         self.starred = item.starred
         self.unread = item.unread
         self.myId = item.myID
-        self.favIconLink = item.favIconLink
         self.feedTitle = item.feedTitle
-        self.imageLink = item.imageLink
         self.isFavIconHidden = !SettingsStore.showFavIcons
         self.isThumbnailHidden = !SettingsStore.showThumbnails
         isSummaryTextHidden = SettingsStore.compactView
 
         if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-            self.imageLink = item.imageLink
-        } else {
-            self.imageLink = nil
+            self.imageUrl = url
         }
         if let link = item.favIconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-            self.favIconLink = item.favIconLink
+            self.favIconUrl = url
         } else if let itemUrl = URL(string: item.url ?? ""), let host = itemUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {
-            self.favIconLink = url.absoluteString
+            self.favIconUrl = url
+        } else {
+            self.favIconUrl = URL.localURLForXCAsset(name: "favicon")
         }
         
         let title = item.title
@@ -163,4 +156,22 @@ class ItemProvider: NSObject {
         }
         
     }
+}
+
+extension URL {
+
+    static func localURLForXCAsset(name: String) -> URL? {
+        let fileManager = FileManager.default
+        guard let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else {return nil}
+        let url = cacheDirectory.appendingPathComponent("\(name)").appendingPathExtension("png")
+        let path = url.path
+        if !fileManager.fileExists(atPath: path) {
+            guard let image = UIImage(named: name), let data = image.pngData() else {
+                return nil
+            }
+            fileManager.createFile(atPath: path, contents: data, attributes: nil)
+        }
+        return url
+    }
+
 }

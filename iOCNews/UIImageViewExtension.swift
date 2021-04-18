@@ -12,17 +12,6 @@ import Kingfisher
 @objc
 extension UIImageView {
     
-    func setImage(with url: URL) {
-        self.kf.setImage(with: url, placeholder: nil, options: nil) { result in
-            switch result {
-            case .success(_):
-                break
-            case .failure(_):
-                print("Failed to retrieve image from \(url.absoluteString)")
-            }
-        }
-    }
-    
     func setFavIcon(for feed: Feed) {
         func useFeedURL() {
             if let feedUrl = URL(string: feed.link ?? ""), let host = feedUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {

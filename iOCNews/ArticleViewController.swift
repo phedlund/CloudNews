@@ -234,7 +234,7 @@ extension ArticleViewController: UICollectionViewDataSource {
             articleCell.webView?.uiDelegate = self
 
             let feed = OCNewsHelper.shared()?.feed(withId: Int(cellItem.feedId))
-            let itemData = ItemProviderStruct()
+            var itemData = ItemProviderStruct()
             itemData.title = cellItem.title
             itemData.myID = Int(cellItem.myId)
             itemData.author = cellItem.author

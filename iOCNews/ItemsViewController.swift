@@ -6,9 +6,9 @@
 //  Copyright © 2021 Peter Hedlund. All rights reserved.
 //
 
+import Kingfisher
 import UIKit
 
-@objcMembers
 class ItemsViewController: BaseCollectionViewController {
 
     @IBOutlet var markBarButton: UIBarButtonItem!
@@ -128,7 +128,7 @@ class ItemsViewController: BaseCollectionViewController {
             return nil
         }
 
-        let itemData = ItemProviderStruct()
+        var itemData = ItemProviderStruct()
         itemData.title = item.title
         itemData.myID = Int(item.myId)
         itemData.author = item.author
@@ -148,7 +148,7 @@ class ItemsViewController: BaseCollectionViewController {
 
         if preFetching {
             let blockOperation = BlockOperation()
-            blockOperation.addExecutionBlock { [weak self, weak provider, weak blockOperation] in
+            blockOperation.addExecutionBlock { [weak self, weak blockOperation] in
                 if blockOperation?.isCancelled ?? false {
                     self?.operations[indexPath] = nil
                     return
@@ -160,7 +160,7 @@ class ItemsViewController: BaseCollectionViewController {
                     }
                 }
             }
-
+            
             itemProviderOperationQueue.addOperation(blockOperation)
             operations[indexPath] = blockOperation
         }
@@ -451,9 +451,17 @@ extension ItemsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if let articleCell = cell as? ArticleCellWithThumbnail {
-            articleCell.configureFavIcon()
-            articleCell.configureThumbnail(SettingsStore.compactView)
+        if let articleCell = cell as? ArticleCellWithThumbnail, let item = articleCell.item {
+            if !item.isFavIconHidden, let url = item.favIconUrl {
+                KF.url(url)
+                    .loadDiskFileSynchronously()
+                    .set(to: articleCell.favIconImage)
+            }
+            if !item.isThumbnailHidden, let url = item.imageUrl {
+                KF.url(url)
+                    .loadDiskFileSynchronously()
+                    .set(to: articleCell.articleImage)
+            }
         }
     }
 

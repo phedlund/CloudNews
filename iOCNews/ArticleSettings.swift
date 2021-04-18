@@ -8,14 +8,12 @@
 
 import UIKit
 
-@objc
 protocol ArticleSettingsDelegate {
     var starred: Bool { get }
     var unread: Bool { get }
     func settingsChanged(_ reload: Bool)
 }
 
-@objcMembers
 class ArticleSettings: UIViewController {
 
     @IBOutlet var markUnreadButton: UIButton!
