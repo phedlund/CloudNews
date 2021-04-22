@@ -91,6 +91,9 @@
                                                 </constraints>
                                             </stackView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="2up-w4-hhc"/>
+                                        </constraints>
                                     </stackView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="249" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="SummaryLabel">
                                         <rect key="frame" x="5" y="76.5" width="553" height="71.5"/>
@@ -186,6 +189,7 @@
                 <outlet property="summaryLabel" destination="5" id="wO9-zh-Yyn"/>
                 <outlet property="summaryLabelLeadingConstraint" destination="4Wy-7p-w8Q" id="ebr-Ri-AMO"/>
                 <outlet property="titleLabel" destination="3" id="ZVP-us-of7"/>
+                <outlet property="titleStackviewHeightConstriant" destination="2up-w4-hhc" id="hGe-4c-Qxn"/>
             </connections>
             <point key="canvasLocation" x="609" y="112"/>
         </collectionViewCell>

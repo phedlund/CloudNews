@@ -27,6 +27,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var summaryLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageCenterYConstraint: NSLayoutConstraint!
     @IBOutlet var summarLabelVerticalSpacingConstraint: NSLayoutConstraint!
+    @IBOutlet var titleStackviewHeightConstriant: NSLayoutConstraint!
 
     override func configureView() {
         super.configureView()
@@ -40,6 +41,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             summaryLabel.text = nil
             summaryLabelLeadingConstraint.constant = 0
             summarLabelVerticalSpacingConstraint.isActive = false
+            titleStackviewHeightConstriant.isActive = true
         } else {
             summaryLabel.isHidden = false
             summaryLabel.font = item.summaryFont
@@ -47,6 +49,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             summaryLabel.setThemeColor(item.summaryColor)
             summaryLabel.highlightedTextColor = self.summaryLabel.textColor
             summarLabelVerticalSpacingConstraint.isActive = true
+            titleStackviewHeightConstriant.isActive = false
         }
         titleLabel.font = item.titleFont
         dateLabel.font = item.dateFont
