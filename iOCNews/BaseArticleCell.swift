@@ -49,7 +49,7 @@ class BaseArticleCell: UICollectionViewCell, ArticleCellProtocol {
         let height = SettingsStore.compactView ? Constants.itemHeightCompact : Constants.itemHeightRegular
         let width = layoutAttributes.frame.size.width
         self.contentView.frame.size.width = width
-        bottomBorder.frame = CGRect(x: 15, y: height - 1, width: width - 30, height: 0.5)
+        bottomBorder.frame = CGRect(x: 0, y: height - 1, width: width, height: 0.5)
     }
 
 }

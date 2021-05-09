@@ -9,8 +9,8 @@
 import UIKit
 
 struct Constants {
-    static let itemHeightRegular: CGFloat = 154
-    static let itemHeightCompact: CGFloat = 80
+    static let itemHeightRegular: CGFloat = 156
+    static let itemHeightCompact: CGFloat = 90
 }
 
 class ArticleListFlowLayout: UICollectionViewFlowLayout {
@@ -26,7 +26,7 @@ class ArticleListFlowLayout: UICollectionViewFlowLayout {
         computedContentSize = .zero
         cellAttributes.removeAll()
         
-        let itemWidth = cv.frame.size.width
+        let itemWidth = min(cv.frame.size.width, 700) 
         let itemHeight = SettingsStore.compactView ? Constants.itemHeightCompact : Constants.itemHeightRegular
 
         for section in 0 ..< cv.numberOfSections {
@@ -35,6 +35,7 @@ class ArticleListFlowLayout: UICollectionViewFlowLayout {
                 let indexPath = IndexPath(item: item, section: section)
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = itemFrame
+                attributes.center = CGPoint(x: cv.frame.midX, y: itemFrame.midY)
                 cellAttributes[indexPath] = attributes
             }
         }

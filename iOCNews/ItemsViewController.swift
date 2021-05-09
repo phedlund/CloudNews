@@ -7,6 +7,7 @@
 //
 
 import Kingfisher
+import SwiftUI
 import UIKit
 
 class ItemsViewController: BaseCollectionViewController {
@@ -58,7 +59,11 @@ class ItemsViewController: BaseCollectionViewController {
         navigationItem.leftItemsSupplementBackButton = true
         navigationItem.rightBarButtonItem = markBarButton
         markBarButton.isEnabled = false
-        collectionView.register(UINib(nibName: "ArticleCellWithThumbnail", bundle: nil), forCellWithReuseIdentifier: "ArticleCellWithThumbnail")
+        if #available(iOS 13.0.0, *) {
+            collectionView.register(ArticleListItemCell.self, forCellWithReuseIdentifier: "ArticleCellWithThumbnail")
+        } else {
+            collectionView.register(UINib(nibName: "ArticleCellWithThumbnail", bundle: nil), forCellWithReuseIdentifier: "ArticleCellWithThumbnail")
+        }
         collectionView.scrollsToTop = false
         collectionView.addGestureRecognizer(markGestureRecognizer)
         collectionView.addGestureRecognizer(sideGestureRecognizer)
@@ -280,7 +285,17 @@ class ItemsViewController: BaseCollectionViewController {
                             }
                             if item.unread {
                                 item.unread = false
-                                indexPaths.append(IndexPath(item: index, section: 0))
+                                let indexPath = IndexPath(item: index, section: 0)
+                                if #available(iOS 13.0.0, *) {
+                                    var provider = fetchedItemProviders[indexPath]
+                                    provider?.unread = false
+                                    let cell = collectionView.cellForItem(at: indexPath) as? ArticleListItemCell
+                                    cell?.item = provider
+                                    cell?.configureView()
+                                } else {
+                                    // Fallback on earlier versions
+                                }
+                                indexPaths.append(indexPath)
                                 idsToMarkRead.append(item.myId)
                             }
                         }
@@ -439,6 +454,20 @@ extension ItemsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        if #available(iOS 13.0.0, *) {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithThumbnail", for: indexPath) as? ArticleListItemCell {
+                if let itemProvider = fetchedItemProviders[indexPath] {
+                    cell.item = itemProvider
+                    cell.configureView()
+                } else {
+                    cell.item = createItemProvider(for: indexPath, preFetching: false)
+                    cell.configureView()
+                }
+                return cell
+            }
+        }
+
+
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithThumbnail", for: indexPath) as? ArticleCellWithThumbnail {
             if let itemProvider = fetchedItemProviders[indexPath] {
                 cell.item = itemProvider
