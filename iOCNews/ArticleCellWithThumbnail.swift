@@ -26,8 +26,11 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var stackViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var summaryLabelLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageCenterYConstraint: NSLayoutConstraint!
-    @IBOutlet var summarLabelVerticalSpacingConstraint: NSLayoutConstraint!
+    @IBOutlet var summaryLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet var summaryLabelVerticalSpacingConstraint: NSLayoutConstraint!
     @IBOutlet var titleStackviewHeightConstriant: NSLayoutConstraint!
+    @IBOutlet var contentBottomToStackViewConstraint: NSLayoutConstraint!
+    @IBOutlet var contentBottomToSummaryConstraint: NSLayoutConstraint!
 
     override func configureView() {
         super.configureView()
@@ -40,16 +43,22 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             summaryLabel.isHidden = true
             summaryLabel.text = nil
             summaryLabelLeadingConstraint.constant = 0
-            summarLabelVerticalSpacingConstraint.isActive = false
+            summaryLabelTopConstraint.isActive = false
+            summaryLabelVerticalSpacingConstraint.isActive = false
             titleStackviewHeightConstriant.isActive = true
+            contentBottomToStackViewConstraint.isActive = true
+            contentBottomToSummaryConstraint.isActive = false
         } else {
             summaryLabel.isHidden = false
             summaryLabel.font = item.summaryFont
             summaryLabel.text = item.summaryText
             summaryLabel.setThemeColor(item.summaryColor)
             summaryLabel.highlightedTextColor = self.summaryLabel.textColor
-            summarLabelVerticalSpacingConstraint.isActive = true
+            summaryLabelTopConstraint.isActive = UIScreen.main.traitCollection.horizontalSizeClass == .compact
+            summaryLabelVerticalSpacingConstraint.isActive = UIScreen.main.traitCollection.horizontalSizeClass == .regular
             titleStackviewHeightConstriant.isActive = false
+            contentBottomToStackViewConstraint.isActive = false
+            contentBottomToSummaryConstraint.isActive = true
         }
         titleLabel.font = item.titleFont
         dateLabel.font = item.dateFont
@@ -67,6 +76,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         favIconImage.isHidden = item.isFavIconHidden
         favIconImage.alpha = item.imageAlpha
 
+        summaryLabelTopConstraint.constant = 76
         if item.isThumbnailHidden || item.imageUrl == nil {
             articleImage.isHidden = true
             contentContainerLeadingConstraint.constant = 0

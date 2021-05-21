@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,10 +19,10 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQP-3C-1Dr" userLabel="MainSubview">
-                        <rect key="frame" x="15" y="0.0" width="696" height="153"/>
+                        <rect key="frame" x="15" y="44" width="696" height="75"/>
                         <subviews>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="lty-Lj-23R" userLabel="Thumbnail">
-                                <rect key="frame" x="0.0" y="20.5" width="112" height="112"/>
+                                <rect key="frame" x="0.0" y="4.6666666666666643" width="66" height="66"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="112" id="1YT-lr-una">
@@ -40,23 +40,23 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fl2-Me-Ib6" userLabel="ContentContainer">
-                                <rect key="frame" x="122" y="0.0" width="574" height="153"/>
+                                <rect key="frame" x="76" y="0.0" width="604" height="75"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="6zP-WE-7Li">
-                                        <rect key="frame" x="5" y="5" width="553" height="66.5"/>
+                                        <rect key="frame" x="5" y="5" width="583" height="41"/>
                                         <subviews>
                                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="250" text="This is a long title to see what happens when it goes over more than one line" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3">
-                                                <rect key="frame" x="0.0" y="0.0" width="553" height="42.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="583" height="17"/>
                                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" priority="750" constant="48" id="NpP-4r-yTC"/>
+                                                    <constraint firstAttribute="height" priority="999" constant="43" id="NpP-4r-yTC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Qug-Vl-axT">
-                                                <rect key="frame" x="0.0" y="50.5" width="553" height="16"/>
+                                                <rect key="frame" x="0.0" y="25" width="583" height="16"/>
                                                 <subviews>
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ENK-Fa-lo4">
                                                         <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
@@ -66,7 +66,7 @@
                                                         </constraints>
                                                     </imageView>
                                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="left" text="Author &amp; Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4">
-                                                        <rect key="frame" x="21" y="0.0" width="532" height="16"/>
+                                                        <rect key="frame" x="21" y="0.0" width="562" height="16"/>
                                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="16" id="czU-T8-OBG"/>
@@ -92,11 +92,11 @@
                                             </stackView>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="2up-w4-hhc"/>
+                                            <constraint firstAttribute="height" relation="greaterThanOrEqual" priority="750" constant="66" id="2up-w4-hhc"/>
                                         </constraints>
                                     </stackView>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="249" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5" userLabel="SummaryLabel">
-                                        <rect key="frame" x="5" y="76.5" width="553" height="71.5"/>
+                                        <rect key="frame" x="0.0" y="51" width="588" height="19"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="82" id="HRx-p9-9tv">
@@ -118,14 +118,27 @@
                                         <variation key="widthClass=compact" constant="5"/>
                                     </constraint>
                                     <constraint firstItem="6zP-WE-7Li" firstAttribute="top" secondItem="fl2-Me-Ib6" secondAttribute="top" constant="5" id="7Q5-8N-aUS"/>
-                                    <constraint firstItem="5" firstAttribute="top" secondItem="6zP-WE-7Li" secondAttribute="bottom" constant="5" id="Y1A-ha-6Qo"/>
+                                    <constraint firstItem="5" firstAttribute="top" secondItem="6zP-WE-7Li" secondAttribute="bottom" constant="5" id="7yG-ph-nuJ"/>
+                                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6zP-WE-7Li" secondAttribute="bottom" constant="5" id="LC2-DR-iAO"/>
+                                    <constraint firstItem="5" firstAttribute="top" secondItem="fl2-Me-Ib6" secondAttribute="top" constant="51" placeholder="YES" id="Yay-uW-Xxq"/>
                                     <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="16" id="fEg-AN-Jwe"/>
                                     <constraint firstAttribute="trailing" secondItem="6zP-WE-7Li" secondAttribute="trailing" constant="16" id="fUX-aP-BNy"/>
                                     <constraint firstItem="6zP-WE-7Li" firstAttribute="leading" secondItem="fl2-Me-Ib6" secondAttribute="leading" constant="5" id="sge-1s-bEl"/>
+                                    <constraint firstItem="5" firstAttribute="top" secondItem="fl2-Me-Ib6" secondAttribute="top" constant="51" id="wtF-th-aVx"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="wtF-th-aVx"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <exclude reference="wtF-th-aVx"/>
+                                    </mask>
+                                </variation>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peC-zy-JQ2" userLabel="StarContainer">
-                                <rect key="frame" x="680" y="0.0" width="16" height="153"/>
+                                <rect key="frame" x="680" y="0.0" width="16" height="75"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uAr-hd-b6i">
                                         <rect key="frame" x="0.0" y="5" width="16" height="16"/>
@@ -153,7 +166,7 @@
                             </constraint>
                             <constraint firstItem="fl2-Me-Ib6" firstAttribute="height" secondItem="LQP-3C-1Dr" secondAttribute="height" id="DfD-8k-0xm"/>
                             <constraint firstItem="lty-Lj-23R" firstAttribute="centerY" secondItem="LQP-3C-1Dr" secondAttribute="centerY" id="EeW-I6-fgl">
-                                <variation key="widthClass=compact" constant="-37"/>
+                                <variation key="widthClass=compact" constant="0.0"/>
                             </constraint>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="700" id="a72-gx-Rj4"/>
                             <constraint firstItem="fl2-Me-Ib6" firstAttribute="top" secondItem="peC-zy-JQ2" secondAttribute="top" id="hXJ-WH-oeu"/>
@@ -177,6 +190,8 @@
                 <outlet property="articleImageCenterYConstraint" destination="EeW-I6-fgl" id="aEB-om-rQF"/>
                 <outlet property="articleImageHeightConstraint" destination="1YT-lr-una" id="akP-zl-8zL"/>
                 <outlet property="articleImageWidthContraint" destination="GYv-9d-N2u" id="SVx-9i-Oxv"/>
+                <outlet property="contentBottomToStackViewConstraint" destination="LC2-DR-iAO" id="xaV-tA-Bns"/>
+                <outlet property="contentBottomToSummaryConstraint" destination="6Bm-z6-2vn" id="qvk-pb-Qkb"/>
                 <outlet property="contentContainerLeadingConstraint" destination="7xO-z3-2hC" id="hA3-U6-H2f"/>
                 <outlet property="contentContainerView" destination="fl2-Me-Ib6" id="hhj-R4-Xs6"/>
                 <outlet property="dateLabel" destination="4" id="Dso-bz-8vW"/>
@@ -185,9 +200,10 @@
                 <outlet property="stackViewLeadingConstraint" destination="sge-1s-bEl" id="EkX-G5-gg2"/>
                 <outlet property="starContainerView" destination="peC-zy-JQ2" id="6BR-3a-fqJ"/>
                 <outlet property="starImage" destination="uAr-hd-b6i" id="pfE-vb-fhp"/>
-                <outlet property="summarLabelVerticalSpacingConstraint" destination="Y1A-ha-6Qo" id="dR8-mF-JwG"/>
                 <outlet property="summaryLabel" destination="5" id="wO9-zh-Yyn"/>
                 <outlet property="summaryLabelLeadingConstraint" destination="4Wy-7p-w8Q" id="ebr-Ri-AMO"/>
+                <outlet property="summaryLabelTopConstraint" destination="wtF-th-aVx" id="nG7-qg-vll"/>
+                <outlet property="summaryLabelVerticalSpacingConstraint" destination="7yG-ph-nuJ" id="ryJ-P5-Eqz"/>
                 <outlet property="titleLabel" destination="3" id="ZVP-us-of7"/>
                 <outlet property="titleStackviewHeightConstriant" destination="2up-w4-hhc" id="hGe-4c-Qxn"/>
             </connections>
