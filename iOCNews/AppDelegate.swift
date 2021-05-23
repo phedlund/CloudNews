@@ -12,12 +12,14 @@ import KSCrash_Reporting_Sinks
 import KSCrash_Reporting_Tools
 import KSCrash_Reporting_Filters_Tools
 #endif
+import BackgroundTasks
 import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let operationQueue = OperationQueue()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         #if !targetEnvironment(simulator)
@@ -36,7 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         if SettingsStore.syncInBackground {
-            UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
+            if #available(iOS 13.0, *) {
+                BGTaskScheduler.shared.register(forTaskWithIdentifier: "com.peterandlinda.iOCNews.sync", using: nil) { task in
+                    self.handleAppRefresh(task: task as! BGProcessingTask)
+                }
+            } else {
+                UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
+            }
         } else {
             UIApplication.shared.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalNever)
         }
@@ -75,6 +83,46 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             //
         }
     }
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        if #available(iOS 13.0, *) {
+            scheduleAppRefresh()
+        }
+    }
+
+    @available(iOS 13.0, *)
+    func handleAppRefresh(task: BGProcessingTask) {
+        scheduleAppRefresh()
+        let operation = BlockOperation {
+            OCNewsHelper.shared().backgroundSync()
+        }
+
+        task.expirationHandler = {
+            operation.cancel()
+        }
+
+        operation.completionBlock = {
+           task.setTaskCompleted(success: !operation.isCancelled)
+        }
+
+        operationQueue.addOperation(operation)
+    }
+
+    @available(iOS 13.0, *)
+    func scheduleAppRefresh() {
+
+        let request = BGProcessingTaskRequest(identifier: "com.peterandlinda.iOCNews.sync")
+        request.earliestBeginDate = Date(timeIntervalSinceNow: 10)
+        request.requiresNetworkConnectivity = true
+        request.requiresExternalPower = false
+
+        do {
+            try BGTaskScheduler.shared.submit(request)
+        } catch {
+            print("Could not schedule app refresh: \(error)")
+        }
+    }
+
 
     #if !targetEnvironment(simulator)
     func makeEmailInstallation() -> KSCrashInstallation? {
