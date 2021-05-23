@@ -30,7 +30,7 @@
  
  *************************************************************************/
 
-#import "iOCNews-Swift.h"
+#import "CloudNews-Swift.h"
 #import "OCAPIClient.h"
 
 //See http://twobitlabs.com/2013/01/objective-c-singleton-pattern-unit-testing/

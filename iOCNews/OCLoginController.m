@@ -32,7 +32,7 @@
 
 #import "OCLoginController.h"
 #import "OCAPIClient.h"
-#import "iOCNews-Swift.h"
+#import "CloudNews-Swift.h"
 
 static const NSString *rootPath = @"index.php/apps/news/api/v1-2/";
 

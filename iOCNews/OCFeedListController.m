@@ -35,7 +35,7 @@
 #import "OCNewsHelper.h"
 #import "Folder+CoreDataClass.h"
 #import "Feed+CoreDataClass.h"
-#import "iOCNews-Swift.h"
+#import "CloudNews-Swift.h"
 @import AFNetworking;
 
 static NSString *DetailSegueIdentifier = @"showDetail";

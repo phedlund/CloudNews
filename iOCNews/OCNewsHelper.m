@@ -34,7 +34,7 @@
 #import "OCAPIClient.h"
 #import "Feeds+CoreDataClass.h"
 #import "NSDictionary+HandleNull.h"
-#import "iOCNews-Swift.h"
+#import "CloudNews-Swift.h"
 @import AFNetworking;
 @import UserNotifications;
 
