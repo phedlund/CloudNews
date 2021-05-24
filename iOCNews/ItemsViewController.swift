@@ -89,6 +89,11 @@ class ItemsViewController: BaseCollectionViewController {
         observers.append(NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.collectionView.reloadData()
         }))
+        observers.append(NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main, using: { [weak self] _ in
+            if let visibleItems = self?.collectionView.indexPathsForVisibleItems {
+                self?.collectionView.reloadItems(at: visibleItems)
+            }
+        }))
     }
 
     override func viewWillAppear(_ animated: Bool) {
