@@ -388,7 +388,6 @@
 				ORGANIZATIONNAME = "Peter Hedlund";
 				TargetAttributes = {
 					D0BCAA21177900C300C965F4 = {
-						DevelopmentTeam = 73AQJ77PZ5;
 						LastSwiftMigration = 1220;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -697,7 +696,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1735;
+				CURRENT_PROJECT_VERSION = 1737;
+				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -744,7 +744,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1735;
+				CURRENT_PROJECT_VERSION = 1737;
+				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
