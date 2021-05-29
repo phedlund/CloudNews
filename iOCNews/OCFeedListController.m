@@ -42,7 +42,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 @interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
     NSInteger currentRenameId;
-    long currentIndex;
     BOOL networkHasBeenUnreachable;
     NSIndexPath *editingPath;
 }
@@ -50,6 +49,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *gearBarButtonItem;
 @property (nonatomic, assign) BOOL collapseDetailViewController;
 @property (strong, nonatomic) ItemsViewController *detailViewController;
+@property (nonatomic, assign) NSInteger currentIndex;
 
 - (void) networkCompleted:(NSNotification*)n;
 - (void) networkError:(NSNotification*)n;
@@ -70,6 +70,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 @synthesize feedSettingsAction;
 @synthesize feedDeleteAction;
 @synthesize collapseDetailViewController;
+@synthesize currentIndex;
 
 - (NSFetchedResultsController *)specialFetchedResultsController {
     if (!specialFetchedResultsController) {
@@ -392,7 +393,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     if (indexPath.section == 0) {
         return nil;
     }
-    
+
+    self.currentIndex = indexPath.row;
+
     NSMutableArray *actions = [NSMutableArray new];
     
     UIAction *settingsAction = [UIAction actionWithTitle:@"Settings..." image:[UIImage systemImageNamed:@"gearshape"] identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
@@ -402,9 +405,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     
     if (indexPath.section == 2) {
         UIAction *folderAction = [UIAction actionWithTitle:@"Folder..." image:[UIImage systemImageNamed:@"folder"] identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-            self->currentIndex = indexPath.row;
-            NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:self->currentIndex inSection:0];
+            NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
             Feed *feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
             
             UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"FolderNavController"];
@@ -414,7 +415,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
             folderController.folders = [[OCNewsHelper sharedHelper] folders];
             folderController.delegate = self;
             [self.navigationController presentViewController:navController animated:YES completion:nil];
-            
         }];
         [actions addObject:folderAction];
     }

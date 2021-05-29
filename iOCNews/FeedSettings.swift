@@ -37,7 +37,20 @@ class FeedSettings: UITableViewController {
         }
         refresh()
     }
-    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "folderSegue",
+           let folderController = segue.destination as? FolderTableViewController {
+            folderController.feed = feed
+            if let folders = OCNewsHelper.shared().folders() as? [Folder] {
+                folderController.folders = folders
+            }
+            folderController.navigationItem.leftBarButtonItems = nil
+            folderController.navigationItem.rightBarButtonItems = nil
+            folderController.delegate = self
+        }
+    }
+
     private func refresh() {
         if let feed = self.feed {
             tableView.beginUpdates()
