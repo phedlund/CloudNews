@@ -54,7 +54,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             summaryLabel.text = item.summaryText
             summaryLabel.setThemeColor(item.summaryColor)
             summaryLabel.highlightedTextColor = self.summaryLabel.textColor
-            summaryLabelTopConstraint.isActive = UIScreen.main.traitCollection.horizontalSizeClass == .compact
+            summaryLabelTopConstraint.isActive = UIScreen.main.traitCollection.horizontalSizeClass == .regular
             summaryLabelVerticalSpacingConstraint.isActive = UIScreen.main.traitCollection.horizontalSizeClass == .regular
             titleStackviewHeightConstriant.isActive = false
             contentBottomToStackViewConstraint.isActive = false
@@ -83,6 +83,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             stackViewLeadingConstraint.constant = 0
             articleImageWidthContraint.constant = 0
             summaryLabelLeadingConstraint.constant = 0
+            summaryLabelVerticalSpacingConstraint.isActive = UIScreen.main.traitCollection.horizontalSizeClass == .compact
         } else {
             articleImage.isHidden = false
             contentContainerLeadingConstraint.constant = 10
@@ -90,6 +91,7 @@ class ArticleCellWithThumbnail: BaseArticleCell {
                 articleImageWidthContraint.constant = 66
                 articleImageCenterYConstraint.constant = isCompactView ? 0 : -37
                 stackViewLeadingConstraint.constant = 0
+                summaryLabelTopConstraint.isActive = true
                 summaryLabelLeadingConstraint.constant = -74
             } else {
                 articleImageHeightConstraint.constant = isCompactView ? 66 : 112

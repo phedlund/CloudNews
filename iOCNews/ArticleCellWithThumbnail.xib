@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ArticleCellWithThumbnail" id="2" customClass="ArticleCellWithThumbnail" customModule="iOCNews" customModuleProvider="target">
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ArticleCellWithThumbnail" id="2" customClass="ArticleCellWithThumbnail" customModule="CloudNews" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="726" height="153"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -99,9 +99,7 @@
                                         <rect key="frame" x="0.0" y="51" width="588" height="19"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="82" id="HRx-p9-9tv">
-                                                <variation key="widthClass=compact" constant="68"/>
-                                            </constraint>
+                                            <constraint firstAttribute="height" relation="lessThanOrEqual" priority="999" constant="82" id="HRx-p9-9tv"/>
                                         </constraints>
                                         <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nunc orci, adipiscing a quam ac, eleifend hendrerit metus. Cras fringilla vel enim ut tristique. Mauris vestibulum pulvinar convallis. Proin in ante a tellus blandit sagittis sed et magna.</string>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
