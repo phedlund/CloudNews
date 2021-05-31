@@ -54,8 +54,12 @@ class ItemsViewController: BaseCollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         navigationItem.leftItemsSupplementBackButton = true
+        if #available(iOS 14.0, *) {
+            //
+        } else {
+            navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
+        }
         navigationItem.rightBarButtonItem = markBarButton
         markBarButton.isEnabled = false
         collectionView.register(UINib(nibName: "ArticleCellWithThumbnail", bundle: nil), forCellWithReuseIdentifier: "ArticleCellWithThumbnail")
@@ -203,7 +207,7 @@ class ItemsViewController: BaseCollectionViewController {
 
     private func refresh() {
         let unreadCount = self.unreadCount
-        collectionView.reloadData()
+        collectionView?.reloadData()
         markBarButton.isEnabled = unreadCount() > 0
     }
 
@@ -214,8 +218,8 @@ class ItemsViewController: BaseCollectionViewController {
         }
     }
 
-    private func configureView() {
-        if let feed = feed {
+    func configureView() {
+        if let feed = self.feed {
             if feed.myId == -2 {
                 if let folder = OCNewsHelper.shared()?.folder(withId: folderId) {
                     if let folderName = folder.name, !folderName.isEmpty {
@@ -237,24 +241,24 @@ class ItemsViewController: BaseCollectionViewController {
                 aboutToFetch = false
                 fetchedItems = fetchedResultsController?.fetchedObjects as? [Item] ?? [Item]()
                 let unreadCount = self.unreadCount
-                collectionView.reloadData()
+                collectionView?.reloadData()
                 markBarButton.isEnabled = unreadCount() > 0
             } catch {
                 fetchedItems = [Item]()
                 navigationItem.title = feed.title
             }
             if feed.myId > -2 {
-                collectionView.refreshControl = refreshControl
+                collectionView?.refreshControl = refreshControl
             } else {
-                collectionView.refreshControl = nil
+                collectionView?.refreshControl = nil
             }
             refresh()
             if !comingFromDetail {
                 if fetchedItems.count > 0 {
-                    collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                    collectionView?.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
                 }
             }
-            collectionView.scrollsToTop = true
+            collectionView?.scrollsToTop = true
         }
     }
 

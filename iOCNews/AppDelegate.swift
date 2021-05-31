@@ -26,13 +26,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         #endif
         if let svc: UISplitViewController = window?.rootViewController as? UISplitViewController {
             svc.maximumPrimaryColumnWidth = svc.primaryColumnWidth
-            if #available(iOS 13, *) {
-                svc.presentsWithGesture = false;
+            if #available(iOS 14.0, *) {
+                svc.presentsWithGesture = true
             } else {
-                svc.presentsWithGesture = true;
-            }
-            if let navController = svc.viewControllers.last as? UINavigationController {
-                navController.topViewController?.navigationItem.leftBarButtonItem = svc.displayModeButtonItem
+                svc.presentsWithGesture = false
+                if let navController = svc.viewControllers.last as? UINavigationController {
+                    navController.topViewController?.navigationItem.leftBarButtonItem = svc.displayModeButtonItem
+                }
             }
         }
         if SettingsStore.syncInBackground {

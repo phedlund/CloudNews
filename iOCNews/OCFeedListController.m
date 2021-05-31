@@ -40,14 +40,13 @@
 
 static NSString *DetailSegueIdentifier = @"showDetail";
 
-@interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
+@interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
     NSInteger currentRenameId;
     BOOL networkHasBeenUnreachable;
     NSIndexPath *editingPath;
 }
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *gearBarButtonItem;
-@property (nonatomic, assign) BOOL collapseDetailViewController;
 @property (strong, nonatomic) ItemsViewController *detailViewController;
 @property (nonatomic, assign) NSInteger currentIndex;
 
@@ -67,9 +66,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 @synthesize foldersFetchedResultsController;
 @synthesize feedsFetchedResultsController;
 @synthesize folderId;
-@synthesize feedSettingsAction;
-@synthesize feedDeleteAction;
-@synthesize collapseDetailViewController;
 @synthesize currentIndex;
 
 - (NSFetchedResultsController *)specialFetchedResultsController {
@@ -174,19 +170,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     
     self.refreshControl = self.feedRefreshControl;
     
-    self.splitViewController.delegate = self;
-    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
-    } else {
-        self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
-    }
-    self.collapseDetailViewController = NO;
-    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
-            self.collapseDetailViewController = YES;
-        }
-    }
-    
     //Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
@@ -228,6 +211,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.feedsFetchedResultsController.delegate = nil;
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (SettingsStore.server.length == 0) {
+        [self doSettings:nil];
+    }
+}
+
 
 #pragma mark - Table view data source
 
@@ -331,21 +322,35 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (@available(iOS 14.0, *)) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        currentIndex = indexPath.row;
+        NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
+        Feed *feed;
+        if (indexPath.section == 0) {
+            feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
+        } else {
+            feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
+        }
+        UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
+        self.detailViewController = (ItemsViewController *)navController.topViewController;
+        self.detailViewController.feed = feed;
+        if (self.folderId > 0) {
+            self.detailViewController.folderId = self.folderId;
+        }
+        [self.detailViewController configureView];
+        [UIView animateWithDuration:0.3 animations:^{
+            self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+        } completion: nil];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @[self.feedDeleteAction, self.feedSettingsAction];
-}
-
-// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return (indexPath.section > 0);
 }
 
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
@@ -387,6 +392,24 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [self performSegueWithIdentifier:@"feedSettings" sender:self];
     }
     editingPath = indexPath;
+}
+
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return nil;
+    }
+
+    UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"Delete" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
+    }];
+
+    UIContextualAction *settingsAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:@"Settings" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+        [self tableView:self.tableView settingsActionPressedInRowAtIndexPath:indexPath];
+    }];
+
+    UISwipeActionsConfiguration *config = [UISwipeActionsConfiguration configurationWithActions:@[deleteAction, settingsAction]];
+    config.performsFirstActionWithFullSwipe = NO;
+    return config;
 }
 
 - (UIContextMenuConfiguration *)tableView:(UITableView *)tableView contextMenuConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point API_AVAILABLE(ios(13.0)) {
@@ -459,18 +482,19 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    self.collapseDetailViewController = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact);
-    if (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular) {
-        self.collapseDetailViewController = NO; //Plus-size iPhones
-    }
     if ([[segue identifier] isEqualToString:DetailSegueIdentifier]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         currentIndex = indexPath.row;
         NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
-        
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        self.detailViewController = (ItemsViewController *)navigationController.topViewController;
-        
+
+        if (@available(iOS 14.0, *)) {
+            UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
+            self.detailViewController = (ItemsViewController *)navController.topViewController;
+        } else {
+            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+            self.detailViewController = (ItemsViewController *)navigationController.topViewController;
+        }
+
         if (!self.tableView.isEditing) {
             Folder *folder;
             Feed *feed;
@@ -478,17 +502,18 @@ static NSString *DetailSegueIdentifier = @"showDetail";
             switch (indexPath.section) {
                 case 0:
                     @try {
-                        if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
-                            [UIView animateWithDuration:0.3 animations:^{
-                                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
-                            } completion: nil];
-                            feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
-                            //                            if (self.folderId > 0) {
-                            //                                self.detailViewController.folderId = self.folderId;
-                            //                            }
-                            self.detailViewController.feed = feed;
-                            if (self.folderId > 0) {
-                                self.detailViewController.folderId = self.folderId;
+                        if (@available(iOS 14.0, *)) {
+                            return;
+                        } else {
+                            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
+                                [UIView animateWithDuration:0.3 animations:^{
+                                    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+                                } completion: nil];
+                                feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
+                                self.detailViewController.feed = feed;
+                                if (self.folderId > 0) {
+                                    self.detailViewController.folderId = self.folderId;
+                                }
                             }
                         }
                     }
@@ -516,15 +541,21 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                     break;
                 case 2:
                     @try {
-                        if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
-                            [[UIApplication sharedApplication] sendAction:self.splitViewController.displayModeButtonItem.action
-                                                                       to:self.splitViewController.displayModeButtonItem.target
-                                                                     from:nil
-                                                                 forEvent:nil];
-                        }
                         feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
                         self.detailViewController.feed = feed;
-                        
+                        if (@available(iOS 14.0, *)) {
+                            return;
+                        } else {
+                            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
+                                [[UIApplication sharedApplication] sendAction:self.splitViewController.displayModeButtonItem.action
+                                                                           to:self.splitViewController.displayModeButtonItem.target
+                                                                         from:nil
+                                                                     forEvent:nil];
+                            }
+                            [UIView animateWithDuration:0.3 animations:^{
+                                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+                            } completion: nil];
+                        }
                     }
                     @catch (NSException *exception) {
                         //
@@ -534,8 +565,12 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 default:
                     break;
             }
-            self.detailViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-            self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            if (@available(iOS 14.0, *)) {
+                self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            } else {
+                self.detailViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+                self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            }
         }
     }
     if ([segue.identifier isEqualToString:@"feedSettings"]) {
@@ -934,29 +969,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                               theme:MessageThemeError];
 }
 
-#pragma mark - Toolbar Buttons
-
-- (UITableViewRowAction *)feedSettingsAction {
-    if (!feedSettingsAction) {
-        feedSettingsAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
-                                                                title:@"Settings"
-                                                              handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            [self tableView:self.tableView settingsActionPressedInRowAtIndexPath:indexPath];
-        }];
-    }
-    return feedSettingsAction;
-}
-
-- (UITableViewRowAction *)feedDeleteAction {
-    if (!feedDeleteAction) {
-        feedDeleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
-                                                              title:@"Delete"
-                                                            handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
-        }];
-    }
-    return feedDeleteAction;
-}
+#pragma mark - Controls
 
 - (UIRefreshControl *)feedRefreshControl {
     if (!feedRefreshControl) {
@@ -966,29 +979,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     return feedRefreshControl;
 }
 
-#pragma mark - UISplitViewControllerDelegate
-
-- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
-    if (svc.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
-        if (svc.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
-            if (svc.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-                return UISplitViewControllerDisplayModeAllVisible;
-            } else if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
-                return UISplitViewControllerDisplayModeAllVisible;
-            }
-        }
-        return UISplitViewControllerDisplayModePrimaryOverlay;
-    }
-    return UISplitViewControllerDisplayModePrimaryHidden;
-}
-
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    return self.collapseDetailViewController;
-}
-
-- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
-    //    NSLog(@"My display mode = %ld", (long)displayMode);
-}
+#pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.

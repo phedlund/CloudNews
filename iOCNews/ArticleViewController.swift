@@ -119,12 +119,17 @@ class ArticleViewController: BaseCollectionViewController {
             menuBarButton.isEnabled = false
             refreshStopBarButtonItem?.isEnabled = false
         }
-        if let modeButton = splitViewController?.displayModeButtonItem {
-            navigationItem.leftBarButtonItems = [modeButton, backBarButton, forwardBarButton, refreshStopBarButtonItem!]
-        } else {
-            navigationItem.leftBarButtonItems = [backBarButton, forwardBarButton, refreshStopBarButtonItem!]
-        }
         navigationItem.leftItemsSupplementBackButton = true
+        if #available(iOS 14.0, *) {
+            navigationItem.leftBarButtonItems = [backBarButton, forwardBarButton, refreshStopBarButtonItem!]
+        } else {
+            if let modeButton = splitViewController?.displayModeButtonItem {
+                navigationItem.leftBarButtonItems = [modeButton, backBarButton, forwardBarButton, refreshStopBarButtonItem!]
+            } else {
+                navigationItem.leftBarButtonItems = [backBarButton, forwardBarButton, refreshStopBarButtonItem!]
+            }
+        }
+
     }
 
     // MARK: - Actions
