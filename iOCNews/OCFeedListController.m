@@ -323,25 +323,27 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (@available(iOS 14.0, *)) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        currentIndex = indexPath.row;
-        NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
-        Feed *feed;
-        if (indexPath.section == 0) {
-            feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
-        } else {
-            feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
+        if (indexPath.section != 1) {
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            currentIndex = indexPath.row;
+            NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
+            Feed *feed;
+            if (indexPath.section == 0) {
+                feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
+            } else {
+                feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
+            }
+            UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
+            self.detailViewController = (ItemsViewController *)navController.topViewController;
+            self.detailViewController.feed = feed;
+            if (self.folderId > 0) {
+                self.detailViewController.folderId = self.folderId;
+            }
+            [self.detailViewController configureView];
+            [UIView animateWithDuration:0.3 animations:^{
+                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+            } completion: nil];
         }
-        UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
-        self.detailViewController = (ItemsViewController *)navController.topViewController;
-        self.detailViewController.feed = feed;
-        if (self.folderId > 0) {
-            self.detailViewController.folderId = self.folderId;
-        }
-        [self.detailViewController configureView];
-        [UIView animateWithDuration:0.3 animations:^{
-            self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
-        } completion: nil];
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
