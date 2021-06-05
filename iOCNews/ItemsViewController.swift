@@ -110,6 +110,14 @@ class ItemsViewController: BaseCollectionViewController {
 
     // MARK: - Navigation
 
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        print(newCollection.horizontalSizeClass)
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        print(traitCollection.horizontalSizeClass)
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showArticleSegue", let articleController = segue.destination as? ArticleViewController {
             articleController.feed = feed
@@ -385,11 +393,16 @@ class ItemsViewController: BaseCollectionViewController {
 
     @IBAction func onSideGestureRecognizer(_ sender: Any) {
         if sideGestureRecognizer.translation(in: collectionView).x > 10 {
-            UIView.animate(withDuration: 0.3) { [weak self] in
-                self?.splitViewController?.preferredDisplayMode = .allVisible
-            } completion: { [weak self] finished in
-                if finished {
-                    self?.collectionView.reloadData()
+            if #available(iOS 14.0, *) {
+                splitViewController?.show(.primary)
+                collectionView.reloadData()
+            } else {
+                UIView.animate(withDuration: 0.3) { [weak self] in
+                    self?.splitViewController?.preferredDisplayMode = .allVisible
+                } completion: { [weak self] finished in
+                    if finished {
+                        self?.collectionView.reloadData()
+                    }
                 }
             }
         }
@@ -420,7 +433,11 @@ extension ItemsViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let selectedItem = fetchedResultsController?.object(at: indexPath) as? Item {
         let id = selectedItem.myId
-            splitViewController?.preferredDisplayMode = .primaryHidden
+            if #available(iOS 14, *) {
+                splitViewController?.preferredDisplayMode = .secondaryOnly
+            } else {
+                splitViewController?.preferredDisplayMode = .allVisible
+            }
             navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(), style: .plain, target: nil, action: nil)
             performSegue(withIdentifier: "showArticleSegue", sender: selectedItem)
             if selectedItem.unread {

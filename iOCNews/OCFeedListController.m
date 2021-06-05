@@ -40,7 +40,7 @@
 
 static NSString *DetailSegueIdentifier = @"showDetail";
 
-@interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
+@interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
     NSInteger currentRenameId;
     BOOL networkHasBeenUnreachable;
     NSIndexPath *editingPath;
@@ -169,7 +169,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
     
     self.refreshControl = self.feedRefreshControl;
-    
+    self.splitViewController.delegate = self;
+    self.splitViewController.presentsWithGesture = NO;
+
     //Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
@@ -340,9 +342,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 self.detailViewController.folderId = self.folderId;
             }
             [self.detailViewController configureView];
-            [UIView animateWithDuration:0.3 animations:^{
-                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
-            } completion: nil];
+            [self.splitViewController hideColumn:UISplitViewControllerColumnPrimary];
         }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -1057,6 +1057,67 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 - (void)folderSelectedWithFolder:(NSInteger)folder {
     //
+}
+
+#pragma MARK - UISplitViewControllerDelegate
+
+- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
+
+    if (svc.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
+        if (svc.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+            if (svc.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+                return UISplitViewControllerDisplayModeAllVisible;
+            } else if ([UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft || [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight) {
+                return UISplitViewControllerDisplayModeAllVisible;
+            }
+        }
+        return UISplitViewControllerDisplayModePrimaryOverlay;
+    }
+    return UISplitViewControllerDisplayModePrimaryHidden;
+}
+
+- (UISplitViewControllerColumn)splitViewController:(UISplitViewController *)svc topColumnForCollapsingToProposedTopColumn:(UISplitViewControllerColumn)proposedTopColumn API_AVAILABLE(ios(14.0)){
+    return  UISplitViewControllerColumnPrimary;
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+        if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
+    if (@available(iOS 14.0, *)) {
+        NSLog(@"Display Mode: %ld", (long)displayMode);
+        if (displayMode == UISplitViewControllerDisplayModeOneBesideSecondary) {
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"]
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(hideSidebar)];
+            self.detailViewController.navigationItem.leftBarButtonItem = barButton;
+        } else if (displayMode == UISplitViewControllerDisplayModeSecondaryOnly) {
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"sidebar.left"]
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(showSidebar)];
+            self.detailViewController.navigationItem.leftBarButtonItem = barButton;
+        }
+    }
+}
+
+- (void)hideSidebar {
+    if (@available(iOS 14.0, *)) {
+        [self.splitViewController hideColumn:UISplitViewControllerColumnPrimary];
+    }
+}
+
+- (void)showSidebar {
+    if (@available(iOS 14.0, *)) {
+        [self.splitViewController showColumn:UISplitViewControllerColumnPrimary];
+    }
 }
 
 @end

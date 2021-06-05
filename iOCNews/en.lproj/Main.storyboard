@@ -45,7 +45,7 @@
         <!--Split View Controller-->
         <scene sceneID="tSV-3D-3QK">
             <objects>
-                <splitViewController allowDoubleColumnStyle="YES" id="dc1-8P-IbY" customClass="SplitViewController" customModule="CloudNews" customModuleProvider="target" sceneMemberID="viewController">
+                <splitViewController allowDoubleColumnStyle="YES" preferredDisplayMode="beside" behavior="tile" presentsWithGesture="NO" id="dc1-8P-IbY" customClass="SplitViewController" customModule="CloudNews" customModuleProvider="target" sceneMemberID="viewController">
                     <connections>
                         <segue destination="95k-MK-MD8" kind="relationship" relationship="masterViewController" id="RYr-Db-hkV"/>
                         <segue destination="OWf-0c-fjB" kind="relationship" relationship="detailViewController" id="QdW-vN-6jp"/>
