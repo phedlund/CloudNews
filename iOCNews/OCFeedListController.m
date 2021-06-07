@@ -169,7 +169,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
     
     self.refreshControl = self.feedRefreshControl;
-    self.splitViewController.delegate = self;
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        self.splitViewController.delegate = self;
+    }
     self.splitViewController.presentsWithGesture = NO;
 
     //Notifications

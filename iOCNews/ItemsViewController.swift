@@ -98,6 +98,19 @@ class ItemsViewController: BaseCollectionViewController {
                 self?.collectionView.reloadItems(at: visibleItems)
             }
         }))
+        if #available(iOS 14.0, *) {
+            observers.append(NotificationCenter.default.addObserver(forName: .displayModeChanged, object: nil, queue: .main, using: { [weak self] notification in
+                if let userInfo = notification.userInfo, let displayMode = userInfo["NewMode"] as? UISplitViewController.DisplayMode {
+                    if displayMode == .oneBesideSecondary {
+                        let barbutton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.left.and.arrow.down.right"), style: .plain, target: self, action: #selector(self?.hideSidebar))
+                        self?.navigationItem.leftBarButtonItem = barbutton
+                    } else if displayMode == .secondaryOnly || displayMode == .automatic {
+                        let barbutton = UIBarButtonItem(image: UIImage(systemName: "sidebar.left"), style: .plain, target: self, action: #selector(self?.showSidebar))
+                        self?.navigationItem.leftBarButtonItem = barbutton
+                    }
+                }
+            }))
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -310,6 +323,18 @@ class ItemsViewController: BaseCollectionViewController {
         }
     }
 
+    @objc private func hideSidebar() {
+        if #available(iOS 14.0, *) {
+            splitViewController?.hide(.primary)
+        }
+    }
+
+    @objc private func showSidebar() {
+        if #available(iOS 14.0, *) {
+            splitViewController?.show(.primary)
+        }
+    }
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let keyPath = keyPath {
             switch keyPath {
@@ -436,7 +461,7 @@ extension ItemsViewController: UICollectionViewDelegate {
             if #available(iOS 14, *) {
                 splitViewController?.preferredDisplayMode = .secondaryOnly
             } else {
-                splitViewController?.preferredDisplayMode = .allVisible
+                splitViewController?.preferredDisplayMode = .primaryHidden
             }
             navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(), style: .plain, target: nil, action: nil)
             performSegue(withIdentifier: "showArticleSegue", sender: selectedItem)

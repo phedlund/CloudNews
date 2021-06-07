@@ -15,4 +15,5 @@ extension NSNotification.Name {
     static let networkError = NSNotification.Name("NetworkError")
     static let drawerOpened = NSNotification.Name("DrawerOpened")
     static let drawerClosed = NSNotification.Name("DrawerClosed")
+    static let displayModeChanged = NSNotification.Name("DisplayModeChanged")
 }
