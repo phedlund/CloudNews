@@ -22,7 +22,9 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var contentContainerLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageWidthContraint: NSLayoutConstraint!
-
+    @IBOutlet var compactSummaryTopConstraint: NSLayoutConstraint!
+    @IBOutlet var compactSummaryVerticalConstraint: NSLayoutConstraint!
+    
     override func configureView() {
         super.configureView()
         guard let item = self.item else {
@@ -68,14 +70,26 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             articleImage.isHidden = true
             contentContainerLeadingConstraint.constant = 0
             articleImageWidthContraint.constant = 0
+            if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
+                compactSummaryTopConstraint.isActive = false
+                compactSummaryVerticalConstraint.isActive = true
+                compactSummaryVerticalConstraint.constant = 8
+            } else {
+                compactSummaryTopConstraint.isActive = false
+                compactSummaryVerticalConstraint.isActive = false
+            }
         } else {
             articleImage.isHidden = false
             contentContainerLeadingConstraint.constant = 10
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
                 articleImageWidthContraint.constant = 66
+                compactSummaryTopConstraint.isActive = true
+                compactSummaryVerticalConstraint.isActive = false
             } else {
                 articleImageHeightConstraint.constant = isCompactView ? 66 : 112
                 articleImageWidthContraint.constant = isCompactView ? 66 : 112
+                compactSummaryTopConstraint.isActive = false
+                compactSummaryVerticalConstraint.isActive = false
             }
             articleImage.alpha = item.imageAlpha
         }

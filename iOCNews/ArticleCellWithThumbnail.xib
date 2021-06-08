@@ -12,17 +12,17 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="ArticleCellWithThumbnail" id="2" customClass="ArticleCellWithThumbnail" customModule="CloudNews" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="726" height="153"/>
+            <rect key="frame" x="0.0" y="0.0" width="726" height="168"/>
             <autoresizingMask key="autoresizingMask"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                <rect key="frame" x="0.0" y="0.0" width="726" height="153"/>
+                <rect key="frame" x="0.0" y="0.0" width="726" height="168"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQP-3C-1Dr" userLabel="MainSubview">
-                        <rect key="frame" x="15" y="44" width="696" height="75"/>
+                        <rect key="frame" x="15" y="44" width="696" height="90"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" image="114x114.png" translatesAutoresizingMaskIntoConstraints="NO" id="lty-Lj-23R" userLabel="Thumbnail">
-                                <rect key="frame" x="0.0" y="10" width="66" height="66"/>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" image="person.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="lty-Lj-23R" userLabel="Thumbnail">
+                                <rect key="frame" x="0.0" y="12" width="66" height="62.666666666666671"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="112" id="1YT-lr-una">
@@ -117,10 +117,10 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="45v-79-0Q3" userLabel="Compact Summary Stack View">
-                                <rect key="frame" x="0.0" y="84" width="680" height="70"/>
+                                <rect key="frame" x="0.0" y="84" width="680" height="1"/>
                                 <subviews>
                                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="left" verticalHuggingPriority="1000" verticalCompressionResistancePriority="249" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PbT-mn-BVF" userLabel="SummaryLabel">
-                                        <rect key="frame" x="0.0" y="0.0" width="680" height="46.333333333333336"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="680" height="1"/>
                                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                         <string key="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nunc orci, adipiscing a quam ac, eleifend hendrerit metus. Cras fringilla vel enim ut tristique. Mauris vestibulum pulvinar convallis. Proin in ante a tellus blandit sagittis sed et magna.</string>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
@@ -130,11 +130,16 @@
                                     </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="70" id="Jwm-QQ-WhE"/>
+                                    <constraint firstAttribute="height" constant="46" id="l03-xF-mdD"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="l03-xF-mdD"/>
+                                    </mask>
+                                </variation>
                             </stackView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="peC-zy-JQ2" userLabel="StarContainer">
-                                <rect key="frame" x="680" y="0.0" width="16" height="75"/>
+                                <rect key="frame" x="680" y="0.0" width="16" height="90"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uAr-hd-b6i">
                                         <rect key="frame" x="0.0" y="5" width="16" height="16"/>
@@ -163,11 +168,11 @@
                             <constraint firstAttribute="bottom" secondItem="I02-Xa-sdE" secondAttribute="bottom" constant="5" id="QmM-en-NSn"/>
                             <constraint firstItem="peC-zy-JQ2" firstAttribute="top" secondItem="LQP-3C-1Dr" secondAttribute="top" id="Ubx-7m-3fk"/>
                             <constraint firstItem="45v-79-0Q3" firstAttribute="top" secondItem="LQP-3C-1Dr" secondAttribute="top" constant="84" id="XU4-rh-QyG"/>
+                            <constraint firstItem="45v-79-0Q3" firstAttribute="top" secondItem="I02-Xa-sdE" secondAttribute="bottom" constant="14" id="YnA-ln-oLg"/>
                             <constraint firstAttribute="bottom" secondItem="45v-79-0Q3" secondAttribute="bottom" constant="5" id="YpR-rg-9Ez"/>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="700" id="a72-gx-Rj4"/>
                             <constraint firstItem="I02-Xa-sdE" firstAttribute="leading" secondItem="lty-Lj-23R" secondAttribute="trailing" constant="10" id="bTQ-4d-B5T"/>
                             <constraint firstItem="peC-zy-JQ2" firstAttribute="leading" secondItem="I02-Xa-sdE" secondAttribute="trailing" id="n2P-Qx-EDT"/>
-                            <constraint firstItem="45v-79-0Q3" firstAttribute="trailing" secondItem="I02-Xa-sdE" secondAttribute="trailing" id="tRO-ob-z8Y"/>
                             <constraint firstItem="I02-Xa-sdE" firstAttribute="top" secondItem="LQP-3C-1Dr" secondAttribute="top" constant="10" id="zBh-mR-o64"/>
                             <constraint firstItem="lty-Lj-23R" firstAttribute="leading" secondItem="LQP-3C-1Dr" secondAttribute="leading" id="zon-sY-SpE"/>
                         </constraints>
@@ -176,8 +181,8 @@
                                 <exclude reference="3ms-Jc-dhq"/>
                                 <exclude reference="Lp5-62-5Dg"/>
                                 <exclude reference="1iL-io-lyR"/>
+                                <exclude reference="YnA-ln-oLg"/>
                                 <exclude reference="YpR-rg-9Ez"/>
-                                <exclude reference="tRO-ob-z8Y"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -185,8 +190,8 @@
                                 <include reference="3ms-Jc-dhq"/>
                                 <exclude reference="QmM-en-NSn"/>
                                 <include reference="1iL-io-lyR"/>
-                                <exclude reference="YpR-rg-9Ez"/>
-                                <include reference="tRO-ob-z8Y"/>
+                                <include reference="YnA-ln-oLg"/>
+                                <include reference="YpR-rg-9Ez"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=regular">
@@ -209,7 +214,7 @@
                 <constraint firstItem="LQP-3C-1Dr" firstAttribute="top" secondItem="7B6-m1-aMr" secondAttribute="top" id="QcP-iO-mdR"/>
                 <constraint firstItem="LQP-3C-1Dr" firstAttribute="centerX" secondItem="7B6-m1-aMr" secondAttribute="centerX" id="d8T-hW-NVx"/>
             </constraints>
-            <size key="customSize" width="1668" height="286"/>
+            <size key="customSize" width="1663" height="360"/>
             <variation key="default">
                 <mask key="constraints">
                     <exclude reference="8am-pn-Wry"/>
@@ -224,6 +229,8 @@
                 <outlet property="articleImage" destination="lty-Lj-23R" id="NDd-Gn-yAW"/>
                 <outlet property="articleImageHeightConstraint" destination="1YT-lr-una" id="akP-zl-8zL"/>
                 <outlet property="articleImageWidthContraint" destination="GYv-9d-N2u" id="SVx-9i-Oxv"/>
+                <outlet property="compactSummaryTopConstraint" destination="XU4-rh-QyG" id="rL9-jU-VBk"/>
+                <outlet property="compactSummaryVerticalConstraint" destination="YnA-ln-oLg" id="Gxq-73-g2Y"/>
                 <outlet property="contentContainerLeadingConstraint" destination="bTQ-4d-B5T" id="uRh-Or-lfT"/>
                 <outlet property="dateLabel" destination="4" id="Dso-bz-8vW"/>
                 <outlet property="favIconImage" destination="ENK-Fa-lo4" id="KmL-i8-tPC"/>
@@ -233,10 +240,10 @@
                 <outlet property="summaryLabelRegular" destination="5" id="2cW-4Z-FA1"/>
                 <outlet property="titleLabel" destination="3" id="ZVP-us-of7"/>
             </connections>
-            <point key="canvasLocation" x="130" y="132"/>
+            <point key="canvasLocation" x="157.00934579439252" y="152.26781857451405"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="114x114.png" width="114" height="114"/>
+        <image name="person.fill" catalog="system" width="128" height="120"/>
     </resources>
 </document>
