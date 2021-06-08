@@ -47,7 +47,11 @@ class FeedCell: UITableViewCell {
         if self.accessoryType == .none {
             accessoryOffset = -23.0
             if #available(iOS 13, *) {
-                accessoryOffset = -27.0
+                if self.traitCollection.horizontalSizeClass == .compact {
+                    accessoryOffset = -30.0
+                } else {
+                    accessoryOffset = -27.0
+                }
             }
         }
         countBadge.frame = CGRect(x: self.contentView.frame.size.width - self.countBadge.frame.size.width + accessoryOffset,
