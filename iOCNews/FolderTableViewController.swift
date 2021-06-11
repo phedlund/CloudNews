@@ -26,9 +26,9 @@ class FolderTableViewController: UITableViewController {
         super.viewDidLoad()
 
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = UIColor.ph_popoverBackground
+        tableView.backgroundColor = ThemeColors().pbhPopoverBackground
         NotificationCenter.default.addObserver(forName: Notification.Name("ThemeUpdate"), object: nil, queue: .main) { _ in
-            self.tableView.backgroundColor = UIColor.ph_popoverBackground
+            self.tableView.backgroundColor = ThemeColors().pbhPopoverBackground
         }
     }
 

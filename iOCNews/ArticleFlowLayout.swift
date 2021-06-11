@@ -8,7 +8,6 @@
 
 import UIKit
 
-@objcMembers
 class ArticleFlowLayout: UICollectionViewFlowLayout {
 
     var currentIndexPath: IndexPath?    

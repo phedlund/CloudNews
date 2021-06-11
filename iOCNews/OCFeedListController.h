@@ -30,21 +30,16 @@
  
  *************************************************************************/
 
-#import <UIKit/UIKit.h>
-#import "ArticleListController.h"
-#import "OCFeedSettingsController.h"
+@import CoreData;
+@import UIKit;
 
-@interface OCFeedListController : UITableViewController <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, OCFeedSettingsDelegate>
+@interface OCFeedListController: UITableViewController
 
-@property (strong, nonatomic) ArticleListController *detailViewController;
 @property (nonatomic, retain) NSFetchedResultsController *specialFetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *foldersFetchedResultsController;
 @property (nonatomic, retain) NSFetchedResultsController *feedsFetchedResultsController;
 
 @property (nonatomic, strong, readonly) UIRefreshControl *feedRefreshControl;
-
-@property (nonatomic, strong, readonly) UITableViewRowAction *feedSettingsAction;
-@property (nonatomic, strong, readonly) UITableViewRowAction *feedDeleteAction;
 
 @property (nonatomic, strong, readonly) UIAlertController *addFolderAlertView;
 @property (nonatomic, strong, readonly) UIAlertController *renameFolderAlertView;

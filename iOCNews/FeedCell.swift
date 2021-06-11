@@ -34,7 +34,7 @@ class FeedCell: UITableViewCell {
         super.layoutSubviews()
         imageView?.layer.cornerRadius = 2.0
         var imageViewOffset: CGFloat = 15
-        if UserDefaults.standard.bool(forKey: "ShowFavicons") {
+        if SettingsStore.showFavIcons {
             imageView?.frame = CGRect(x: 5, y: 10, width: 22, height: 22)
             imageViewOffset = 37
         } else {
@@ -47,7 +47,11 @@ class FeedCell: UITableViewCell {
         if self.accessoryType == .none {
             accessoryOffset = -23.0
             if #available(iOS 13, *) {
-                accessoryOffset = -27.0
+                if self.traitCollection.horizontalSizeClass == .compact {
+                    accessoryOffset = -30.0
+                } else {
+                    accessoryOffset = -27.0
+                }
             }
         }
         countBadge.frame = CGRect(x: self.contentView.frame.size.width - self.countBadge.frame.size.width + accessoryOffset,

@@ -32,25 +32,23 @@
 
 #import "OCFeedListController.h"
 #import "OCLoginController.h"
-#import "iOCNews-Swift.h"
 #import "OCNewsHelper.h"
 #import "Folder+CoreDataClass.h"
 #import "Feed+CoreDataClass.h"
-#import "UIColor+PHColor.h"
-#import "PHThemeManager.h"
+#import "CloudNews-Swift.h"
 @import AFNetworking;
 
 static NSString *DetailSegueIdentifier = @"showDetail";
 
-@interface OCFeedListController () <UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate> {
+@interface OCFeedListController () <NSFetchedResultsControllerDelegate, UIGestureRecognizerDelegate, UIActionSheetDelegate, UISplitViewControllerDelegate, FolderControllerDelegate, FeedSettingsDelegate> {
     NSInteger currentRenameId;
-    long currentIndex;
     BOOL networkHasBeenUnreachable;
     NSIndexPath *editingPath;
 }
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *gearBarButtonItem;
-@property (nonatomic, assign) BOOL collapseDetailViewController;
+@property (strong, nonatomic) ItemsViewController *detailViewController;
+@property (nonatomic, assign) NSInteger currentIndex;
 
 - (void) networkCompleted:(NSNotification*)n;
 - (void) networkError:(NSNotification*)n;
@@ -68,9 +66,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 @synthesize foldersFetchedResultsController;
 @synthesize feedsFetchedResultsController;
 @synthesize folderId;
-@synthesize feedSettingsAction;
-@synthesize feedDeleteAction;
-@synthesize collapseDetailViewController;
+@synthesize currentIndex;
 
 - (NSFetchedResultsController *)specialFetchedResultsController {
     if (!specialFetchedResultsController) {
@@ -83,8 +79,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchBatchSize:100];
-        
+
         specialFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                               managedObjectContext:[OCNewsHelper sharedHelper].context
                                                                                 sectionNameKeyPath:nil
@@ -102,8 +97,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchBatchSize:20];
-    
+
         foldersFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                               managedObjectContext:[OCNewsHelper sharedHelper].context
                                                                                 sectionNameKeyPath:nil
@@ -124,7 +118,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
         NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"myId" ascending:YES];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchBatchSize:20];
         
         feedsFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                             managedObjectContext:[OCNewsHelper sharedHelper].context
@@ -140,57 +133,47 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     self = [super initWithCoder:coder];
     if (self) {
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"HideRead"
+                                                forKeyPath:SettingKeys.hideRead
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"SyncInBackground"
+                                                forKeyPath:SettingKeys.syncInBackground
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
         
         [[NSUserDefaults standardUserDefaults] addObserver:self
-                                                forKeyPath:@"ShowFavicons"
+                                                forKeyPath:SettingKeys.showFavIcons
                                                    options:NSKeyValueObservingOptionNew
                                                    context:NULL];
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.clearsSelectionOnViewWillAppear = NO;
     self.tableView.allowsSelection = YES;
     self.tableView.allowsSelectionDuringEditing = YES;
     self.tableView.scrollsToTop = YES;
     self.tableView.tableFooterView = [UIView new];
-
+    
     currentIndex = -1;
     networkHasBeenUnreachable = NO;
     
     int imageViewOffset = 14;
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
+    if (SettingsStore.showFavIcons) {
         imageViewOffset = 36;
     }
     self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
     
     self.refreshControl = self.feedRefreshControl;
-    
-    self.splitViewController.delegate = self;
-    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAutomatic;
-    } else {
-        self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+        self.splitViewController.delegate = self;
     }
-    self.collapseDetailViewController = NO;
-    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
-        if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
-            self.collapseDetailViewController = YES;
-        }
-    }
-    
+    self.splitViewController.presentsWithGesture = NO;
+
     //Notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(reachabilityChanged:)
@@ -201,12 +184,12 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                              selector:@selector(didBecomeActive:)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(drawerOpened:)
                                                  name:@"DrawerOpened"
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(drawerClosed:)
                                                  name:@"DrawerClosed"
@@ -216,23 +199,30 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                              selector:@selector(doRefresh:)
                                                  name:@"SyncNews"
                                                object:nil];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(networkCompleted:)
                                                  name:@"NetworkCompleted"
                                                object:nil];
-
+    
     [self updatePredicate];
 }
 
-- (void)dealloc
-{
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"HideRead"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SyncInBackground"];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"ShowFavicons"];
+- (void)dealloc {
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.hideRead];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.syncInBackground];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:SettingKeys.showFavIcons];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.feedsFetchedResultsController.delegate = nil;
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (SettingsStore.server.length == 0) {
+        [self doSettings:nil];
+    }
+}
+
 
 #pragma mark - Table view data source
 
@@ -241,8 +231,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     return 3;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     switch (section) {
         case 0:
@@ -282,16 +271,13 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 } else {
                     feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
                 }
-                if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
+                if (SettingsStore.showFavIcons) {
                     if (cell.tag == indexPathTemp.row) {
-                        if ([feed.faviconLink isEqualToString:@"favicon"]) {
-                            [cell.imageView setImage:[UIImage imageNamed:@"favicon"]];
-                        } else if ([feed.faviconLink isEqualToString:@"star_icon"]) {
+                        if ([feed.faviconLink isEqualToString:@"star_icon"]) {
                             [cell.imageView setImage:[UIImage imageNamed:@"star_icon"]];
                         } else {
-                            NSURL *url = [NSURL URLWithString:feed.faviconLink];
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [cell.imageView setImageWith:url];
+                                [cell.imageView setFavIconFor:feed];
                             });
                         }
                     }
@@ -300,8 +286,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 if ((self.folderId > 0) && (indexPath.section == 0) && indexPath.row == 0) {
                     Folder *folder = [[OCNewsHelper sharedHelper] folderWithId:self.folderId] ;
                     cell.countBadge.value = folder.unreadCount;
-                    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-                    if ([prefs boolForKey:@"HideRead"]) {
+                    if (SettingsStore.hideRead) {
                         cell.textLabel.text = [NSString stringWithFormat:@"All Unread %@ Articles", folder.name];
                     } else {
                         cell.textLabel.text = [NSString stringWithFormat:@"All %@ Articles", folder.name];
@@ -311,8 +296,8 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                     cell.textLabel.text = feed.title;
                 }
             }
-
-            cell.textLabel.textColor = UIColor.ph_textColor;
+            
+            cell.textLabel.textColor = [[ThemeColors alloc] init].pbhText;
             cell.contentView.backgroundColor = [UIColor clearColor];
         }
     }
@@ -322,7 +307,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     @finally {
         //
     }
-
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -341,21 +326,35 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (@available(iOS 14.0, *)) {
+        if (indexPath.section != 1) {
+            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+            currentIndex = indexPath.row;
+            NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
+            Feed *feed;
+            if (indexPath.section == 0) {
+                feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
+            } else {
+                feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
+            }
+            UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
+            self.detailViewController = (ItemsViewController *)navController.topViewController;
+            self.detailViewController.feed = feed;
+            if (self.folderId > 0) {
+                self.detailViewController.folderId = self.folderId;
+            }
+            [self.detailViewController configureView];
+            [self.splitViewController hideColumn:UISplitViewControllerColumnPrimary];
+        }
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return @[self.feedDeleteAction, self.feedSettingsAction];
-}
-
-// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
     // Return NO if you do not want the specified item to be editable.
     return (indexPath.section > 0);
 }
 
-// Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
@@ -368,15 +367,12 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 // Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
     //
 }
 
 // Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
     return NO;
 }
 
@@ -402,11 +398,31 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     editingPath = indexPath;
 }
 
+- (UISwipeActionsConfiguration *)tableView:(UITableView *)tableView trailingSwipeActionsConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        return nil;
+    }
+
+    UIContextualAction *deleteAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleDestructive title:@"Delete" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+        [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
+    }];
+
+    UIContextualAction *settingsAction = [UIContextualAction contextualActionWithStyle:UIContextualActionStyleNormal title:@"Settings" handler:^(UIContextualAction * _Nonnull action, __kindof UIView * _Nonnull sourceView, void (^ _Nonnull completionHandler)(BOOL)) {
+        [self tableView:self.tableView settingsActionPressedInRowAtIndexPath:indexPath];
+    }];
+
+    UISwipeActionsConfiguration *config = [UISwipeActionsConfiguration configurationWithActions:@[deleteAction, settingsAction]];
+    config.performsFirstActionWithFullSwipe = NO;
+    return config;
+}
+
 - (UIContextMenuConfiguration *)tableView:(UITableView *)tableView contextMenuConfigurationForRowAtIndexPath:(NSIndexPath *)indexPath point:(CGPoint)point API_AVAILABLE(ios(13.0)) {
     if (indexPath.section == 0) {
         return nil;
     }
-    
+
+    self.currentIndex = indexPath.row;
+
     NSMutableArray *actions = [NSMutableArray new];
     
     UIAction *settingsAction = [UIAction actionWithTitle:@"Settings..." image:[UIImage systemImageNamed:@"gearshape"] identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
@@ -416,9 +432,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     
     if (indexPath.section == 2) {
         UIAction *folderAction = [UIAction actionWithTitle:@"Folder..." image:[UIImage systemImageNamed:@"folder"] identifier:nil handler:^(__kindof UIAction * _Nonnull action) {
-            NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-            self->currentIndex = indexPath.row;
-            NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:self->currentIndex inSection:0];
+            NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:self.currentIndex inSection:0];
             Feed *feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
             
             UINavigationController *navController = [self.storyboard instantiateViewControllerWithIdentifier:@"FolderNavController"];
@@ -428,7 +442,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
             folderController.folders = [[OCNewsHelper sharedHelper] folders];
             folderController.delegate = self;
             [self.navigationController presentViewController:navController animated:YES completion:nil];
-            
         }];
         [actions addObject:folderAction];
     }
@@ -473,17 +486,18 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    self.collapseDetailViewController = (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact);
-    if (self.traitCollection.verticalSizeClass == UIUserInterfaceSizeClassRegular) {
-        self.collapseDetailViewController = NO; //Plus-size iPhones
-    }
     if ([[segue identifier] isEqualToString:DetailSegueIdentifier]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         currentIndex = indexPath.row;
         NSIndexPath *indexPathTemp = [NSIndexPath indexPathForRow:currentIndex inSection:0];
 
-        UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-        self.detailViewController = (ArticleListController *)navigationController.topViewController;
+        if (@available(iOS 14.0, *)) {
+            UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
+            self.detailViewController = (ItemsViewController *)navController.topViewController;
+        } else {
+            UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+            self.detailViewController = (ItemsViewController *)navigationController.topViewController;
+        }
 
         if (!self.tableView.isEditing) {
             Folder *folder;
@@ -492,17 +506,18 @@ static NSString *DetailSegueIdentifier = @"showDetail";
             switch (indexPath.section) {
                 case 0:
                     @try {
-                        if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
-                            [UIView animateWithDuration:0.3 animations:^{
-                                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
-                            } completion: nil];
-                            feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
-//                            if (self.folderId > 0) {
-//                                self.detailViewController.folderId = self.folderId;
-//                            }
-                            self.detailViewController.feed = feed;
-                            if (self.folderId > 0) {
-                                self.detailViewController.folderId = self.folderId;
+                        if (@available(iOS 14.0, *)) {
+                            return;
+                        } else {
+                            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
+                                [UIView animateWithDuration:0.3 animations:^{
+                                    self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+                                } completion: nil];
+                                feed = [self.specialFetchedResultsController objectAtIndexPath:indexPathTemp];
+                                self.detailViewController.feed = feed;
+                                if (self.folderId > 0) {
+                                    self.detailViewController.folderId = self.folderId;
+                                }
                             }
                         }
                     }
@@ -530,15 +545,21 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                     break;
                 case 2:
                     @try {
-                        if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
-                            [[UIApplication sharedApplication] sendAction:self.splitViewController.displayModeButtonItem.action
-                                                                       to:self.splitViewController.displayModeButtonItem.target
-                                                                     from:nil
-                                                                 forEvent:nil];
-                        }
                         feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
                         self.detailViewController.feed = feed;
-                        
+                        if (@available(iOS 14.0, *)) {
+                            return;
+                        } else {
+                            if (self.splitViewController.displayMode == UISplitViewControllerDisplayModeAllVisible || self.splitViewController.displayMode == UISplitViewControllerDisplayModePrimaryOverlay) {
+                                [[UIApplication sharedApplication] sendAction:self.splitViewController.displayModeButtonItem.action
+                                                                           to:self.splitViewController.displayModeButtonItem.target
+                                                                         from:nil
+                                                                     forEvent:nil];
+                            }
+                            [UIView animateWithDuration:0.3 animations:^{
+                                self.splitViewController.preferredDisplayMode = UISplitViewControllerDisplayModePrimaryHidden;
+                            } completion: nil];
+                        }
                     }
                     @catch (NSException *exception) {
                         //
@@ -548,14 +569,18 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 default:
                     break;
             }
-            self.detailViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-            self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            if (@available(iOS 14.0, *)) {
+                self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            } else {
+                self.detailViewController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+                self.detailViewController.navigationItem.leftItemsSupplementBackButton = YES;
+            }
         }
     }
     if ([segue.identifier isEqualToString:@"feedSettings"]) {
         Feed *feed = [self.feedsFetchedResultsController.fetchedObjects objectAtIndex:currentIndex];
         UINavigationController *navController = (UINavigationController *)segue.destinationViewController;
-        OCFeedSettingsController *settingsController = (OCFeedSettingsController*)navController.topViewController;
+        FeedSettings *settingsController = (FeedSettings*)navController.topViewController;
         settingsController.feed = feed;
         settingsController.delegate = self;
     }
@@ -607,7 +632,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     
     [alert addAction:addFeedAction];
     
-    NSString *hideReadTitle = [[NSUserDefaults standardUserDefaults] boolForKey:@"HideRead"] ? @"Show Read" : @"Hide Read";
+    NSString *hideReadTitle = SettingsStore.hideRead ? @"Show Read" : @"Hide Read";
     UIAlertAction* hideReadAction = [UIAlertAction actionWithTitle:hideReadTitle
                                                              style:UIAlertActionStyleDefault
                                                            handler:^(UIAlertAction * action) {
@@ -625,7 +650,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     {
         popover.barButtonItem = (UIBarButtonItem *)sender;
         popover.permittedArrowDirections = UIPopoverArrowDirectionAny;
-        popover.backgroundColor = [UIColor ph_cellBackgroundColor];
+        popover.backgroundColor = [[ThemeColors alloc] init].pbhCellBackground;
     }
     
     [self.navigationController presentViewController:alert animated:YES completion:^{
@@ -654,14 +679,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         for (UIView* textField in alertController.textFields) {
             container = textField.superview;
             UIView *effectView = container.superview.subviews[0].subviews[0];
-
+            
             if (effectView && [effectView class] == [UIVisualEffectView class]) {
                 container.backgroundColor = [UIColor clearColor];
                 container.layer.borderWidth = 1;
                 [effectView removeFromSuperview];
             }
         }
-
+        
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *addButton = [UIAlertAction actionWithTitle:@"Add" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
             [[OCNewsHelper sharedHelper] addFolderOffline:[[alertController.textFields objectAtIndex:0] text]];
@@ -669,9 +694,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [alertController addAction:cancelButton];
         [alertController addAction:addButton];
     });
-    container.layer.borderColor = UIColor.ph_iconColor.CGColor;
-    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: UIColor.ph_textColor};
-    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: UIColor.ph_textColor};
+    container.layer.borderColor = [[ThemeColors alloc] init].pbhIcon.CGColor;
+    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName:[[ThemeColors alloc] init].pbhText};
+    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName:[[ThemeColors alloc] init].pbhText};
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Add New Folder" attributes:titleAttributes];
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the name of the folder to add." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];
@@ -697,14 +722,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         for (UIView* textField in alertController.textFields) {
             container = textField.superview;
             UIView *effectView = container.superview.subviews[0].subviews[0];
-
+            
             if (effectView && [effectView class] == [UIVisualEffectView class]) {
                 container.backgroundColor = [UIColor clearColor];
                 container.layer.borderWidth = 1;
                 [effectView removeFromSuperview];
             }
         }
-
+        
         UIAlertAction *cancelButton = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             [self.tableView setEditing:NO animated:YES];
         }];
@@ -715,11 +740,11 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [alertController addAction:cancelButton];
         [alertController addAction:renameButton];
     });
-    container.layer.borderColor = UIColor.ph_iconColor.CGColor;
-    NSDictionary *placeholderAttributes = @{NSFontAttributeName: theTextField.font, NSForegroundColorAttributeName: UIColor.ph_textColor};
+    container.layer.borderColor = [[ThemeColors alloc] init].pbhIcon.CGColor;
+    NSDictionary *placeholderAttributes = @{NSFontAttributeName: theTextField.font, NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
     theTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Folder name" attributes:placeholderAttributes];
-    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: UIColor.ph_textColor};
-    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: UIColor.ph_textColor};
+    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
+    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Rename Folder" attributes:titleAttributes];
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the new name of the folder." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];
@@ -746,7 +771,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         for (UIView* textField in alertController.textFields) {
             container = textField.superview;
             UIView *effectView = container.superview.subviews[0].subviews[0];
-
+            
             if (effectView && [effectView class] == [UIVisualEffectView class]) {
                 container.backgroundColor = [UIColor clearColor];
                 container.layer.borderWidth = 1;
@@ -760,22 +785,20 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [alertController addAction:cancelButton];
         [alertController addAction:addButton];
     });
-    container.layer.borderColor = UIColor.ph_iconColor.CGColor;
-    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: UIColor.ph_textColor};
-    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: UIColor.ph_textColor};
+    container.layer.borderColor = [[ThemeColors alloc] init].pbhIcon.CGColor;
+    NSDictionary *titleAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
+    NSDictionary *messageAttributes = @{NSFontAttributeName: [UIFont systemFontOfSize:13 weight:UIFontWeightRegular], NSForegroundColorAttributeName: [[ThemeColors alloc] init].pbhText};
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Add New Feed" attributes:titleAttributes];
     NSAttributedString *message = [[NSAttributedString alloc] initWithString:@"Enter the url of the feed to add." attributes:messageAttributes];
     [alertController setValue: title forKey: @"attributedTitle"];
     [alertController setValue: message forKey: @"attributedMessage"];
-
+    
     return alertController;
 }
 
 - (void)doHideRead {
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    BOOL hideRead = [prefs boolForKey:@"HideRead"];
-    [prefs setBool:!hideRead forKey:@"HideRead"];
-    [prefs synchronize];
+    BOOL hideRead = SettingsStore.hideRead;
+    SettingsStore.hideRead = !hideRead;
     [[OCNewsHelper sharedHelper] renameFeedOfflineWithId:-2 To:hideRead == YES ? @"All Articles" : @"All Unread Articles"];
 }
 
@@ -802,15 +825,15 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
 }
 
-- (void) reloadRow:(NSIndexPath*)indexPath {
+- (void)reloadRow:(NSIndexPath*)indexPath {
     [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
     if (currentIndex >= 0) {
         [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
     }
-
+    
 }
 
-- (void) feedSettingsUpdate:(OCFeedSettingsController *)settings {
+- (void)feedSettingsUpdateWithSettings:(FeedSettings * _Nonnull)settings {
     [self.tableView reloadData];
     [self.tableView setEditing:NO animated:YES];
 }
@@ -820,7 +843,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         [self updatePredicate];
     }
     if([keyPath isEqual:@"SyncInBackground"]) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SyncInBackground"]) {
+        if (SettingsStore.syncInBackground) {
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
         } else {
             [[UIApplication sharedApplication] setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalNever];
@@ -828,7 +851,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
     if([keyPath isEqual:@"ShowFavicons"]) {
         int imageViewOffset = 14;
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"ShowFavicons"]) {
+        if (SettingsStore.showFavIcons) {
             imageViewOffset = 36;
         }
         self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
@@ -841,7 +864,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     [NSFetchedResultsController deleteCacheWithName:@"FolderCache"];
     [NSFetchedResultsController deleteCacheWithName:@"FeedCache"];
     NSPredicate *predFolder = [NSPredicate predicateWithFormat:@"folderId == %@", [NSNumber numberWithLong:self.folderId]];
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"HideRead"]) {
+    if (SettingsStore.hideRead) {
         NSPredicate *pred1 = [NSPredicate predicateWithFormat:@"myId > 0"];
         NSPredicate *pred2 = [NSPredicate predicateWithFormat:@"unreadCount == 0"];
         NSArray *predArray = @[pred1, pred2];
@@ -868,15 +891,15 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     NSError *error;
     if (![[self specialFetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        //        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     if (![[self foldersFetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        //        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     if (![[self feedsFetchedResultsController] performFetch:&error]) {
         // Update to handle the error appropriately.
-//        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        //        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
     }
     
     [self.tableView reloadData];
@@ -903,16 +926,16 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void) didBecomeActive:(NSNotification *)n {
-    if ([[NSUserDefaults standardUserDefaults] stringForKey:@"Server"].length == 0) {
+    if (SettingsStore.server.length == 0) {
         [self doSettings:nil];
     } else {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"SyncOnStart"]) {
+        if (SettingsStore.syncOnStart) {
             [[OCNewsHelper sharedHelper] performSelector:@selector(sync:) withObject:nil afterDelay:1.0f];
         }
         UIPasteboard *board = [UIPasteboard generalPasteboard];
         if (board.URL) {
-            if (![board.URL.absoluteString isEqualToString:[[NSUserDefaults standardUserDefaults] stringForKey:@"PreviousPasteboardURL"]]) {
-                [[NSUserDefaults standardUserDefaults] setObject:board.URL.absoluteString forKey:@"PreviousPasteboardURL"];
+            if (![board.URL.absoluteString isEqualToString:SettingsStore.previousPasteboardURL]) {
+                SettingsStore.previousPasteboardURL = board.URL.absoluteString;
                 NSArray *feedURLStrings = [self.feedsFetchedResultsController.fetchedObjects valueForKey:@"url"];
                 if ([feedURLStrings indexOfObject:[board.URL absoluteString]] == NSNotFound) {
                     NSString *message = [NSString stringWithFormat:@"Would you like to add the feed: '%@'?", [board.URL absoluteString]];
@@ -950,29 +973,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                               theme:MessageThemeError];
 }
 
-#pragma mark - Toolbar Buttons
-
-- (UITableViewRowAction *)feedSettingsAction {
-    if (!feedSettingsAction) {
-        feedSettingsAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
-                                                                title:@"Settings"
-                                                              handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            [self tableView:self.tableView settingsActionPressedInRowAtIndexPath:indexPath];
-        }];
-    }
-    return feedSettingsAction;
-}
-
-- (UITableViewRowAction *)feedDeleteAction {
-    if (!feedDeleteAction) {
-        feedDeleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
-                                                              title:@"Delete"
-                                                            handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
-            [self tableView:self.tableView commitEditingStyle:UITableViewCellEditingStyleDelete forRowAtIndexPath:indexPath];
-        }];
-    }
-    return feedDeleteAction;
-}
+#pragma mark - Controls
 
 - (UIRefreshControl *)feedRefreshControl {
     if (!feedRefreshControl) {
@@ -982,29 +983,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     return feedRefreshControl;
 }
 
-#pragma mark - UISplitViewControllerDelegate
-
-- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
-    if (svc.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
-        if (svc.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
-            if (svc.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
-                return UISplitViewControllerDisplayModeAllVisible;
-            } else if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
-                return UISplitViewControllerDisplayModeAllVisible;
-            }
-        }
-        return UISplitViewControllerDisplayModePrimaryOverlay;
-    }
-    return UISplitViewControllerDisplayModePrimaryHidden;
-}
-
-- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
-    return self.collapseDetailViewController;
-}
-
-- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
-    //    NSLog(@"My display mode = %ld", (long)displayMode);
-}
+#pragma mark - NSFetchedResultsControllerDelegate
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
@@ -1012,7 +991,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
-
+    
     UITableView *tableView = self.tableView;
     if (newIndexPath != nil && controller == self.foldersFetchedResultsController) {
         newIndexPath = [NSIndexPath indexPathForRow:[newIndexPath row] inSection:1];
@@ -1032,7 +1011,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     if (indexPath != nil && controller == self.feedsFetchedResultsController) {
         indexPath = [NSIndexPath indexPathForRow:[indexPath row] inSection:2];
     }
-
+    
     switch(type) {
             
         case NSFetchedResultsChangeInsert:
@@ -1080,6 +1059,67 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 - (void)folderSelectedWithFolder:(NSInteger)folder {
     //
+}
+
+#pragma MARK - UISplitViewControllerDelegate
+
+- (UISplitViewControllerDisplayMode)targetDisplayModeForActionInSplitViewController:(UISplitViewController *)svc {
+
+    if (svc.displayMode == UISplitViewControllerDisplayModePrimaryHidden) {
+        if (svc.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+            if (svc.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
+                return UISplitViewControllerDisplayModeAllVisible;
+            } else if ([UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeLeft || [UIDevice currentDevice].orientation == UIDeviceOrientationLandscapeRight) {
+                return UISplitViewControllerDisplayModeAllVisible;
+            }
+        }
+        return UISplitViewControllerDisplayModePrimaryOverlay;
+    }
+    return UISplitViewControllerDisplayModePrimaryHidden;
+}
+
+- (UISplitViewControllerColumn)splitViewController:(UISplitViewController *)svc topColumnForCollapsingToProposedTopColumn:(UISplitViewControllerColumn)proposedTopColumn API_AVAILABLE(ios(14.0)){
+    return  UISplitViewControllerColumnPrimary;
+}
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPhone) {
+        if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
+    if (@available(iOS 14.0, *)) {
+        NSLog(@"Display Mode: %ld", (long)displayMode);
+        if (displayMode == UISplitViewControllerDisplayModeOneBesideSecondary) {
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"]
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(hideSidebar)];
+            self.detailViewController.navigationItem.leftBarButtonItem = barButton;
+        } else if (displayMode == UISplitViewControllerDisplayModeSecondaryOnly) {
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"sidebar.left"]
+                                                                          style:UIBarButtonItemStylePlain
+                                                                         target:self
+                                                                         action:@selector(showSidebar)];
+            self.detailViewController.navigationItem.leftBarButtonItem = barButton;
+        }
+    }
+}
+
+- (void)hideSidebar {
+    if (@available(iOS 14.0, *)) {
+        [self.splitViewController hideColumn:UISplitViewControllerColumnPrimary];
+    }
+}
+
+- (void)showSidebar {
+    if (@available(iOS 14.0, *)) {
+        [self.splitViewController showColumn:UISplitViewControllerColumnPrimary];
+    }
 }
 
 @end

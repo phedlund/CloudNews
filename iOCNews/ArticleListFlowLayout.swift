@@ -8,13 +8,15 @@
 
 import UIKit
 
-@objcMembers
+struct Constants {
+    static let itemHeightRegular: CGFloat = 154
+    static let itemHeightCompact: CGFloat = 90
+}
+
 class ArticleListFlowLayout: UICollectionViewFlowLayout {
 
     private var computedContentSize: CGSize = .zero
     private var cellAttributes = [IndexPath: UICollectionViewLayoutAttributes]()
-    
-    static let itemHeight: CGFloat = 154
     
     override func prepare() {
         guard let cv = self.collectionView else {
@@ -25,10 +27,11 @@ class ArticleListFlowLayout: UICollectionViewFlowLayout {
         cellAttributes.removeAll()
         
         let itemWidth = cv.frame.size.width
-        
+        let itemHeight = SettingsStore.compactView ? Constants.itemHeightCompact : Constants.itemHeightRegular
+
         for section in 0 ..< cv.numberOfSections {
             for item in 0 ..< cv.numberOfItems(inSection: section) {
-                let itemFrame = CGRect(x: 0, y: CGFloat(item) * ArticleListFlowLayout.itemHeight, width: itemWidth, height: ArticleListFlowLayout.itemHeight)
+                let itemFrame = CGRect(x: 0, y: CGFloat(item) * itemHeight, width: itemWidth, height: itemHeight)
                 let indexPath = IndexPath(item: item, section: section)
                 let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
                 attributes.frame = itemFrame
@@ -36,7 +39,7 @@ class ArticleListFlowLayout: UICollectionViewFlowLayout {
             }
         }
         
-        computedContentSize = CGSize(width: itemWidth, height: ArticleListFlowLayout.itemHeight * CGFloat(cv.numberOfItems(inSection: 0)))
+        computedContentSize = CGSize(width: itemWidth, height: itemHeight * CGFloat(cv.numberOfItems(inSection: 0)))
     }
     
     override var collectionViewContentSize: CGSize {

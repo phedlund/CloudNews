@@ -1,10 +1,26 @@
 {
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
   "commitish" : "48923729bc26d834f9cf9225c8e114586f97ade1",
   "iOS" : [
     {
+      "hash" : "f7dda657c25173d036f7734c3f6591a6039f4c920195628f77142bf6249f699d",
       "name" : "TUSafariActivity",
-      "hash" : "c45c8fadbd8a26120cc628c9fd8aaefd54988f97694017936648146d8839009b",
-      "linking" : "dynamic"
+      "container" : "TUSafariActivity.xcframework",
+      "identifier" : "ios-arm64_i386_x86_64-simulator"
+    },
+    {
+      "hash" : "b65d53b1426fd23a80eceec10b66e0dab79626d13e38b663b0791f443897de6c",
+      "name" : "TUSafariActivity",
+      "container" : "TUSafariActivity.xcframework",
+      "identifier" : "ios-arm64_armv7"
     }
   ]
 }

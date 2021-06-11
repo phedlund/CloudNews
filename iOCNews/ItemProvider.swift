@@ -9,8 +9,7 @@
 import Foundation
 import Kingfisher
 
-@objcMembers
-class ItemProviderStruct: NSObject {
+struct ItemProviderStruct {
     var myID: Int = -1
     var title: String?
     var author: String?
@@ -27,13 +26,10 @@ class ItemProviderStruct: NSObject {
     var feedTitle: String?
     var feedPreferWeb: Bool = false
     var feedUseReader: Bool = false
-    
-    override init() { }
 }
 
 
-@objcMembers
-class ItemProvider: NSObject {
+struct ItemProvider {
     
     var item: ItemProviderStruct
     
@@ -58,71 +54,44 @@ class ItemProvider: NSObject {
     var title: String = ""
     var dateText: String = ""
     var summaryText: String = ""
-    
+    var isSummaryTextHidden = false
     var titleColor: UIColor = .black
     var dateColor: UIColor = .black
     var summaryColor: UIColor = .black
-    
-    var favIcon: UIImage?
-    var favIconHidden: Bool = false
     var imageAlpha: CGFloat = 1.0
-    
-    var thumbnail: UIImage?
-    
+    var isFavIconHidden: Bool = false
+    var isThumbnailHidden: Bool = false
     var starIcon: UIImage?
-    
     var url: String?
     var starred: Bool = false
     var unread: Bool = true
     var myId: Int = -1
-    var favIconLink: String?
+    var favIconUrl: URL?
     var feedTitle: String?
-    var imageLink: String?
+    var imageUrl: URL?
     
     init(item: ItemProviderStruct) {
         self.item = item
-        super.init()
-    }
-    
-    func configure() {
         self.url = item.url
         self.starred = item.starred
         self.unread = item.unread
         self.myId = item.myID
-        self.favIconLink = item.favIconLink
         self.feedTitle = item.feedTitle
-        self.imageLink = item.imageLink
+        self.isFavIconHidden = !SettingsStore.showFavIcons
+        self.isThumbnailHidden = !SettingsStore.showThumbnails
+        isSummaryTextHidden = SettingsStore.compactView
 
-        if let link = item.imageLink, let url = URL(string: link) {
-            KingfisherManager.shared.retrieveImage(with: url) { result in
-                switch result {
-                case .success(let value):
-                    self.thumbnail = value.image
-                case .failure(let error):
-                    print(error)
-                }
-            }
+        if let link = item.imageLink, let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
+            self.imageUrl = url
         }
-        if UserDefaults.standard.bool(forKey: "ShowFavicons") == true {
-            if let link = self.favIconLink, link != "favicon", let url = URL(string: link) {
-                KingfisherManager.shared.retrieveImage(with: url) { result in
-                    switch result {
-                    case .success(let value):
-                        self.favIcon = value.image
-                        self.favIconHidden = false
-                    case .failure(_):
-                        self.favIconHidden = false
-                        self.favIcon = UIImage(named: "favicon")
-                    }                }
-            } else {
-                self.favIconHidden = false
-                self.favIcon = UIImage(named: "favicon")
-            }
+        if let link = item.favIconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
+            self.favIconUrl = url
+        } else if let itemUrl = URL(string: item.url ?? ""), let host = itemUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {
+            self.favIconUrl = url
+        } else {
+            self.favIconUrl = URL.localURLForXCAsset(name: "favicon")
         }
-        else {
-            self.favIconHidden = true
-        }
-
+        
         let title = item.title
         self.title = title?.convertingHTMLToPlainText() ?? ""
         var dateLabelText = ""
@@ -174,17 +143,35 @@ class ItemProvider: NSObject {
                 self.starIcon = UIImage(named: "star_icon")
             }
             if item.unread == true {
-                self.summaryColor = UIColor.ph_text
-                self.titleColor = UIColor.ph_text
-                self.dateColor = UIColor.ph_text
+                self.summaryColor = ThemeColors().pbhText
+                self.titleColor = ThemeColors().pbhText
+                self.dateColor = ThemeColors().pbhText
                 self.imageAlpha = 1.0
             } else {
-                self.summaryColor = UIColor.ph_readText
-                self.titleColor = UIColor.ph_readText
-                self.dateColor = UIColor.ph_readText
+                self.summaryColor = ThemeColors().pbhReadText
+                self.titleColor = ThemeColors().pbhReadText
+                self.dateColor = ThemeColors().pbhReadText
                 self.imageAlpha = 0.4
             }
         }
         
     }
+}
+
+extension URL {
+
+    static func localURLForXCAsset(name: String) -> URL? {
+        let fileManager = FileManager.default
+        guard let cacheDirectory = fileManager.urls(for: .cachesDirectory, in: .userDomainMask).first else {return nil}
+        let url = cacheDirectory.appendingPathComponent("\(name)").appendingPathExtension("png")
+        let path = url.path
+        if !fileManager.fileExists(atPath: path) {
+            guard let image = UIImage(named: name), let data = image.pngData() else {
+                return nil
+            }
+            fileManager.createFile(atPath: path, contents: data, attributes: nil)
+        }
+        return url
+    }
+
 }

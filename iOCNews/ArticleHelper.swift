@@ -8,7 +8,6 @@
 
 import SwiftSoup
 
-@objcMembers
 class ArticleHelper: NSObject {
     
     static var template: String? {
@@ -138,26 +137,26 @@ class ArticleHelper: NSObject {
     }
     
     static func updateCss() -> String {
-        let fontSize = UserDefaults.standard.integer(forKey: "FontSize")
+        let fontSize = SettingsStore.fontSize
         
         let screenSize = UIScreen.main.nativeBounds.size
-        let margin = UserDefaults.standard.integer(forKey: "MarginPortrait")
+        let margin = SettingsStore.marginPortrait
         let currentWidth = Int((screenSize.width / UIScreen.main.scale) * CGFloat((Double(margin) / 100.0)))
         
-        let marginLandscape = UserDefaults.standard.integer(forKey: "MarginLandscape")
+        let marginLandscape = SettingsStore.marginLandscape
         let currentWidthLandscape = (screenSize.height / UIScreen.main.scale) * CGFloat((Double(marginLandscape) / 100.0))
         
-        let lineHeight = UserDefaults.standard.double(forKey: "LineHeight")
+        let lineHeight = SettingsStore.lineHeight
        
         return ":root {" +
-                    "--bg-color: \(UIColor.ph_background.hexString);" +
-                    "--text-color: \(UIColor.ph_text.hexString);" +
+            "--bg-color: \(ThemeColors().pbhBackground.hexString);" +
+                    "--text-color: \(ThemeColors().pbhText.hexString);" +
                     "--font-size: \(fontSize)px;" +
                     "--body-width-portrait: \(currentWidth)px;" +
                     "--body-width-landscape: \(currentWidthLandscape)px;" +
                     "--line-height: \(lineHeight)em;" +
-                    "--link-color: \(UIColor.ph_link.hexString);" +
-                    "--footer-link: \(UIColor.ph_popoverBackground.hexString);" +
+                    "--link-color: \(ThemeColors().pbhLink.hexString);" +
+                    "--footer-link: \(ThemeColors().pbhPopoverBackground.hexString);" +
                 "}"
     }
 
@@ -214,7 +213,7 @@ class ArticleHelper: NSObject {
                 if let src = try iframe.getElementsByAttribute("src").first()?.attr("src") {
                     if src.contains("youtu"), let videoId = src.youtubeVideoID {
                         let screenSize = UIScreen.main.nativeBounds.size
-                        let margin = UserDefaults.standard.integer(forKey: "MarginPortrait")
+                        let margin = SettingsStore.marginPortrait
                         let currentWidth = (screenSize.width / UIScreen.main.scale) * CGFloat(margin / 100);
                         let newheight = currentWidth * 0.5625;
                         let embed = String(format: "<embed id=\"yt\" src=\"http://www.youtube.com/embed/%@?playsinline=1\" type=\"text/html\" frameborder=\"0\" width=\"%ldpx\" height=\"%ldpdx\"></embed>", videoId, currentWidth, newheight)
@@ -222,7 +221,7 @@ class ArticleHelper: NSObject {
                     }
                     if src.contains("vimeo"), let videoId = src.vimeoID {
                         let screenSize = UIScreen.main.nativeBounds.size
-                        let margin = UserDefaults.standard.integer(forKey: "MarginPortrait")
+                        let margin = SettingsStore.marginPortrait
                         let currentWidth = (screenSize.width / UIScreen.main.scale) * CGFloat(margin / 100);
                         let newheight = currentWidth * 0.5625;
                         let embed = String(format:"<iframe id=\"vimeo\" src=\"http://player.vimeo.com/video/%@\" type=\"text/html\" frameborder=\"0\" width=\"%ldpx\" height=\"%ldpdx\"></iframe>", videoId, currentWidth, newheight)
