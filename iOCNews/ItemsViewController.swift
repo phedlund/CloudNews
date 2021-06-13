@@ -93,11 +93,6 @@ class ItemsViewController: BaseCollectionViewController {
         observers.append(NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.collectionView.reloadData()
         }))
-        observers.append(NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification, object: nil, queue: .main, using: { [weak self] _ in
-            if let visibleItems = self?.collectionView.indexPathsForVisibleItems {
-                self?.collectionView.reloadItems(at: visibleItems)
-            }
-        }))
         if #available(iOS 14.0, *) {
             observers.append(NotificationCenter.default.addObserver(forName: .displayModeChanged, object: nil, queue: .main, using: { [weak self] notification in
                 if let userInfo = notification.userInfo, let displayMode = userInfo["NewMode"] as? UISplitViewController.DisplayMode {
