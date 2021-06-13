@@ -119,11 +119,13 @@ class ItemsViewController: BaseCollectionViewController {
     // MARK: - Navigation
 
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        print(newCollection.horizontalSizeClass)
+        print(newCollection.horizontalSizeClass.rawValue)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        print(traitCollection.horizontalSizeClass)
+        print(traitCollection.horizontalSizeClass.rawValue)
+        let visibleItems = collectionView.indexPathsForVisibleItems
+        collectionView.reloadItems(at: visibleItems)
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

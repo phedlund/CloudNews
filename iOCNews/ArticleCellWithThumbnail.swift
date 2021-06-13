@@ -19,7 +19,8 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var starContainerView: UIView!
     @IBOutlet var starImage: UIImageView!
 
-    @IBOutlet var contentContainerLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var contentContainerToThumbnailLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet var contentContainerToMainLeadingConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet var articleImageWidthContraint: NSLayoutConstraint!
     @IBOutlet var compactSummaryTopConstraint: NSLayoutConstraint!
@@ -68,19 +69,27 @@ class ArticleCellWithThumbnail: BaseArticleCell {
 
         if item.isThumbnailHidden || item.imageUrl == nil {
             articleImage.isHidden = true
-            contentContainerLeadingConstraint.constant = 0
+            articleImageWidthContraint.isActive = false
+            contentContainerToThumbnailLeadingConstraint.isActive = false
+            contentContainerToMainLeadingConstraint.isActive = true
+            contentContainerToMainLeadingConstraint.constant = 0
             articleImageWidthContraint.constant = 0
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
+                contentContainerToMainLeadingConstraint.constant = 0
                 compactSummaryTopConstraint.isActive = false
-                compactSummaryVerticalConstraint.isActive = true
+//                compactSummaryVerticalConstraint.isActive = true
                 compactSummaryVerticalConstraint.constant = 8
             } else {
+                contentContainerToMainLeadingConstraint.constant = 10
                 compactSummaryTopConstraint.isActive = false
                 compactSummaryVerticalConstraint.isActive = false
             }
         } else {
             articleImage.isHidden = false
-            contentContainerLeadingConstraint.constant = 10
+            contentContainerToMainLeadingConstraint.isActive = false
+            contentContainerToThumbnailLeadingConstraint.isActive = true
+            contentContainerToThumbnailLeadingConstraint.constant = 10
+            articleImageWidthContraint.isActive = true
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
                 articleImageWidthContraint.constant = 66
                 compactSummaryTopConstraint.isActive = true

@@ -825,14 +825,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
 }
 
-- (void)reloadRow:(NSIndexPath*)indexPath {
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    if (currentIndex >= 0) {
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }
-    
-}
-
 - (void)feedSettingsUpdateWithSettings:(FeedSettings * _Nonnull)settings {
     [self.tableView reloadData];
     [self.tableView setEditing:NO animated:YES];
@@ -1099,11 +1091,11 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                                                          target:self
                                                                          action:@selector(showSidebar)];
             self.detailViewController.navigationItem.leftBarButtonItem = barButton;
-            if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
-                NSArray<NSIndexPath *> *visibleItems = self.detailViewController.collectionView.indexPathsForVisibleItems;
-                if (visibleItems && visibleItems.count > 0) {
-                    [self.detailViewController.collectionView reloadItemsAtIndexPaths:visibleItems];
-                }
+        }
+        if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
+            NSArray<NSIndexPath *> *visibleItems = self.detailViewController.collectionView.indexPathsForVisibleItems;
+            if (visibleItems && visibleItems.count > 0) {
+                [self.detailViewController.collectionView reloadItemsAtIndexPaths:visibleItems];
             }
         }
     }
