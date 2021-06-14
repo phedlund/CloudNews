@@ -32,9 +32,14 @@ struct ItemProviderStruct {
 struct ItemProvider {
     
     var item: ItemProviderStruct
-    
-    let titleFont = UIFont.preferredFont(forTextStyle: .headline)
-    
+
+    var titleFont: UIFont {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+        }
+        return UIFont.systemFont(ofSize: 17.0, weight: .semibold)
+    }
+
     var dateFont: UIFont {
         let font = UIFont.preferredFont(forTextStyle: .subheadline)
         let desc = font.fontDescriptor
@@ -69,7 +74,7 @@ struct ItemProvider {
     var favIconUrl: URL?
     var feedTitle: String?
     var imageUrl: URL?
-    
+
     init(item: ItemProviderStruct) {
         self.item = item
         self.url = item.url

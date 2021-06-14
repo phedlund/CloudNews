@@ -77,7 +77,6 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
                 contentContainerToMainLeadingConstraint.constant = 0
                 compactSummaryTopConstraint.isActive = false
-//                compactSummaryVerticalConstraint.isActive = true
                 compactSummaryVerticalConstraint.constant = 8
             } else {
                 contentContainerToMainLeadingConstraint.constant = 10
@@ -92,7 +91,6 @@ class ArticleCellWithThumbnail: BaseArticleCell {
             articleImageWidthContraint.isActive = true
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
                 articleImageWidthContraint.constant = 66
-                compactSummaryTopConstraint.isActive = true
                 compactSummaryVerticalConstraint.isActive = false
             } else {
                 articleImageHeightConstraint.constant = isCompactView ? 66 : 112
