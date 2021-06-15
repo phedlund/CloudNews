@@ -1092,10 +1092,12 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                                                          action:@selector(showSidebar)];
             self.detailViewController.navigationItem.leftBarButtonItem = barButton;
         }
-        if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
-            NSArray<NSIndexPath *> *visibleItems = self.detailViewController.collectionView.indexPathsForVisibleItems;
-            if (visibleItems && visibleItems.count > 0) {
-                [self.detailViewController.collectionView reloadItemsAtIndexPaths:visibleItems];
+        if (!SettingsStore.isBackgroundSyncing) {
+            if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
+                NSArray<NSIndexPath *> *visibleItems = self.detailViewController.collectionView.indexPathsForVisibleItems;
+                if (visibleItems && visibleItems.count > 0) {
+                    [self.detailViewController.collectionView reloadItemsAtIndexPaths:visibleItems];
+                }
             }
         }
     }

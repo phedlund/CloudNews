@@ -65,8 +65,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        SettingsStore.isBackgroundSyncing = true
         OCNewsHelper.shared()?.sync({ result in
             completionHandler(result)
+            SettingsStore.isBackgroundSyncing = false
         })
     }
 
