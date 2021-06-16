@@ -700,7 +700,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1739;
+				CURRENT_PROJECT_VERSION = 1743;
 				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -720,7 +720,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/pcre/lib",
 				);
-				MARKETING_VERSION = 3.12.0;
+				MARKETING_VERSION = 3.12.1;
 				OTHER_CFLAGS = "-DREADABLE_USE_LIBICU";
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -748,7 +748,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1739;
+				CURRENT_PROJECT_VERSION = 1743;
 				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -768,7 +768,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/pcre/lib",
 				);
-				MARKETING_VERSION = 3.12.0;
+				MARKETING_VERSION = 3.12.1;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DREADABLE_USE_LIBICU",

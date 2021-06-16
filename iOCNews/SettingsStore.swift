@@ -21,6 +21,7 @@ class SettingKeys: NSObject {
     static let allowUntrustedCertificate = "AllowUntrustedCertificate"
     static let dbReset = "dbReset"
     static let syncInBackground = "SyncInBackground"
+    static let isBackgroundSyncing = "IsBackgroundSyncing"
     static let lastModified = "LastModified"
     static let category = "category"
     static let starred = "Starred"
@@ -115,6 +116,9 @@ class SettingsStore: NSObject {
 
     @UserDefaultsBacked(key: SettingKeys.syncInBackground, defaultValue: false)
     static var syncInBackground: Bool
+
+    @UserDefaultsBacked(key: SettingKeys.isBackgroundSyncing, defaultValue: false)
+    static var isBackgroundSyncing: Bool
 
     @UserDefaultsBacked(key: SettingKeys.lastModified, defaultValue: 0)
     static var lastModified: Int

@@ -825,14 +825,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
 }
 
-- (void)reloadRow:(NSIndexPath*)indexPath {
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    if (currentIndex >= 0) {
-        [self.tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:currentIndex inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-    }
-    
-}
-
 - (void)feedSettingsUpdateWithSettings:(FeedSettings * _Nonnull)settings {
     [self.tableView reloadData];
     [self.tableView setEditing:NO animated:YES];
@@ -995,15 +987,9 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     UITableView *tableView = self.tableView;
     if (newIndexPath != nil && controller == self.foldersFetchedResultsController) {
         newIndexPath = [NSIndexPath indexPathForRow:[newIndexPath row] inSection:1];
-        //if ([tableView cellForRowAtIndexPath:newIndexPath] == nil) {
-        //    type = NSFetchedResultsChangeInsert;
-        //}
     }
     if (newIndexPath != nil && controller == self.feedsFetchedResultsController) {
         newIndexPath = [NSIndexPath indexPathForRow:[newIndexPath row] inSection:2];
-        //if ([tableView cellForRowAtIndexPath:newIndexPath] == nil) {
-        //    type = NSFetchedResultsChangeInsert;
-        //}
     }
     if (indexPath != nil && controller == self.foldersFetchedResultsController) {
         indexPath = [NSIndexPath indexPathForRow:[indexPath row] inSection:1];
@@ -1093,7 +1079,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 - (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
     if (@available(iOS 14.0, *)) {
-        NSLog(@"Display Mode: %ld", (long)displayMode);
         if (displayMode == UISplitViewControllerDisplayModeOneBesideSecondary) {
             UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"]
                                                                           style:UIBarButtonItemStylePlain
@@ -1106,6 +1091,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                                                                          target:self
                                                                          action:@selector(showSidebar)];
             self.detailViewController.navigationItem.leftBarButtonItem = barButton;
+        }
+        if (!SettingsStore.isBackgroundSyncing) {
+            if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
+                NSArray<NSIndexPath *> *visibleItems = self.detailViewController.collectionView.indexPathsForVisibleItems;
+                if (visibleItems && visibleItems.count > 0) {
+                    [self.detailViewController.collectionView reloadItemsAtIndexPaths:visibleItems];
+                }
+            }
         }
     }
 }

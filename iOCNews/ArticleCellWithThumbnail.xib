@@ -172,6 +172,9 @@
                             <constraint firstAttribute="bottom" secondItem="45v-79-0Q3" secondAttribute="bottom" constant="5" id="YpR-rg-9Ez"/>
                             <constraint firstAttribute="width" relation="lessThanOrEqual" constant="700" id="a72-gx-Rj4"/>
                             <constraint firstItem="I02-Xa-sdE" firstAttribute="leading" secondItem="lty-Lj-23R" secondAttribute="trailing" constant="10" id="bTQ-4d-B5T"/>
+                            <constraint firstItem="I02-Xa-sdE" firstAttribute="leading" secondItem="LQP-3C-1Dr" secondAttribute="leading" constant="122" id="kWb-Wi-3Wu">
+                                <variation key="widthClass=compact" constant="76"/>
+                            </constraint>
                             <constraint firstItem="peC-zy-JQ2" firstAttribute="leading" secondItem="I02-Xa-sdE" secondAttribute="trailing" id="n2P-Qx-EDT"/>
                             <constraint firstItem="I02-Xa-sdE" firstAttribute="top" secondItem="LQP-3C-1Dr" secondAttribute="top" constant="10" id="zBh-mR-o64"/>
                             <constraint firstItem="lty-Lj-23R" firstAttribute="leading" secondItem="LQP-3C-1Dr" secondAttribute="leading" id="zon-sY-SpE"/>
@@ -231,7 +234,8 @@
                 <outlet property="articleImageWidthContraint" destination="GYv-9d-N2u" id="SVx-9i-Oxv"/>
                 <outlet property="compactSummaryTopConstraint" destination="XU4-rh-QyG" id="rL9-jU-VBk"/>
                 <outlet property="compactSummaryVerticalConstraint" destination="YnA-ln-oLg" id="Gxq-73-g2Y"/>
-                <outlet property="contentContainerLeadingConstraint" destination="bTQ-4d-B5T" id="uRh-Or-lfT"/>
+                <outlet property="contentContainerToMainLeadingConstraint" destination="kWb-Wi-3Wu" id="8nn-4H-BRM"/>
+                <outlet property="contentContainerToThumbnailLeadingConstraint" destination="bTQ-4d-B5T" id="uRh-Or-lfT"/>
                 <outlet property="dateLabel" destination="4" id="Dso-bz-8vW"/>
                 <outlet property="favIconImage" destination="ENK-Fa-lo4" id="KmL-i8-tPC"/>
                 <outlet property="starContainerView" destination="peC-zy-JQ2" id="6BR-3a-fqJ"/>
