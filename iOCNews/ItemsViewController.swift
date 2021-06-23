@@ -56,7 +56,13 @@ class ItemsViewController: BaseCollectionViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationItem.leftItemsSupplementBackButton = true
         if #available(iOS 14.0, *) {
-            //
+            if navigationItem.leftBarButtonItem == nil {
+                if splitViewController?.displayMode == .oneBesideSecondary {
+                    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.left"), style: .plain, target: self, action: #selector(showSidebar))
+                } else if splitViewController?.displayMode == .secondaryOnly || splitViewController?.displayMode == .automatic {
+                    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.up.left.and.arrow.down.right"), style: .plain, target: self, action: #selector(hideSidebar))
+                }
+            }
         } else {
             navigationItem.leftBarButtonItem = splitViewController?.displayModeButtonItem
         }
@@ -323,12 +329,14 @@ class ItemsViewController: BaseCollectionViewController {
     @objc private func hideSidebar() {
         if #available(iOS 14.0, *) {
             splitViewController?.hide(.primary)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.left"), style: .plain, target: self, action: #selector(showSidebar))
         }
     }
 
     @objc private func showSidebar() {
         if #available(iOS 14.0, *) {
             splitViewController?.show(.primary)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.up.left.and.arrow.down.right"), style: .plain, target: self, action: #selector(hideSidebar))
         }
     }
 
