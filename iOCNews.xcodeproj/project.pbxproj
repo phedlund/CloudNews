@@ -50,6 +50,8 @@
 		D08D83B718161453005A75F0 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D08D83B618161453005A75F0 /* Settings.bundle */; };
 		D096143C21EED4AF000BD5D2 /* ArticleListFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */; };
 		D0AAB685255CE93E00F4FC5F /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0AAB684255CE93E00F4FC5F /* CoreServices.framework */; };
+		D0B49E102682CE5600D6ECD3 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B49E0D2682CE5600D6ECD3 /* GTMNSString+HTML.m */; };
+		D0B49E112682CE5600D6ECD3 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B49E0E2682CE5600D6ECD3 /* NSString+HTML.m */; };
 		D0BCAA26177900C300C965F4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCAA25177900C300C965F4 /* UIKit.framework */; };
 		D0BCAA28177900C300C965F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCAA27177900C300C965F4 /* Foundation.framework */; };
 		D0BCAA2A177900C300C965F4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCAA29177900C300C965F4 /* CoreGraphics.framework */; };
@@ -84,8 +86,6 @@
 		D0E96EAF260D7B9F000B9590 /* NewsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96EAE260D7B9F000B9590 /* NewsTextView.swift */; };
 		D0F181261782585100F719D9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F181251782585100F719D9 /* SystemConfiguration.framework */; };
 		D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F181281783B12C00F719D9 /* OCLoginController.m */; };
-		D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */; };
-		D0F1812F178502D500F719D9 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F1812D178502D500F719D9 /* NSString+HTML.m */; };
 		D0F1813F17850CAF00F719D9 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0F1813E17850CAF00F719D9 /* Security.framework */; };
 /* End PBXBuildFile section */
 
@@ -131,6 +131,10 @@
 		D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleListFlowLayout.swift; sourceTree = "<group>"; };
 		D0A33F2B187F5BF900C6DA92 /* News 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "News 4.xcdatamodel"; sourceTree = "<group>"; };
 		D0AAB684255CE93E00F4FC5F /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		D0B49E0C2682CE5600D6ECD3 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		D0B49E0D2682CE5600D6ECD3 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
+		D0B49E0E2682CE5600D6ECD3 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		D0B49E0F2682CE5600D6ECD3 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		D0BCAA22177900C300C965F4 /* CloudNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CloudNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0BCAA25177900C300C965F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0BCAA27177900C300C965F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -168,10 +172,6 @@
 		D0F181251782585100F719D9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D0F181271783B12C00F719D9 /* OCLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCLoginController.h; sourceTree = "<group>"; };
 		D0F181281783B12C00F719D9 /* OCLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCLoginController.m; sourceTree = "<group>"; };
-		D0F1812A178502D500F719D9 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
-		D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
-		D0F1812C178502D500F719D9 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
-		D0F1812D178502D500F719D9 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		D0F1813E17850CAF00F719D9 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		D0F94F9620AA90D900833A7F /* TUSafariActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TUSafariActivity.framework; path = Carthage/Build/iOS/TUSafariActivity.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -344,10 +344,10 @@
 		D0F18130178502E000F719D9 /* HTMLString */ = {
 			isa = PBXGroup;
 			children = (
-				D0F1812A178502D500F719D9 /* GTMNSString+HTML.h */,
-				D0F1812B178502D500F719D9 /* GTMNSString+HTML.m */,
-				D0F1812C178502D500F719D9 /* NSString+HTML.h */,
-				D0F1812D178502D500F719D9 /* NSString+HTML.m */,
+				D0B49E0C2682CE5600D6ECD3 /* GTMNSString+HTML.h */,
+				D0B49E0D2682CE5600D6ECD3 /* GTMNSString+HTML.m */,
+				D0B49E0F2682CE5600D6ECD3 /* NSString+HTML.h */,
+				D0B49E0E2682CE5600D6ECD3 /* NSString+HTML.m */,
 			);
 			name = HTMLString;
 			sourceTree = "<group>";
@@ -513,6 +513,7 @@
 				D0E6C79D25A7F85E0070317B /* UIImageViewExtension.swift in Sources */,
 				D0E6C783259FF1D90070317B /* FeedCell.swift in Sources */,
 				D0BCAC24177F80BC00C965F4 /* OCAPIClient.m in Sources */,
+				D0B49E112682CE5600D6ECD3 /* NSString+HTML.m in Sources */,
 				D02D9D17259FE3B200E243CD /* BadgeView.swift in Sources */,
 				D0E96E97260C2941000B9590 /* SharingProvider.swift in Sources */,
 				D07DD2D2260EB59800BDDC10 /* PBHColors.swift in Sources */,
@@ -521,8 +522,7 @@
 				D01E6F172661B5C700141A3D /* SplitViewController.swift in Sources */,
 				D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */,
 				D0E8C105261802DB00C3E9E2 /* ArticleViewController.swift in Sources */,
-				D0F1812E178502D500F719D9 /* GTMNSString+HTML.m in Sources */,
-				D0F1812F178502D500F719D9 /* NSString+HTML.m in Sources */,
+				D0B49E102682CE5600D6ECD3 /* GTMNSString+HTML.m in Sources */,
 				D06CB22E17A06E4F00A1310B /* News.xcdatamodeld in Sources */,
 				D06CB23917A0A0AA00A1310B /* OCNewsHelper.m in Sources */,
 				D0C2207825F9B3EF002BA5DB /* SettingsViewController.swift in Sources */,
