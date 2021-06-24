@@ -56,7 +56,7 @@ class ItemsViewController: BaseCollectionViewController {
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         navigationItem.leftItemsSupplementBackButton = true
         if #available(iOS 14.0, *) {
-            if navigationItem.leftBarButtonItem == nil, fetchedItems.count > 0 {
+            if navigationItem.leftBarButtonItem == nil, fetchedItems.count > 0, traitCollection.horizontalSizeClass == .regular {
                 if splitViewController?.displayMode == .oneBesideSecondary {
                     navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "sidebar.left"), style: .plain, target: self, action: #selector(showSidebar))
                 } else if splitViewController?.displayMode == .secondaryOnly || splitViewController?.displayMode == .automatic {
