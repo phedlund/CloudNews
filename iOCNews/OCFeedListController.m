@@ -1079,19 +1079,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
 - (void)splitViewController:(UISplitViewController *)svc willChangeToDisplayMode:(UISplitViewControllerDisplayMode)displayMode {
     if (@available(iOS 14.0, *)) {
-        if (displayMode == UISplitViewControllerDisplayModeOneBesideSecondary) {
-            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"arrow.up.left.and.arrow.down.right"]
-                                                                          style:UIBarButtonItemStylePlain
-                                                                         target:self
-                                                                         action:@selector(hideSidebar)];
-            self.detailViewController.navigationItem.leftBarButtonItem = barButton;
-        } else if (displayMode == UISplitViewControllerDisplayModeSecondaryOnly) {
-            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:[UIImage systemImageNamed:@"sidebar.left"]
-                                                                          style:UIBarButtonItemStylePlain
-                                                                         target:self
-                                                                         action:@selector(showSidebar)];
-            self.detailViewController.navigationItem.leftBarButtonItem = barButton;
-        }
         if (!SettingsStore.isBackgroundSyncing) {
             if (UIApplication.sharedApplication.applicationState == UIApplicationStateBackground) {
                 NSArray<NSIndexPath *> *visibleItems = self.detailViewController.collectionView.indexPathsForVisibleItems;
