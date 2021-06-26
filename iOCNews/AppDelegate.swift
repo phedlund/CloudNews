@@ -76,6 +76,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge]) { (_, _) in
             //
         }
+        SettingsStore.isBackgroundSyncing = false
+    }
+
+    func applicationWillResignActive(_ application: UIApplication) {
+        SettingsStore.isBackgroundSyncing = false
     }
 
     #if !targetEnvironment(simulator)
