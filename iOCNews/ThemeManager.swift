@@ -88,8 +88,8 @@ class ThemeManager: NSObject {
 
         UILabel.appearance().setThemeColor(themeColors.pbhText)
 
-        UISwitch.appearance().onTintColor = themeColors.pbhPopoverBorder
-        UISwitch.appearance().tintColor = themeColors.pbhPopoverBorder
+        UISwitch.appearance().onTintColor = themeColors.pbhSwitch
+        UISwitch.appearance().tintColor = themeColors.pbhSwitch
 
         WKWebView.appearance().backgroundColor = themeColors.pbhCellBackground
 
