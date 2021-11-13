@@ -168,7 +168,7 @@ a.footerLink {
     line-height:1.0em;
 }
 
-img {
+div, iframe, img {
     max-width: 100%;
     height: auto;
 }
