@@ -2,22 +2,22 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="56"
    height="88"
    id="svg5330"
    version="1.1"
-   inkscape:version="0.48.4 r9943 custom"
+   inkscape:version="1.1 (c4e8f9e, 2021-05-24)"
    sodipodi:docname="menu.svg"
-   inkscape:export-filename="/Users/peter/Projects/iOCNews/iOCNews/Resources/menu.png"
-   inkscape:export-xdpi="45"
-   inkscape:export-ydpi="45">
+   inkscape:export-filename="/Users/peter/Downloads/menu@3x.png"
+   inkscape:export-xdpi="144"
+   inkscape:export-ydpi="144"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
   <defs
      id="defs5332" />
   <sodipodi:namedview
@@ -28,18 +28,19 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11"
-     inkscape:cx="41.727273"
-     inkscape:cy="32.090909"
-     inkscape:current-layer="layer1"
+     inkscape:cx="18.636364"
+     inkscape:cy="45"
+     inkscape:current-layer="g934"
      showgrid="true"
      inkscape:document-units="px"
      inkscape:grid-bbox="true"
      inkscape:showpageshadow="false"
-     inkscape:window-width="1871"
-     inkscape:window-height="1036"
+     inkscape:window-width="2095"
+     inkscape:window-height="1310"
      inkscape:window-x="49"
-     inkscape:window-y="22"
-     inkscape:window-maximized="0">
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:pagecheckerboard="0">
     <inkscape:grid
        type="xygrid"
        id="grid5338"
@@ -57,7 +58,6 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -66,35 +66,31 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      transform="translate(0,24)">
-    <path
-       sodipodi:type="arc"
-       style="fill:none;stroke:#000000;stroke-width:3.20000005;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path3381"
-       sodipodi:cx="8"
-       sodipodi:cy="44"
-       sodipodi:rx="8"
-       sodipodi:ry="8"
-       d="M 16,44 A 8,8 0 1 1 0,44 8,8 0 1 1 16,44 z"
-       transform="matrix(0.625,0,0,0.625,3.0000002,8.5)" />
-    <path
-       transform="matrix(0.625,0,0,0.625,22.999999,8.5)"
-       d="M 16,44 A 8,8 0 1 1 0,44 8,8 0 1 1 16,44 z"
-       sodipodi:ry="8"
-       sodipodi:rx="8"
-       sodipodi:cy="44"
-       sodipodi:cx="8"
-       id="path4151"
-       style="fill:none;stroke:#000000;stroke-width:3.20000005;stroke-miterlimit:4;stroke-dasharray:none"
-       sodipodi:type="arc" />
-    <path
-       sodipodi:type="arc"
-       style="fill:none;stroke:#000000;stroke-width:3.20000005;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path4153"
-       sodipodi:cx="8"
-       sodipodi:cy="44"
-       sodipodi:rx="8"
-       sodipodi:ry="8"
-       d="M 16,44 A 8,8 0 1 1 0,44 8,8 0 1 1 16,44 z"
-       transform="matrix(0.625,0,0,0.625,42.999997,8.5)" />
+    <g
+       id="g934"
+       transform="translate(0,-16)">
+      <g
+         id="g6776"
+         transform="translate(0,1.3333321)">
+        <circle
+           style="fill:#000000;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path3381"
+           cx="9.333333"
+           cy="34.666668"
+           r="3.6666667" />
+        <circle
+           id="path4151"
+           style="fill:#000000;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+           cx="26.666666"
+           cy="34.666668"
+           r="3.6666667" />
+        <circle
+           style="fill:#000000;stroke:#000000;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none"
+           id="path4153"
+           cx="44"
+           cy="34.666668"
+           r="3.6666667" />
+      </g>
+    </g>
   </g>
 </svg>
