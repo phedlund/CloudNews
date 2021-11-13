@@ -64,37 +64,23 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         dateLabel.highlightedTextColor = self.dateLabel.textColor;
 
         starImage.image = item.starIcon
-        favIconImage.isHidden = item.isFavIconHidden
+        favIconImage.isHidden = !SettingsStore.showFavIcons
         favIconImage.alpha = item.imageAlpha
 
-        if item.isThumbnailHidden || item.imageUrl == nil {
-            articleImage.isHidden = true
-            articleImageWidthContraint.isActive = false
-            contentContainerToThumbnailLeadingConstraint.isActive = false
-            contentContainerToMainLeadingConstraint.isActive = true
-            contentContainerToMainLeadingConstraint.constant = 0
-            articleImageWidthContraint.constant = 0
+        if !SettingsStore.showThumbnails || item.imageUrl == nil {
+            hideItemImage()
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
-                contentContainerToMainLeadingConstraint.constant = 0
                 compactSummaryTopConstraint.isActive = false
                 compactSummaryVerticalConstraint.constant = 8
             } else {
-                contentContainerToMainLeadingConstraint.constant = 10
                 compactSummaryTopConstraint.isActive = false
                 compactSummaryVerticalConstraint.isActive = false
             }
         } else {
-            articleImage.isHidden = false
-            contentContainerToMainLeadingConstraint.isActive = false
-            contentContainerToThumbnailLeadingConstraint.isActive = true
-            contentContainerToThumbnailLeadingConstraint.constant = 10
-            articleImageWidthContraint.isActive = true
+            showItemImage()
             if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
-                articleImageWidthContraint.constant = 66
                 compactSummaryVerticalConstraint.isActive = false
             } else {
-                articleImageHeightConstraint.constant = isCompactView ? 66 : 112
-                articleImageWidthContraint.constant = isCompactView ? 66 : 112
                 compactSummaryTopConstraint.isActive = false
                 compactSummaryVerticalConstraint.isActive = false
             }
@@ -102,6 +88,36 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         }
 
         isHighlighted = false
+    }
+
+    func hideItemImage() {
+        articleImage.isHidden = true
+        articleImageWidthContraint.isActive = false
+        articleImageWidthContraint.constant = 0
+        contentContainerToThumbnailLeadingConstraint.isActive = true
+        contentContainerToMainLeadingConstraint.isActive = true
+        if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
+            contentContainerToThumbnailLeadingConstraint.constant = 0
+            contentContainerToMainLeadingConstraint.constant = 0
+        } else {
+            contentContainerToThumbnailLeadingConstraint.constant = 0
+            contentContainerToMainLeadingConstraint.constant = 10
+        }
+    }
+
+    func showItemImage() {
+        let isCompactView = SettingsStore.compactView
+        contentContainerToMainLeadingConstraint.isActive = false
+        contentContainerToThumbnailLeadingConstraint.isActive = true
+        contentContainerToThumbnailLeadingConstraint.constant = 10
+        articleImage.isHidden = false
+        articleImageWidthContraint.isActive = true
+        if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
+            articleImageWidthContraint.constant = 66
+        } else {
+            articleImageHeightConstraint.constant = isCompactView ? 66 : 112
+            articleImageWidthContraint.constant = isCompactView ? 66 : 112
+        }
     }
 
 }

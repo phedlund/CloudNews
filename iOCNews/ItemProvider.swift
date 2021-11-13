@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Kingfisher
 
 struct ItemProviderStruct {
     var myID: Int = -1

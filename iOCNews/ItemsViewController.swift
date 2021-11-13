@@ -508,14 +508,22 @@ extension ItemsViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let articleCell = cell as? ArticleCellWithThumbnail, let item = articleCell.item {
-            if !item.isFavIconHidden, let url = item.favIconUrl {
+            if SettingsStore.showFavIcons, let url = item.favIconUrl {
                 KF.url(url)
                     .loadDiskFileSynchronously()
                     .set(to: articleCell.favIconImage)
             }
-            if !item.isThumbnailHidden, let url = item.imageUrl {
+            if SettingsStore.showThumbnails, let url = item.imageUrl {
+                let processor = SizeProcessor()
                 KF.url(url)
+                    .setProcessor(processor)
                     .loadDiskFileSynchronously()
+                    .onSuccess({ _ in
+                        articleCell.showItemImage()
+                    })
+                    .onFailure({ error in
+                        articleCell.hideItemImage()
+                    })
                     .set(to: articleCell.articleImage)
             }
         }
