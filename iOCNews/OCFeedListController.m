@@ -162,12 +162,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     currentIndex = -1;
     networkHasBeenUnreachable = NO;
     
-    int imageViewOffset = 14;
-    if (SettingsStore.showFavIcons) {
-        imageViewOffset = 36;
-    }
-    self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
-    
+
     self.refreshControl = self.feedRefreshControl;
     if (self.traitCollection.userInterfaceIdiom == UIUserInterfaceIdiomPad) {
         self.splitViewController.delegate = self;
@@ -842,11 +837,6 @@ static NSString *DetailSegueIdentifier = @"showDetail";
         }
     }
     if([keyPath isEqual:@"ShowFavicons"]) {
-        int imageViewOffset = 14;
-        if (SettingsStore.showFavIcons) {
-            imageViewOffset = 36;
-        }
-        self.tableView.separatorInset = UIEdgeInsetsMake(0, imageViewOffset, 0, 0);
         [self.tableView reloadData];
     }
 }

@@ -290,11 +290,11 @@
 				D07F5E8221FEA01E00528E90 /* ArticleFlowLayout.swift */,
 				D0E8C10826192A6200C3E9E2 /* ItemsViewController.swift */,
 				D0E8C104261802DB00C3E9E2 /* ArticleViewController.swift */,
-				D07AD73525A9298B005CBCFC /* ArticleImage.swift */,
 				D066144125A94EB900399DEF /* ArticleHelper.swift */,
 				D0E96E96260C2941000B9590 /* SharingProvider.swift */,
 				D04ECCEA260434C1000569A0 /* FeedSettings.swift */,
 				D02D9D10259FD09900E243CD /* FolderTableViewController.swift */,
+				D07AD73525A9298B005CBCFC /* ArticleImage.swift */,
 				D01ACAFA17B969FE005D1463 /* NSDictionary+HandleNull.h */,
 				D01ACAFB17B969FE005D1463 /* NSDictionary+HandleNull.m */,
 				D02D9D16259FE3B200E243CD /* BadgeView.swift */,
@@ -698,8 +698,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1749;
 				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
@@ -725,6 +726,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.peterandlinda.iOCNews;
 				PRODUCT_NAME = CloudNews;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_STYLE = debugging;
 				SWIFT_OBJC_BRIDGING_HEADER = "iOCNews/iOCNews-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -742,8 +744,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1749;
 				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
@@ -772,6 +775,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.peterandlinda.iOCNews;
 				PRODUCT_NAME = CloudNews;
 				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				STRIP_STYLE = debugging;
 				SWIFT_OBJC_BRIDGING_HEADER = "iOCNews/iOCNews-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -836,7 +840,7 @@
 			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.3;
+				minimumVersion = 9.0.0;
 			};
 		};
 		D0E6C78825A6AB690070317B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {

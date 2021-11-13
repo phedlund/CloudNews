@@ -33,27 +33,47 @@ class FeedCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         imageView?.layer.cornerRadius = 2.0
-        var imageViewOffset: CGFloat = 15
-        if SettingsStore.showFavIcons {
-            imageView?.frame = CGRect(x: 5, y: 10, width: 22, height: 22)
-            imageViewOffset = 37
-        } else {
-            imageView?.frame = .zero
-        }
+        let favIconOffset: CGFloat = 20.0
+
+        var imageViewOffset: CGFloat = favIconOffset
         var accessoryOffset: CGFloat = 15.0
-        if #available(iOS 13, *) {
-            accessoryOffset = 0
-        }
-        if self.accessoryType == .none {
-            accessoryOffset = -23.0
+
+        if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
+            if SettingsStore.showFavIcons {
+                imageView?.frame = CGRect(x: favIconOffset, y: 10, width: 22, height: 22)
+                imageViewOffset = 47
+            } else {
+                imageView?.frame = .zero
+            }
             if #available(iOS 13, *) {
-                if self.traitCollection.horizontalSizeClass == .compact {
+                accessoryOffset = 0
+            }
+            if self.accessoryType == .none {
+                accessoryOffset = -20.0
+                if #available(iOS 13, *) {
                     accessoryOffset = -30.0
-                } else {
-                    accessoryOffset = -27.0
                 }
             }
+            separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+        } else { // regular size class
+            if SettingsStore.showFavIcons {
+                imageView?.frame = CGRect(x: favIconOffset, y: 10, width: 22, height: 22)
+                imageViewOffset = 47
+            } else {
+                imageView?.frame = .zero
+            }
+            if #available(iOS 13, *) {
+                accessoryOffset = 0
+            }
+            if self.accessoryType == .none {
+                accessoryOffset = -20.0
+                if #available(iOS 13, *) {
+                    accessoryOffset = -26.0
+                }
+            }
+            separatorInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         }
+
         countBadge.frame = CGRect(x: self.contentView.frame.size.width - self.countBadge.frame.size.width + accessoryOffset,
                                   y: self.countBadge.frame.origin.y,
                                   width: self.countBadge.frame.size.width,

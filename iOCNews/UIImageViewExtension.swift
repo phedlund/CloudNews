@@ -62,3 +62,32 @@ struct IcoDataProcessor: ImageProcessor {
         }
     }
 }
+
+struct SizeProcessor: ImageProcessor {
+    // `identifier` should be the same for processors with the same properties/functionality
+    // It will be used when storing and retrieving the image to/from cache.
+    let identifier = "dev.pbh.sizeprocessor"
+
+    // Convert input data/image to target image and return it.
+    func process(item: ImageProcessItem, options: KingfisherParsedOptionsInfo) -> KFCrossPlatformImage? {
+        switch item {
+        case .image(let image):
+            let size = image.size
+            if size.height > 100, size.width > 100 {
+                return image
+            }
+            print("Small image: \(size)")
+            return nil
+        case .data(let data):
+            if let image = KFCrossPlatformImage(data: data) {
+                let size = image.size
+                if size.height > 100, size.width > 100 {
+                    return image
+                }
+                print("Small image: \(size)")
+                return nil
+            }
+            return nil
+        }
+    }
+}
