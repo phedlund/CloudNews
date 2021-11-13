@@ -49,6 +49,11 @@ extension UIColor {
     static let pbhWhitePopoverBorder = UIColor(named: "PHWhitePopoverBorder")!
     static let pbhSepiaPopoverBorder = UIColor(named: "PHSepiaPopoverBorder")!
     static let pbhDarkPopoverBorder = UIColor(named: "PHDarkPopoverBorder")!
+
+    static let pbhWhiteSwitch = UIColor(named: "PHWhiteSwitch")!
+    static let pbhSepiaSwitch = UIColor(named: "PHSepiaSwitch")!
+    static let pbhDarkSwitch = UIColor(named: "PHWhiteSwitch")!
+
 }
 
 @objcMembers
@@ -64,6 +69,8 @@ class ThemeColors: NSObject {
     private let popoverBackgroundColors: [UIColor] = [.pbhWhitePopoverBackground, .pbhSepiaPopoverBackground, .pbhDarkPopoverBackground]
     private let popoverButtonColors: [UIColor] = [.pbhWhitePopoverButton, .pbhSepiaPopoverButton, .pbhDarkPopoverButton]
     private let popoverBorderColors: [UIColor] = [.pbhWhitePopoverBorder, .pbhSepiaPopoverBorder, .pbhDarkPopoverBorder]
+    private let switchColors: [UIColor] = [.pbhWhiteSwitch, .pbhSepiaSwitch, .pbhWhiteSwitch]
+
 
     lazy var pbhBackground: UIColor = {
         backgroundColors[SettingsStore.theme]
@@ -103,6 +110,10 @@ class ThemeColors: NSObject {
 
     lazy var pbhPopoverBorder: UIColor = {
         popoverBorderColors[SettingsStore.theme]
+    }()
+
+    lazy var pbhSwitch: UIColor = {
+        switchColors[SettingsStore.theme]
     }()
 
 }
