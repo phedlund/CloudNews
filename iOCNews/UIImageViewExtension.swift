@@ -16,29 +16,29 @@ extension UIImageView {
         func useFeedURL() {
             if let feedUrl = URL(string: feed.link ?? ""), let host = feedUrl.host, let url = URL(string: "https://icons.duckduckgo.com/ip3/\(host).ico") {
                 let processor = IcoDataProcessor()
-                self.kf.setImage(with: url, options: [.processor(processor)]) { result in
-                    switch result {
-                    case .success(_):
+                KF.url(url)
+                    .setProcessor(processor)
+                    .loadDiskFileSynchronously()
+                    .onSuccess({ _ in
                         feed.faviconLink = url.absoluteString
                         OCNewsHelper.shared()?.saveContext()
-                    case .failure(_):
+                    })
+                    .onFailure({ error in
                         self.image = UIImage(named: "favicon")
-                    }
-                }
+                    })
+                    .set(to: self)
             } else {
                 self.image = UIImage(named: "favicon")
             }
         }
         
         if let link = feed.faviconLink, link != "favicon", let url = URL(string: link), let scheme = url.scheme, ArticleImage.validSchemas.contains(scheme) {
-            self.kf.setImage(with: url) { result in
-                switch result {
-                case .success(_):
-                    break
-                case .failure(_):
+            KF.url(url)
+                .loadDiskFileSynchronously()
+                .onFailure({ error in
                     useFeedURL()
-                }
-            }
+                })
+                .set(to: self)
         } else {
             useFeedURL()
         }

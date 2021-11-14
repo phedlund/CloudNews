@@ -271,9 +271,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                         if ([feed.faviconLink isEqualToString:@"star_icon"]) {
                             [cell.imageView setImage:[UIImage imageNamed:@"star_icon"]];
                         } else {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [cell.imageView setFavIconFor:feed];
-                            });
+                            [cell.imageView setFavIconFor:feed];
                         }
                     }
                 }
