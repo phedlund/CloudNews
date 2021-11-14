@@ -74,7 +74,6 @@ class ArticleViewController: BaseCollectionViewController {
                 if let layout = collectionView.collectionViewLayout as? ArticleFlowLayout {
                     layout.currentIndexPath = indexPath
                     collectionView.scrollToItemIfAvailable(indexPath, atScrollPosition: .top, animated: false)
-                    collectionView.contentOffset = layout.targetContentOffset(forProposedContentOffset: .zero)
                 }
                 if selectedArticle.unread {
                     self.selectedArticle?.unread = false
