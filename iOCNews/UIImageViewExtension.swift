@@ -73,7 +73,7 @@ struct SizeProcessor: ImageProcessor {
         switch item {
         case .image(let image):
             let size = image.size
-            if size.height > 100, size.width > 100 {
+            if size.height > 89, size.width > 89 {
                 return image
             }
             print("Small image: \(size)")
@@ -81,7 +81,7 @@ struct SizeProcessor: ImageProcessor {
         case .data(let data):
             if let image = KFCrossPlatformImage(data: data) {
                 let size = image.size
-                if size.height > 100, size.width > 100 {
+                if size.height > 89, size.width > 89 {
                     return image
                 }
                 print("Small image: \(size)")
