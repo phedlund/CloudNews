@@ -95,14 +95,14 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         articleImageWidthContraint.isActive = false
         articleImageWidthContraint.constant = 0
         contentContainerToThumbnailLeadingConstraint.isActive = true
-        contentContainerToMainLeadingConstraint.isActive = true
         if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
             contentContainerToThumbnailLeadingConstraint.constant = 0
             contentContainerToMainLeadingConstraint.constant = 0
         } else {
             contentContainerToThumbnailLeadingConstraint.constant = 0
-            contentContainerToMainLeadingConstraint.constant = 10
+            contentContainerToMainLeadingConstraint.constant = 0
         }
+        contentContainerToMainLeadingConstraint.isActive = true
     }
 
     func showItemImage() {
