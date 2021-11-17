@@ -48,6 +48,7 @@ open class Messenger : NSObject {
                                   body: body,
                                   iconImage: Icon.error.image
             )
+            view.backgroundView.backgroundColor = ThemeColors().pbhSwitch
             return view
         })
     }
@@ -73,6 +74,7 @@ open class Messenger : NSObject {
                                     viewController.dismiss(animated: true, completion: nil)
                                     NotificationCenter.default.post(name: .syncNews, object: nil)
             })
+            view.backgroundView.backgroundColor = ThemeColors().pbhSwitch
             return view
         })
     }
@@ -97,6 +99,7 @@ open class Messenger : NSObject {
                                     SwiftMessages.hide()
                                     callback()
             })
+            view.backgroundView.backgroundColor = ThemeColors().pbhSwitch
             return view
         })
 
