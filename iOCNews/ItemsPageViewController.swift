@@ -1,5 +1,5 @@
 //
-//  ArticleViewController.swift
+//  ItemsPageViewController.swift
 //  iOCNews
 //
 //  Created by Peter Hedlund on 4/2/21.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ArticleViewController: BaseCollectionViewController {
+class ItemsPageViewController: BaseCollectionViewController {
 
     @IBOutlet var backBarButton: UIBarButtonItem!
     @IBOutlet var forwardBarButton: UIBarButtonItem!
@@ -20,7 +20,7 @@ class ArticleViewController: BaseCollectionViewController {
 
     var selectedArticle: Item?
     var items = [Item]()
-    var articleListController: ItemsViewController?
+    var articleListController: ItemsListViewController?
 
     private var settingsPresentationController: UIPopoverPresentationController?
     private var currentCell: ArticleCellWithWebView?
@@ -193,7 +193,7 @@ class ArticleViewController: BaseCollectionViewController {
     
 }
 
-extension ArticleViewController: UIScrollViewDelegate {
+extension ItemsPageViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let collectionView = scrollView as? UICollectionView {
@@ -219,7 +219,7 @@ extension ArticleViewController: UIScrollViewDelegate {
     }
 }
 
-extension ArticleViewController: UICollectionViewDataSource {
+extension ItemsPageViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -267,7 +267,7 @@ extension ArticleViewController: UICollectionViewDataSource {
 
 }
 
-extension ArticleViewController: WKNavigationDelegate {
+extension ItemsPageViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if webView.url?.scheme == "file" || webView.url?.scheme?.hasPrefix("itms") ?? false {
             if let url = navigationAction.request.url {
@@ -315,7 +315,7 @@ extension ArticleViewController: WKNavigationDelegate {
 
 }
 
-extension ArticleViewController: WKUIDelegate {
+extension ItemsPageViewController: WKUIDelegate {
 
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if !(navigationAction.targetFrame?.isMainFrame ?? false) {
@@ -326,7 +326,7 @@ extension ArticleViewController: WKUIDelegate {
 
 }
 
-extension ArticleViewController: ArticleSettingsDelegate {
+extension ItemsPageViewController: ArticleSettingsDelegate {
     var starred: Bool {
         get {
             currentCell?.item?.starred ?? false
@@ -376,7 +376,7 @@ extension ArticleViewController: ArticleSettingsDelegate {
 
 }
 
-extension ArticleViewController: UIPopoverPresentationControllerDelegate {
+extension ItemsPageViewController: UIPopoverPresentationControllerDelegate {
 
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         .none

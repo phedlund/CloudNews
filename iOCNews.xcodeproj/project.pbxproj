@@ -75,8 +75,8 @@
 		D0E8C0ED261138D500C3E9E2 /* ArticleSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C0EC261138D500C3E9E2 /* ArticleSettings.swift */; };
 		D0E8C0F92616A2BF00C3E9E2 /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C0F82616A2BF00C3E9E2 /* CollectionViewExtension.swift */; };
 		D0E8C0FF2616A6DB00C3E9E2 /* BaseCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C0FE2616A6DB00C3E9E2 /* BaseCollectionViewController.swift */; };
-		D0E8C105261802DB00C3E9E2 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C104261802DB00C3E9E2 /* ArticleViewController.swift */; };
-		D0E8C10926192A6200C3E9E2 /* ItemsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C10826192A6200C3E9E2 /* ItemsViewController.swift */; };
+		D0E8C105261802DB00C3E9E2 /* ItemsPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C104261802DB00C3E9E2 /* ItemsPageViewController.swift */; };
+		D0E8C10926192A6200C3E9E2 /* ItemsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C10826192A6200C3E9E2 /* ItemsListViewController.swift */; };
 		D0E8C119261FE2BA00C3E9E2 /* SafariActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E8C118261FE2BA00C3E9E2 /* SafariActivity.swift */; };
 		D0E96E8526082BFD000B9590 /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = D0E96E8426082BFD000B9590 /* KeychainAccess */; };
 		D0E96E8926082C14000B9590 /* SettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E96E8826082C14000B9590 /* SettingsStore.swift */; };
@@ -161,8 +161,8 @@
 		D0E8C0EC261138D500C3E9E2 /* ArticleSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleSettings.swift; sourceTree = "<group>"; };
 		D0E8C0F82616A2BF00C3E9E2 /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
 		D0E8C0FE2616A6DB00C3E9E2 /* BaseCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewController.swift; sourceTree = "<group>"; };
-		D0E8C104261802DB00C3E9E2 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
-		D0E8C10826192A6200C3E9E2 /* ItemsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsViewController.swift; sourceTree = "<group>"; };
+		D0E8C104261802DB00C3E9E2 /* ItemsPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsPageViewController.swift; sourceTree = "<group>"; };
+		D0E8C10826192A6200C3E9E2 /* ItemsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewController.swift; sourceTree = "<group>"; };
 		D0E8C118261FE2BA00C3E9E2 /* SafariActivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariActivity.swift; sourceTree = "<group>"; };
 		D0E96E8826082C14000B9590 /* SettingsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsStore.swift; sourceTree = "<group>"; };
 		D0E96E90260C234C000B9590 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
@@ -288,8 +288,8 @@
 				D05A6FBD213E35A8006D3AB8 /* ArticleCellWithWebView.swift */,
 				D096143B21EED4AF000BD5D2 /* ArticleListFlowLayout.swift */,
 				D07F5E8221FEA01E00528E90 /* ArticleFlowLayout.swift */,
-				D0E8C10826192A6200C3E9E2 /* ItemsViewController.swift */,
-				D0E8C104261802DB00C3E9E2 /* ArticleViewController.swift */,
+				D0E8C10826192A6200C3E9E2 /* ItemsListViewController.swift */,
+				D0E8C104261802DB00C3E9E2 /* ItemsPageViewController.swift */,
 				D066144125A94EB900399DEF /* ArticleHelper.swift */,
 				D0E96E96260C2941000B9590 /* SharingProvider.swift */,
 				D04ECCEA260434C1000569A0 /* FeedSettings.swift */,
@@ -505,7 +505,7 @@
 			files = (
 				D05A6FB1213B914E006D3AB8 /* BaseArticleCell.swift in Sources */,
 				D0E96EAF260D7B9F000B9590 /* NewsTextView.swift in Sources */,
-				D0E8C10926192A6200C3E9E2 /* ItemsViewController.swift in Sources */,
+				D0E8C10926192A6200C3E9E2 /* ItemsListViewController.swift in Sources */,
 				D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */,
 				D04ECCEF26043C31000569A0 /* NSNotificationExtension.swift in Sources */,
 				D0E8C0ED261138D500C3E9E2 /* ArticleSettings.swift in Sources */,
@@ -521,7 +521,7 @@
 				D05A6FB7213DEB4B006D3AB8 /* ArticleCellWithThumbnail.swift in Sources */,
 				D01E6F172661B5C700141A3D /* SplitViewController.swift in Sources */,
 				D0F181291783B12D00F719D9 /* OCLoginController.m in Sources */,
-				D0E8C105261802DB00C3E9E2 /* ArticleViewController.swift in Sources */,
+				D0E8C105261802DB00C3E9E2 /* ItemsPageViewController.swift in Sources */,
 				D0B49E102682CE5600D6ECD3 /* GTMNSString+HTML.m in Sources */,
 				D06CB22E17A06E4F00A1310B /* News.xcdatamodeld in Sources */,
 				D06CB23917A0A0AA00A1310B /* OCNewsHelper.m in Sources */,
@@ -630,7 +630,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "";
@@ -680,7 +680,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = "-lxml2";
 				PROVISIONING_PROFILE = "81225C99-CA78-4B62-944C-148036F8AFA7";
@@ -701,7 +701,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1749;
+				CURRENT_PROJECT_VERSION = 1752;
 				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -711,13 +711,13 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = "iOCNews/iOCNews-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.12.2;
+				MARKETING_VERSION = 3.13.0;
 				OTHER_CFLAGS = "-DREADABLE_USE_LIBICU";
 				OTHER_LDFLAGS = (
 					"-lxml2",
@@ -747,7 +747,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1749;
+				CURRENT_PROJECT_VERSION = 1752;
 				DEVELOPMENT_TEAM = 73AQJ77PZ5;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -757,13 +757,13 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				INFOPLIST_FILE = "iOCNews/iOCNews-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 3.12.2;
+				MARKETING_VERSION = 3.13.0;
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"-DREADABLE_USE_LIBICU",
@@ -848,7 +848,7 @@
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.1;
+				minimumVersion = 7.0.0;
 			};
 		};
 		D0E6C78D25A6B2820070317B /* XCRemoteSwiftPackageReference "AFNetworking" */ = {

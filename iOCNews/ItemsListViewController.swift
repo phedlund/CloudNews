@@ -1,5 +1,5 @@
 //
-//  ItemsViewController.swift
+//  ItemsListViewController.swift
 //  iOCNews
 //
 //  Created by Peter Hedlund on 4/3/21.
@@ -9,7 +9,7 @@
 import Kingfisher
 import UIKit
 
-class ItemsViewController: BaseCollectionViewController {
+class ItemsListViewController: BaseCollectionViewController {
 
     @IBOutlet var markBarButton: UIBarButtonItem!
     @IBOutlet var sideGestureRecognizer: UIScreenEdgePanGestureRecognizer!
@@ -135,7 +135,7 @@ class ItemsViewController: BaseCollectionViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showArticleSegue", let articleController = segue.destination as? ArticleViewController {
+        if segue.identifier == "showArticleSegue", let articleController = segue.destination as? ItemsPageViewController {
             articleController.feed = feed
             articleController.folderId = folderId;
             articleController.aboutToFetch = true
@@ -440,7 +440,7 @@ class ItemsViewController: BaseCollectionViewController {
 
 }
 
-extension ItemsViewController: UIGestureRecognizerDelegate {
+extension ItemsListViewController: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         true
@@ -458,7 +458,7 @@ extension ItemsViewController: UIGestureRecognizerDelegate {
 
 }
 
-extension ItemsViewController: UICollectionViewDelegate {
+extension ItemsListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let selectedItem = fetchedResultsController?.object(at: indexPath) as? Item {
@@ -480,7 +480,7 @@ extension ItemsViewController: UICollectionViewDelegate {
 
 }
 
-extension ItemsViewController: UICollectionViewDataSource {
+extension ItemsListViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -538,7 +538,7 @@ extension ItemsViewController: UICollectionViewDataSource {
 
 }
 
-extension ItemsViewController: UICollectionViewDataSourcePrefetching {
+extension ItemsListViewController: UICollectionViewDataSourcePrefetching {
 
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
@@ -559,7 +559,7 @@ extension ItemsViewController: UICollectionViewDataSourcePrefetching {
 
 }
 
-extension ItemsViewController: UIScrollViewDelegate {
+extension ItemsListViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate {

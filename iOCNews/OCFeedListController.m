@@ -47,7 +47,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *gearBarButtonItem;
-@property (strong, nonatomic) ItemsViewController *detailViewController;
+@property (strong, nonatomic) ItemsListViewController *detailViewController;
 @property (nonatomic, assign) NSInteger currentIndex;
 
 - (void) networkCompleted:(NSNotification*)n;
@@ -331,7 +331,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
             }
             UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
-            self.detailViewController = (ItemsViewController *)navController.topViewController;
+            self.detailViewController = (ItemsListViewController *)navController.topViewController;
             self.detailViewController.feed = feed;
             if (self.folderId > 0) {
                 self.detailViewController.folderId = self.folderId;
@@ -486,10 +486,10 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
         if (@available(iOS 14.0, *)) {
             UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
-            self.detailViewController = (ItemsViewController *)navController.topViewController;
+            self.detailViewController = (ItemsListViewController *)navController.topViewController;
         } else {
             UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-            self.detailViewController = (ItemsViewController *)navigationController.topViewController;
+            self.detailViewController = (ItemsListViewController *)navigationController.topViewController;
         }
 
         if (!self.tableView.isEditing) {
