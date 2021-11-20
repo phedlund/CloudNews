@@ -856,12 +856,9 @@
         [responseObjects enumerateObjectsUsingBlock:^(id respObject, NSUInteger idx, BOOL *stop) {
             NSDictionary *itemDict;
             
-            if (respObject && [respObject isKindOfClass:[NSDictionary class]])
-            {
+            if (respObject && [respObject isKindOfClass:[NSDictionary class]]) {
                 itemDict = (NSDictionary*)respObject;
-            }
-            else
-            {
+            } else {
                 //NSString *responseString = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
                 //NSLog(@"Response: %@", responseString);
                 id json = [NSJSONSerialization JSONObjectWithData:respObject options:0 error:nil];
@@ -892,15 +889,6 @@
                 NSLog(@"Error deleting duplicates: %@", deleteError.localizedDescription);
             }
 
-//            NSError *error = nil;
-//            NSArray *duplicateItems = [self.context executeFetchRequest:self.itemRequest error:&error];
-////            NSLog(@"duplicateItems Count: %lu", (unsigned long)duplicateItems.count);
-//
-//            for (NSManagedObject *item in duplicateItems) {
-//                //NSLog(@"Deleting duplicate with title: %@", ((Item*)item).title);
-//                [self.context deleteObject:item];
-//            }
-            
             [addedItems enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop ) {
                 [self addItemFromDictionary:item];
             }];
@@ -920,22 +908,6 @@
                 if (deleteError) {
                     NSLog(@"Error trimming feed: %@", deleteError.localizedDescription);
                 }
-
-//                [self.itemRequest setPredicate:[NSPredicate predicateWithFormat: @"feedId == %@", feedId]];
-//
-//                NSError *error = nil;
-//                NSMutableArray *feedItems = [NSMutableArray arrayWithArray:[self.context executeFetchRequest:self.itemRequest error:&error]];
-//
-//                while (feedItems.count > feed.articleCount) {
-//                    Item *itemToRemove = [feedItems lastObject];
-//                    if (!itemToRemove.starred) {
-//                        if (!itemToRemove.unread) {
-////                            NSLog(@"Deleting item with id %i and title %@", itemToRemove.myIdValue, itemToRemove.title);
-//                            [self.context deleteObject:itemToRemove];
-//                            [feedItems removeLastObject];
-//                        }
-//                    }
-//                }
                 [self saveContext];
             }];
             self.itemRequest.fetchOffset = 0;
@@ -1419,10 +1391,12 @@
             [itemIds enumerateObjectsUsingBlock:^(NSNumber *itemId, BOOL *stop) {
                 [self->itemsToMarkRead removeObject:itemId];
             }];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"MarkReadCompleted" object:self userInfo:nil];
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             [itemIds enumerateObjectsUsingBlock:^(NSNumber *itemId, BOOL *stop) {
                 [self->itemsToMarkRead addObject:itemId];
             }];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"MarkReadCompleted" object:self userInfo:nil];
         }];
     } else {
         //offline
@@ -1432,6 +1406,7 @@
         [itemIds enumerateObjectsUsingBlock:^(NSNumber *itemId, BOOL *stop) {
             [self->itemsToMarkRead addObject:itemId];
         }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"MarkReadCompleted" object:self userInfo:nil];
     }
     [self updateReadItems:[itemIds allObjects]];
 }

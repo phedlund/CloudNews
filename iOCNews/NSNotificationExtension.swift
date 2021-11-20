@@ -16,4 +16,5 @@ extension NSNotification.Name {
     static let drawerOpened = NSNotification.Name("DrawerOpened")
     static let drawerClosed = NSNotification.Name("DrawerClosed")
     static let displayModeChanged = NSNotification.Name("DisplayModeChanged")
+    static let markReadCompleted = NSNotification.Name("MarkReadCompleted")
 }
