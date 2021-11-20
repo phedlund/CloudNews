@@ -153,6 +153,14 @@ class ItemsListViewController: BaseCollectionViewController {
     }
 
     // MARK: - Public Functions
+    func updateItem(for indexPath: IndexPath, starred: Bool, unread: Bool) {
+        guard collectionView.isIndexPathAvailable(indexPath),
+              let item = fetchedResultsController?.object(at: indexPath) as? Item else {
+            return
+        }
+        item.starred = starred
+        item.unread = unread
+    }
 
     func createItemProvider(for indexPath: IndexPath, preFetching: Bool = true) -> ItemProvider? {
         guard collectionView.isIndexPathAvailable(indexPath),

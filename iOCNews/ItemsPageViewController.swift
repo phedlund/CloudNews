@@ -341,7 +341,10 @@ extension ItemsPageViewController: ArticleSettingsDelegate {
 
     func settingsChanged(_ reload: Bool) {
         let starred = SettingsStore.starred
-        if starred != currentCell?.item?.starred {
+        let unread = SettingsStore.unread
+        articleListController?.updateItem(for: currentIndexPath, starred: starred, unread: unread)
+
+        if starred != currentCell?.starred {
             currentCell?.starred = starred
             _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
@@ -353,8 +356,7 @@ extension ItemsPageViewController: ArticleSettingsDelegate {
             }
         }
 
-        let unread = SettingsStore.unread
-        if unread != currentCell?.item?.unread {
+        if unread != currentCell?.unread {
             currentCell?.unread = unread
             _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
