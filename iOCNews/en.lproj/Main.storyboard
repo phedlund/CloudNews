@@ -1039,7 +1039,7 @@
         <!--Articles-->
         <scene sceneID="1Vi-aZ-4mE">
             <objects>
-                <viewController id="FkQ-sC-AN6" customClass="ItemsViewController" customModule="CloudNews" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="FkQ-sC-AN6" customClass="ItemsListViewController" customModule="CloudNews" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="R3B-oJ-SGC">
                         <rect key="frame" x="0.0" y="0.0" width="873.5" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1114,10 +1114,10 @@
             </objects>
             <point key="canvasLocation" x="-554" y="508"/>
         </scene>
-        <!--Article View Controller-->
+        <!--Items Page View Controller-->
         <scene sceneID="lTA-mE-Wi7">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ggy-ns-Rvt" customClass="ArticleViewController" customModule="CloudNews" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="ggy-ns-Rvt" customClass="ItemsPageViewController" customModule="CloudNews" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eVB-F7-ce0">
                         <rect key="frame" x="0.0" y="0.0" width="873.5" height="834"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

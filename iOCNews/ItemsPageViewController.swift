@@ -72,6 +72,9 @@ class ItemsPageViewController: BaseCollectionViewController {
             if let selectedArticle = self.selectedArticle, let itemIndex = items.firstIndex(of: selectedArticle) {
                 let indexPath = IndexPath(item: itemIndex, section: 0)
                 if let layout = collectionView.collectionViewLayout as? ArticleFlowLayout {
+                    if let cell = collectionView(collectionView, cellForItemAt: indexPath) as? ArticleCellWithWebView {
+                        currentCell = cell
+                    }
                     layout.currentIndexPath = indexPath
                     collectionView.scrollToItemIfAvailable(indexPath, atScrollPosition: .top, animated: false)
                 }
@@ -83,7 +86,6 @@ class ItemsPageViewController: BaseCollectionViewController {
                 }
                 updateNavigationItemTitle()
             }
-//            shouldScrollToInitialArticle = false
         }
     }
 
@@ -233,10 +235,6 @@ extension ItemsPageViewController: UICollectionViewDataSource {
         print("Getting cell for \(indexPath.description)")
         if let articleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithWebView", for: indexPath) as? ArticleCellWithWebView {
             let cellItem = items[indexPath.item]
-            articleCell.addWebView()
-            articleCell.webView?.navigationDelegate = self
-            articleCell.webView?.uiDelegate = self
-
             let feed = OCNewsHelper.shared()?.feed(withId: Int(cellItem.feedId))
             var itemData = ItemProviderStruct()
             itemData.title = cellItem.title
@@ -255,10 +253,12 @@ extension ItemsPageViewController: UICollectionViewDataSource {
             itemData.feedPreferWeb = feed?.preferWeb ?? false
             itemData.feedUseReader = feed?.useReader ?? false
             let provider = ItemProvider(item: itemData)
-            articleCell.item = provider;
+            articleCell.configureView(provider)
             if currentCell == nil {
                 currentCell = articleCell
             }
+            articleCell.webView?.navigationDelegate = self
+            articleCell.webView?.uiDelegate = self
             return articleCell;
         } else  {
             return UICollectionViewCell()
@@ -342,7 +342,7 @@ extension ItemsPageViewController: ArticleSettingsDelegate {
     func settingsChanged(_ reload: Bool) {
         let starred = SettingsStore.starred
         if starred != currentCell?.item?.starred {
-            currentCell?.item?.starred = starred
+            currentCell?.starred = starred
             _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
                 if starred {
@@ -355,7 +355,7 @@ extension ItemsPageViewController: ArticleSettingsDelegate {
 
         let unread = SettingsStore.unread
         if unread != currentCell?.item?.unread {
-            currentCell?.item?.unread = unread
+            currentCell?.unread = unread
             _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
                 if unread {
@@ -370,7 +370,9 @@ extension ItemsPageViewController: ArticleSettingsDelegate {
 
         if currentCell?.webView != nil && reload {
             currentCell?.prepareForReuse()
-            currentCell?.configureView()
+            if let item = currentCell?.item {
+                currentCell?.configureView(item)
+            }
         }
     }
 

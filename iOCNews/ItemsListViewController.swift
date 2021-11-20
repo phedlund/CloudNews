@@ -188,8 +188,8 @@ class ItemsListViewController: BaseCollectionViewController {
                 }
                 DispatchQueue.main.async {
                     if let visibleCells = self?.collectionView.indexPathsForVisibleItems, visibleCells.contains(indexPath),
-                       let cell = self?.collectionView.cellForItem(at: indexPath) as? BaseArticleCell {
-                        cell.item = provider
+                       let cell = self?.collectionView.cellForItem(at: indexPath) as? BaseItemCell {
+                        cell.configureView(provider)
                     }
                 }
             }
@@ -497,9 +497,11 @@ extension ItemsListViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithThumbnail", for: indexPath) as? ArticleCellWithThumbnail {
             if let itemProvider = fetchedItemProviders[indexPath] {
-                cell.item = itemProvider
+                cell.configureView(itemProvider)
             } else {
-                cell.item = createItemProvider(for: indexPath, preFetching: false)
+                if let item = createItemProvider(for: indexPath, preFetching: false) {
+                    cell.configureView(item)
+                }
             }
             return cell
         }

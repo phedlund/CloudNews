@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ArticleCellWithWebView: BaseArticleCell {
+class ArticleCellWithWebView: BaseItemCell {
     
     var webConfig: WKWebViewConfiguration {
         let result = WKWebViewConfiguration()
@@ -19,7 +19,7 @@ class ArticleCellWithWebView: BaseArticleCell {
     }
 
     private var internalWebView: WKWebView?
-    var webView: WKWebView? {
+    override var webView: WKWebView? {
         get {
             if internalWebView == nil {
                 internalWebView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), configuration: self.webConfig)
@@ -60,19 +60,16 @@ class ArticleCellWithWebView: BaseArticleCell {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle {
-                configureView()
+            if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle, let item = self.item {
+                configureView(item)
             }
         } else {
             // Fallback on earlier versions
         }
     }
     
-    override func configureView() {
-        super.configureView()
-        guard let item = self.item else {
-            return
-        }
+    override func configureView(_ item: ItemProvider) {
+        super.configureView(item)
         bottomBorder.removeFromSuperlayer()
         addWebView()
         if item.item.feedPreferWeb == true {
