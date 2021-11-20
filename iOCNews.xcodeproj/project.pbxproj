@@ -33,7 +33,7 @@
 		D04ECCEB260434C1000569A0 /* FeedSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04ECCEA260434C1000569A0 /* FeedSettings.swift */; };
 		D04ECCEF26043C31000569A0 /* NSNotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04ECCEE26043C31000569A0 /* NSNotificationExtension.swift */; };
 		D059E9512325C70500932E2B /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D059E9502325C70500932E2B /* Colors.xcassets */; };
-		D05A6FB1213B914E006D3AB8 /* BaseArticleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FB0213B914E006D3AB8 /* BaseArticleCell.swift */; };
+		D05A6FB1213B914E006D3AB8 /* BaseItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FB0213B914E006D3AB8 /* BaseItemCell.swift */; };
 		D05A6FB7213DEB4B006D3AB8 /* ArticleCellWithThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FB6213DEB4B006D3AB8 /* ArticleCellWithThumbnail.swift */; };
 		D05A6FB9213DED1D006D3AB8 /* ArticleCellWithThumbnail.xib in Resources */ = {isa = PBXBuildFile; fileRef = D05A6FB8213DEC31006D3AB8 /* ArticleCellWithThumbnail.xib */; };
 		D05A6FBE213E35A8006D3AB8 /* ArticleCellWithWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05A6FBD213E35A8006D3AB8 /* ArticleCellWithWebView.swift */; };
@@ -110,7 +110,7 @@
 		D04ECCEA260434C1000569A0 /* FeedSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedSettings.swift; sourceTree = "<group>"; };
 		D04ECCEE26043C31000569A0 /* NSNotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSNotificationExtension.swift; sourceTree = "<group>"; };
 		D059E9502325C70500932E2B /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		D05A6FB0213B914E006D3AB8 /* BaseArticleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseArticleCell.swift; sourceTree = "<group>"; };
+		D05A6FB0213B914E006D3AB8 /* BaseItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseItemCell.swift; sourceTree = "<group>"; };
 		D05A6FB6213DEB4B006D3AB8 /* ArticleCellWithThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCellWithThumbnail.swift; sourceTree = "<group>"; };
 		D05A6FB8213DEC31006D3AB8 /* ArticleCellWithThumbnail.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ArticleCellWithThumbnail.xib; sourceTree = "<group>"; };
 		D05A6FBD213E35A8006D3AB8 /* ArticleCellWithWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleCellWithWebView.swift; sourceTree = "<group>"; };
@@ -281,7 +281,7 @@
 				D0BCAA70177909A600C965F4 /* OCFeedListController.m */,
 				D0E8C0FE2616A6DB00C3E9E2 /* BaseCollectionViewController.swift */,
 				D0E8C0F82616A2BF00C3E9E2 /* CollectionViewExtension.swift */,
-				D05A6FB0213B914E006D3AB8 /* BaseArticleCell.swift */,
+				D05A6FB0213B914E006D3AB8 /* BaseItemCell.swift */,
 				D034D53322164AB100566A13 /* ItemProvider.swift */,
 				D05A6FB6213DEB4B006D3AB8 /* ArticleCellWithThumbnail.swift */,
 				D05A6FB8213DEC31006D3AB8 /* ArticleCellWithThumbnail.xib */,
@@ -503,7 +503,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D05A6FB1213B914E006D3AB8 /* BaseArticleCell.swift in Sources */,
+				D05A6FB1213B914E006D3AB8 /* BaseItemCell.swift in Sources */,
 				D0E96EAF260D7B9F000B9590 /* NewsTextView.swift in Sources */,
 				D0E8C10926192A6200C3E9E2 /* ItemsListViewController.swift in Sources */,
 				D0E96EA3260D75B1000B9590 /* AppDelegate.swift in Sources */,
