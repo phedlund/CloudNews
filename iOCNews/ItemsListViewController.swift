@@ -78,18 +78,6 @@ class ItemsListViewController: BaseCollectionViewController {
         observers.append(NotificationCenter.default.addObserver(forName: .networkCompleted, object: nil, queue: .main, using: {[weak self] _ in
             self?.refreshControl.endRefreshing()
         }))
-        observers.append(NotificationCenter.default.addObserver(forName: .drawerOpened, object: nil, queue: .main, using: { [weak self] _ in
-            NotificationCenter.default.removeObserver(self?.networkErrorObserver as Any)
-            self?.collectionView.scrollsToTop = false
-        }))
-        observers.append(NotificationCenter.default.addObserver(forName: .drawerClosed, object: nil, queue: .main, using: { [weak self] _ in
-            self?.networkErrorObserver = NotificationCenter.default.addObserver(forName: .networkError, object: self, queue: .main) { notification in
-                if let title = notification.userInfo?["Title"] as? String, let body = notification.userInfo?["Message"] as? String {
-                    Messenger.showMessage(title: title, body: body, theme: .error)
-                }
-            }
-            self?.collectionView.scrollsToTop = true
-        }))
         observers.append(NotificationCenter.default.addObserver(forName: .themeUpdate, object: nil, queue: .main, using: {[weak self] _ in
             self?.collectionView.reloadData()
         }))
