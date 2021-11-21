@@ -14,4 +14,5 @@ extension NSNotification.Name {
     static let networkCompleted = NSNotification.Name("NetworkCompleted")
     static let networkError = NSNotification.Name("NetworkError")
     static let displayModeChanged = NSNotification.Name("DisplayModeChanged")
+    static let markReadCompleted = NSNotification.Name("MarkReadCompleted")
 }

@@ -77,6 +77,7 @@ class ItemsListViewController: BaseCollectionViewController {
 
         observers.append(NotificationCenter.default.addObserver(forName: .networkCompleted, object: nil, queue: .main, using: {[weak self] _ in
             self?.refreshControl.endRefreshing()
+            self?.refresh()
         }))
         observers.append(NotificationCenter.default.addObserver(forName: .themeUpdate, object: nil, queue: .main, using: {[weak self] _ in
             self?.collectionView.reloadData()
@@ -86,6 +87,9 @@ class ItemsListViewController: BaseCollectionViewController {
         }))
         observers.append(NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.collectionView.reloadData()
+        }))
+        observers.append(NotificationCenter.default.addObserver(forName: .markReadCompleted, object: nil, queue: .main, using: { [weak self] _ in
+            self?.refreshControl.isEnabled = true
         }))
         if #available(iOS 14.0, *) {
             observers.append(NotificationCenter.default.addObserver(forName: .displayModeChanged, object: nil, queue: .main, using: { [weak self] notification in
@@ -293,6 +297,7 @@ class ItemsListViewController: BaseCollectionViewController {
     }
 
     private func markRowsRead() {
+        refreshControl.isEnabled = false
         if SettingsStore.markReadWhileScrolling {
             var unreadCount = self.unreadCount()
             if unreadCount > 0 {
