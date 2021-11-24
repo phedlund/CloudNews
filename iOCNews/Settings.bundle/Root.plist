@@ -14,7 +14,7 @@
 		</dict>
 		<dict>
 			<key>DefaultValue</key>
-			<string>3.12.2 (1749)</string>
+			<string>3.13.0 (1754)</string>
 			<key>Key</key>
 			<string>versionNumber</string>
 			<key>Title</key>

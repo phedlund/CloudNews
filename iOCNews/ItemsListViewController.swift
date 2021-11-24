@@ -1,5 +1,5 @@
 //
-//  ItemsViewController.swift
+//  ItemsListViewController.swift
 //  iOCNews
 //
 //  Created by Peter Hedlund on 4/3/21.
@@ -9,7 +9,7 @@
 import Kingfisher
 import UIKit
 
-class ItemsViewController: BaseCollectionViewController {
+class ItemsListViewController: BaseCollectionViewController {
 
     @IBOutlet var markBarButton: UIBarButtonItem!
     @IBOutlet var sideGestureRecognizer: UIScreenEdgePanGestureRecognizer!
@@ -77,18 +77,7 @@ class ItemsViewController: BaseCollectionViewController {
 
         observers.append(NotificationCenter.default.addObserver(forName: .networkCompleted, object: nil, queue: .main, using: {[weak self] _ in
             self?.refreshControl.endRefreshing()
-        }))
-        observers.append(NotificationCenter.default.addObserver(forName: .drawerOpened, object: nil, queue: .main, using: { [weak self] _ in
-            NotificationCenter.default.removeObserver(self?.networkErrorObserver as Any)
-            self?.collectionView.scrollsToTop = false
-        }))
-        observers.append(NotificationCenter.default.addObserver(forName: .drawerClosed, object: nil, queue: .main, using: { [weak self] _ in
-            self?.networkErrorObserver = NotificationCenter.default.addObserver(forName: .networkError, object: self, queue: .main) { notification in
-                if let title = notification.userInfo?["Title"] as? String, let body = notification.userInfo?["Message"] as? String {
-                    Messenger.showMessage(title: title, body: body, theme: .error)
-                }
-            }
-            self?.collectionView.scrollsToTop = true
+            self?.refresh()
         }))
         observers.append(NotificationCenter.default.addObserver(forName: .themeUpdate, object: nil, queue: .main, using: {[weak self] _ in
             self?.collectionView.reloadData()
@@ -98,6 +87,9 @@ class ItemsViewController: BaseCollectionViewController {
         }))
         observers.append(NotificationCenter.default.addObserver(forName: UIContentSizeCategory.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.collectionView.reloadData()
+        }))
+        observers.append(NotificationCenter.default.addObserver(forName: .markReadCompleted, object: nil, queue: .main, using: { [weak self] _ in
+            self?.refreshControl.isEnabled = true
         }))
         if #available(iOS 14.0, *) {
             observers.append(NotificationCenter.default.addObserver(forName: .displayModeChanged, object: nil, queue: .main, using: { [weak self] notification in
@@ -135,7 +127,7 @@ class ItemsViewController: BaseCollectionViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showArticleSegue", let articleController = segue.destination as? ArticleViewController {
+        if segue.identifier == "showArticleSegue", let articleController = segue.destination as? ItemsPageViewController {
             articleController.feed = feed
             articleController.folderId = folderId;
             articleController.aboutToFetch = true
@@ -153,6 +145,14 @@ class ItemsViewController: BaseCollectionViewController {
     }
 
     // MARK: - Public Functions
+    func updateItem(for indexPath: IndexPath, starred: Bool, unread: Bool) {
+        guard collectionView.isIndexPathAvailable(indexPath),
+              let item = fetchedResultsController?.object(at: indexPath) as? Item else {
+            return
+        }
+        item.starred = starred
+        item.unread = unread
+    }
 
     func createItemProvider(for indexPath: IndexPath, preFetching: Bool = true) -> ItemProvider? {
         guard collectionView.isIndexPathAvailable(indexPath),
@@ -188,8 +188,8 @@ class ItemsViewController: BaseCollectionViewController {
                 }
                 DispatchQueue.main.async {
                     if let visibleCells = self?.collectionView.indexPathsForVisibleItems, visibleCells.contains(indexPath),
-                       let cell = self?.collectionView.cellForItem(at: indexPath) as? BaseArticleCell {
-                        cell.item = provider
+                       let cell = self?.collectionView.cellForItem(at: indexPath) as? BaseItemCell {
+                        cell.configureView(provider)
                     }
                 }
             }
@@ -297,6 +297,7 @@ class ItemsViewController: BaseCollectionViewController {
     }
 
     private func markRowsRead() {
+        refreshControl.isEnabled = false
         if SettingsStore.markReadWhileScrolling {
             var unreadCount = self.unreadCount()
             if unreadCount > 0 {
@@ -440,7 +441,7 @@ class ItemsViewController: BaseCollectionViewController {
 
 }
 
-extension ItemsViewController: UIGestureRecognizerDelegate {
+extension ItemsListViewController: UIGestureRecognizerDelegate {
 
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         true
@@ -458,7 +459,7 @@ extension ItemsViewController: UIGestureRecognizerDelegate {
 
 }
 
-extension ItemsViewController: UICollectionViewDelegate {
+extension ItemsListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let selectedItem = fetchedResultsController?.object(at: indexPath) as? Item {
@@ -480,7 +481,7 @@ extension ItemsViewController: UICollectionViewDelegate {
 
 }
 
-extension ItemsViewController: UICollectionViewDataSource {
+extension ItemsListViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -497,9 +498,11 @@ extension ItemsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithThumbnail", for: indexPath) as? ArticleCellWithThumbnail {
             if let itemProvider = fetchedItemProviders[indexPath] {
-                cell.item = itemProvider
+                cell.configureView(itemProvider)
             } else {
-                cell.item = createItemProvider(for: indexPath, preFetching: false)
+                if let item = createItemProvider(for: indexPath, preFetching: false) {
+                    cell.configureView(item)
+                }
             }
             return cell
         }
@@ -538,7 +541,7 @@ extension ItemsViewController: UICollectionViewDataSource {
 
 }
 
-extension ItemsViewController: UICollectionViewDataSourcePrefetching {
+extension ItemsListViewController: UICollectionViewDataSourcePrefetching {
 
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
@@ -559,7 +562,7 @@ extension ItemsViewController: UICollectionViewDataSourcePrefetching {
 
 }
 
-extension ItemsViewController: UIScrollViewDelegate {
+extension ItemsListViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if decelerate {

@@ -1,5 +1,5 @@
 //
-//  BaseArticleCell.swift
+//  BaseItemCell.swift
 //  iOCNews
 //
 //  Created by Peter Hedlund on 9/1/18.
@@ -7,24 +7,39 @@
 //
 
 import UIKit
+import WebKit
 
-protocol ArticleCellProtocol {
-    var item: ItemProvider? {get set}
-    func configureView()
+protocol ItemCellProtocol {
+    var item: ItemProvider? { get }
+    var webView: WKWebView? { get set }
+    func configureView(_ item: ItemProvider)
 }
 
-class BaseArticleCell: UICollectionViewCell, ArticleCellProtocol {
+class BaseItemCell: UICollectionViewCell, ItemCellProtocol {
+    var webView: WKWebView?
 
-    var item: ItemProvider? {
-        didSet {
-            self.configureView()
+    private (set) var item: ItemProvider?
+
+    var bottomBorder = CALayer()
+    var starred: Bool {
+        get {
+            item?.starred ?? false
+        }
+        set {
+            item?.starred = newValue
+        }
+    }
+    var unread: Bool {
+        get {
+            item?.unread ?? true
+        }
+        set {
+            item?.unread = newValue
         }
     }
 
-    var bottomBorder = CALayer()
-    
-    func configureView() {
-        //
+    func configureView(_ item: ItemProvider) {
+        self.item = item
     }
     
     override init(frame: CGRect) {

@@ -12,7 +12,7 @@ import SwiftSoup
 class ArticleImage: NSObject {
 
     static let validSchemas = ["http", "https", "file"]
-    static let imagesToSkip = ["feedads","twitter_icon","facebook_icon","feedburner","gplus-16"]
+    static let imagesToSkip = ["feedads","twitter_icon","facebook_icon","feedburner","gplus-16", "placeholder"]
 
     @objc
     static func imageURL(summary: String) -> String? {

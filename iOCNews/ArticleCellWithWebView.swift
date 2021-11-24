@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ArticleCellWithWebView: BaseArticleCell {
+class ArticleCellWithWebView: BaseItemCell {
     
     var webConfig: WKWebViewConfiguration {
         let result = WKWebViewConfiguration()
@@ -19,12 +19,11 @@ class ArticleCellWithWebView: BaseArticleCell {
     }
 
     private var internalWebView: WKWebView?
-    var webView: WKWebView? {
+    override var webView: WKWebView? {
         get {
             if internalWebView == nil {
                 internalWebView = WKWebView(frame: CGRect(x: 0, y: 0, width: 0, height: 0), configuration: self.webConfig)
                 if let result = internalWebView {
-                    result.customUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1"
                     result.isOpaque = false
                     result.backgroundColor = UIColor.clear
                 }
@@ -59,20 +58,13 @@ class ArticleCellWithWebView: BaseArticleCell {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-        if #available(iOS 12.0, *) {
-            if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle {
-                configureView()
-            }
-        } else {
-            // Fallback on earlier versions
+        if traitCollection.userInterfaceStyle != previousTraitCollection?.userInterfaceStyle, let item = self.item {
+            configureView(item)
         }
     }
     
-    override func configureView() {
-        super.configureView()
-        guard let item = self.item else {
-            return
-        }
+    override func configureView(_ item: ItemProvider) {
+        super.configureView(item)
         bottomBorder.removeFromSuperlayer()
         addWebView()
         if item.item.feedPreferWeb == true {

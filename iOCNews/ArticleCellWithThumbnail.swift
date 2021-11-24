@@ -9,7 +9,7 @@
 import UIKit
 import Kingfisher
 
-class ArticleCellWithThumbnail: BaseArticleCell {
+class ArticleCellWithThumbnail: BaseItemCell {
     @IBOutlet var articleImage: UIImageView!
     @IBOutlet var favIconImage: UIImageView!
     @IBOutlet var titleLabel: UILabel!
@@ -26,11 +26,9 @@ class ArticleCellWithThumbnail: BaseArticleCell {
     @IBOutlet var compactSummaryTopConstraint: NSLayoutConstraint!
     @IBOutlet var compactSummaryVerticalConstraint: NSLayoutConstraint!
     
-    override func configureView() {
-        super.configureView()
-        guard let item = self.item else {
-            return
-        }
+    override func configureView(_ item: ItemProvider) {
+        super.configureView(item)
+
         let isCompactView = SettingsStore.compactView
         if isCompactView {
             summaryLabelRegular.isHidden = true
@@ -95,14 +93,14 @@ class ArticleCellWithThumbnail: BaseArticleCell {
         articleImageWidthContraint.isActive = false
         articleImageWidthContraint.constant = 0
         contentContainerToThumbnailLeadingConstraint.isActive = true
-        contentContainerToMainLeadingConstraint.isActive = true
         if UIScreen.main.traitCollection.horizontalSizeClass == .compact {
             contentContainerToThumbnailLeadingConstraint.constant = 0
             contentContainerToMainLeadingConstraint.constant = 0
         } else {
             contentContainerToThumbnailLeadingConstraint.constant = 0
-            contentContainerToMainLeadingConstraint.constant = 10
+            contentContainerToMainLeadingConstraint.constant = 0
         }
+        contentContainerToMainLeadingConstraint.isActive = true
     }
 
     func showItemImage() {

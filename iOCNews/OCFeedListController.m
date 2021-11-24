@@ -47,7 +47,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 }
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *gearBarButtonItem;
-@property (strong, nonatomic) ItemsViewController *detailViewController;
+@property (strong, nonatomic) ItemsListViewController *detailViewController;
 @property (nonatomic, assign) NSInteger currentIndex;
 
 - (void) networkCompleted:(NSNotification*)n;
@@ -56,6 +56,8 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 - (void) updatePredicate;
 - (void) reachabilityChanged:(NSNotification *)n;
 - (void) didBecomeActive:(NSNotification *)n;
+- (void) drawerOpened;
+- (void) drawerClosed;
 
 @end
 
@@ -271,9 +273,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                         if ([feed.faviconLink isEqualToString:@"star_icon"]) {
                             [cell.imageView setImage:[UIImage imageNamed:@"star_icon"]];
                         } else {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [cell.imageView setFavIconFor:feed];
-                            });
+                            [cell.imageView setFavIconFor:feed];
                         }
                     }
                 }
@@ -333,7 +333,7 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                 feed = [self.feedsFetchedResultsController objectAtIndexPath:indexPathTemp];
             }
             UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
-            self.detailViewController = (ItemsViewController *)navController.topViewController;
+            self.detailViewController = (ItemsListViewController *)navController.topViewController;
             self.detailViewController.feed = feed;
             if (self.folderId > 0) {
                 self.detailViewController.folderId = self.folderId;
@@ -469,8 +469,8 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                     [folderController updatePredicate];
                     folderController.detailViewController = self.detailViewController;
                     [self.navigationController pushViewController:folderController animated:YES];
-                    [folderController drawerOpened:nil];
-                    [self drawerClosed:nil];
+                    [folderController drawerOpened];
+                    [self drawerClosed];
                 }
                 return NO;
             }
@@ -488,10 +488,10 @@ static NSString *DetailSegueIdentifier = @"showDetail";
 
         if (@available(iOS 14.0, *)) {
             UINavigationController *navController = (UINavigationController *)[self.splitViewController viewControllerForColumn:UISplitViewControllerColumnSecondary];
-            self.detailViewController = (ItemsViewController *)navController.topViewController;
+            self.detailViewController = (ItemsListViewController *)navController.topViewController;
         } else {
             UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-            self.detailViewController = (ItemsViewController *)navigationController.topViewController;
+            self.detailViewController = (ItemsListViewController *)navigationController.topViewController;
         }
 
         if (!self.tableView.isEditing) {
@@ -530,8 +530,8 @@ static NSString *DetailSegueIdentifier = @"showDetail";
                             [folderController updatePredicate];
                             folderController.detailViewController = self.detailViewController;
                             [self.navigationController pushViewController:folderController animated:YES];
-                            [folderController drawerOpened:nil];
-                            [self drawerClosed:nil];
+                            [folderController drawerOpened];
+                            [self drawerClosed];
                         }
                     }
                     @catch (NSException *exception) {
@@ -930,14 +930,14 @@ static NSString *DetailSegueIdentifier = @"showDetail";
     }
 }
 
-- (void)drawerOpened:(NSNotification *)n {
+- (void)drawerOpened {
     if ([self.navigationController.topViewController isEqual:self]) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkError:) name:@"NetworkError" object:nil];
     }
     self.tableView.scrollsToTop = YES;
 }
 
-- (void)drawerClosed:(NSNotification *)n {
+- (void)drawerClosed {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"NetworkError" object:nil];
     self.tableView.scrollsToTop = NO;
 }

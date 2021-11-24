@@ -39,14 +39,8 @@ class SafariActivity: UIActivity {
     
     override func perform() {
         if let url = activityURL {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url, options: [:]) { success in
-                    self.activityDidFinish(success)
-                }
-            } else {
-                let completed = UIApplication.shared.openURL(url)
-                self.activityDidFinish(completed)
-
+            UIApplication.shared.open(url, options: [:]) { success in
+                self.activityDidFinish(success)
             }
         }
     }

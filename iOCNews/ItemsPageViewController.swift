@@ -1,5 +1,5 @@
 //
-//  ArticleViewController.swift
+//  ItemsPageViewController.swift
 //  iOCNews
 //
 //  Created by Peter Hedlund on 4/2/21.
@@ -9,7 +9,7 @@
 import UIKit
 import WebKit
 
-class ArticleViewController: BaseCollectionViewController {
+class ItemsPageViewController: BaseCollectionViewController {
 
     @IBOutlet var backBarButton: UIBarButtonItem!
     @IBOutlet var forwardBarButton: UIBarButtonItem!
@@ -20,7 +20,7 @@ class ArticleViewController: BaseCollectionViewController {
 
     var selectedArticle: Item?
     var items = [Item]()
-    var articleListController: ItemsViewController?
+    var articleListController: ItemsListViewController?
 
     private var settingsPresentationController: UIPopoverPresentationController?
     private var currentCell: ArticleCellWithWebView?
@@ -72,9 +72,11 @@ class ArticleViewController: BaseCollectionViewController {
             if let selectedArticle = self.selectedArticle, let itemIndex = items.firstIndex(of: selectedArticle) {
                 let indexPath = IndexPath(item: itemIndex, section: 0)
                 if let layout = collectionView.collectionViewLayout as? ArticleFlowLayout {
+                    if let cell = collectionView(collectionView, cellForItemAt: indexPath) as? ArticleCellWithWebView {
+                        currentCell = cell
+                    }
                     layout.currentIndexPath = indexPath
                     collectionView.scrollToItemIfAvailable(indexPath, atScrollPosition: .top, animated: false)
-                    collectionView.contentOffset = layout.targetContentOffset(forProposedContentOffset: .zero)
                 }
                 if selectedArticle.unread {
                     self.selectedArticle?.unread = false
@@ -84,7 +86,6 @@ class ArticleViewController: BaseCollectionViewController {
                 }
                 updateNavigationItemTitle()
             }
-//            shouldScrollToInitialArticle = false
         }
     }
 
@@ -194,7 +195,7 @@ class ArticleViewController: BaseCollectionViewController {
     
 }
 
-extension ArticleViewController: UIScrollViewDelegate {
+extension ItemsPageViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let collectionView = scrollView as? UICollectionView {
@@ -220,7 +221,7 @@ extension ArticleViewController: UIScrollViewDelegate {
     }
 }
 
-extension ArticleViewController: UICollectionViewDataSource {
+extension ItemsPageViewController: UICollectionViewDataSource {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -234,10 +235,6 @@ extension ArticleViewController: UICollectionViewDataSource {
         print("Getting cell for \(indexPath.description)")
         if let articleCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ArticleCellWithWebView", for: indexPath) as? ArticleCellWithWebView {
             let cellItem = items[indexPath.item]
-            articleCell.addWebView()
-            articleCell.webView?.navigationDelegate = self
-            articleCell.webView?.uiDelegate = self
-
             let feed = OCNewsHelper.shared()?.feed(withId: Int(cellItem.feedId))
             var itemData = ItemProviderStruct()
             itemData.title = cellItem.title
@@ -256,10 +253,12 @@ extension ArticleViewController: UICollectionViewDataSource {
             itemData.feedPreferWeb = feed?.preferWeb ?? false
             itemData.feedUseReader = feed?.useReader ?? false
             let provider = ItemProvider(item: itemData)
-            articleCell.item = provider;
+            articleCell.configureView(provider)
             if currentCell == nil {
                 currentCell = articleCell
             }
+            articleCell.webView?.navigationDelegate = self
+            articleCell.webView?.uiDelegate = self
             return articleCell;
         } else  {
             return UICollectionViewCell()
@@ -268,7 +267,7 @@ extension ArticleViewController: UICollectionViewDataSource {
 
 }
 
-extension ArticleViewController: WKNavigationDelegate {
+extension ItemsPageViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         if webView.url?.scheme == "file" || webView.url?.scheme?.hasPrefix("itms") ?? false {
             if let url = navigationAction.request.url {
@@ -316,7 +315,7 @@ extension ArticleViewController: WKNavigationDelegate {
 
 }
 
-extension ArticleViewController: WKUIDelegate {
+extension ItemsPageViewController: WKUIDelegate {
 
     func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
         if !(navigationAction.targetFrame?.isMainFrame ?? false) {
@@ -327,7 +326,7 @@ extension ArticleViewController: WKUIDelegate {
 
 }
 
-extension ArticleViewController: ArticleSettingsDelegate {
+extension ItemsPageViewController: ArticleSettingsDelegate {
     var starred: Bool {
         get {
             currentCell?.item?.starred ?? false
@@ -342,8 +341,11 @@ extension ArticleViewController: ArticleSettingsDelegate {
 
     func settingsChanged(_ reload: Bool) {
         let starred = SettingsStore.starred
-        if starred != currentCell?.item?.starred {
-            currentCell?.item?.starred = starred
+        let unread = SettingsStore.unread
+        articleListController?.updateItem(for: currentIndexPath, starred: starred, unread: unread)
+
+        if starred != currentCell?.starred {
+            currentCell?.starred = starred
             _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
                 if starred {
@@ -354,9 +356,8 @@ extension ArticleViewController: ArticleSettingsDelegate {
             }
         }
 
-        let unread = SettingsStore.unread
-        if unread != currentCell?.item?.unread {
-            currentCell?.item?.unread = unread
+        if unread != currentCell?.unread {
+            currentCell?.unread = unread
             _ = articleListController?.createItemProvider(for: currentIndexPath)
             if let item = currentCell?.item {
                 if unread {
@@ -371,13 +372,15 @@ extension ArticleViewController: ArticleSettingsDelegate {
 
         if currentCell?.webView != nil && reload {
             currentCell?.prepareForReuse()
-            currentCell?.configureView()
+            if let item = currentCell?.item {
+                currentCell?.configureView(item)
+            }
         }
     }
 
 }
 
-extension ArticleViewController: UIPopoverPresentationControllerDelegate {
+extension ItemsPageViewController: UIPopoverPresentationControllerDelegate {
 
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
         .none
